@@ -40,6 +40,6 @@ func RunServer() {
 
 	fmt.Printf("Dashboard running at http://localhost%s\n", addr)
 	fmt.Printf("SSE stream at http://localhost%s/events\n", addr)
-	fmt.Printf("Snapshot API at http://localhost%s/stats\n", addr)
+	fmt.Printf("WebSocket stats at ws://localhost%s/stats\n", addr)
 	log.Fatal(http.ListenAndServe(addr, mux))
 }

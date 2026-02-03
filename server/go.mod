@@ -3,6 +3,7 @@ module docker-scout
 go 1.25.5
 
 require (
+	github.com/gorilla/websocket v1.5.1
 	github.com/moby/moby/api v1.53.0
 	github.com/moby/moby/client v0.2.2
 )
