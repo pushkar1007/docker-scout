@@ -12,17 +12,89 @@ export type ContainerStats = {
   disk_io: string;
 };
 
+export type DashboardData = {
+  summary: SystemSummary;
+  containers: ContainerStats[];
+};
+
+export interface DockerContainer {
+  Id: string;
+  Names: string[];
+  Image: string;
+  ImageID: string;
+  Command: string;
+  Created: number;
+
+  Ports: DockerPort[];
+
+  Labels?: Record<string, string>;
+
+  State: string;
+  Status: string;
+
+  HostConfig: {
+    NetworkMode: string;
+  };
+
+  Health?: {
+    Status: string;
+    FailingStreak: number;
+  };
+
+  NetworkSettings: {
+    Networks: Record<string, DockerNetwork>;
+  };
+
+  Mounts: DockerMount[];
+}
+
+export interface ContainerData {
+  Items: DockerContainer[];
+}
+
+export interface DockerPort {
+  IP: string;
+  PrivatePort: number;
+  PublicPort?: number;
+  Type: string;
+}
+
+export interface DockerNetwork {
+  NetworkID: string;
+  EndpointID: string;
+  Gateway: string;
+  IPAddress: string;
+  MacAddress: string;
+  IPPrefixLen: number;
+}
+
+export interface DockerMount {
+  Type: string;
+  Source: string;
+  Destination: string;
+  Mode: string;
+  RW: boolean;
+  Propagation: string;
+}
+
+export interface DockerImage {
+  Containers: number;
+  Created: number;
+  Id: string;
+  Labels?: Record<string, string>; // labels may exist or be empty
+  ParentId: string;
+  RepoDigests: string[];
+  RepoTags: string[];
+  SharedSize: number;
+  Size: number;
+}
+
 export type SystemSummary = {
   active_containers: number;
   avg_cpu: string;
   avg_memory: string;
   avg_net_io: string;
   avg_disk_io: string;
-};
-
-export type DashboardData = {
-  summary: SystemSummary;
-  containers: ContainerStats[];
 };
 
 export type VolumeSummary = {

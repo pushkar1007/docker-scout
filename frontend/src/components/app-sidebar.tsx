@@ -8,7 +8,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
-import { Container, FolderOpenDot, LayoutDashboard, PackagePlus, SquareTerminal } from "lucide-react"
+import { Container, FolderOpenDot, LayoutDashboard, PackagePlus, SquareTerminal, Vault } from "lucide-react"
 import Link from "next/link";
 
 export function AppSidebar() {
@@ -25,19 +25,19 @@ export function AppSidebar() {
       link: "/containers"
     },
     {
-      name: "volumes",
+      name: "Images",
+      icon: <Vault />,
+      link: "/images"
+    },
+    {
+      name: "Volumes",
       icon: <PackagePlus />,
-      link: "/volume"
+      link: "/volumes"
     },
     {
       name: "Terminal",
       icon: <SquareTerminal />,
       link: "/terminal"
-    },
-    {
-      name: "Images",
-      icon: <SquareTerminal />,
-      link: "/images"
     }
   ];
   return (

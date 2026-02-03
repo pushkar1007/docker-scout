@@ -31,14 +31,14 @@ function GaugePointer() {
   );
 }
 
-export default function CompositionExample() {
+export default function CompositionExample({ value }: { value: number }) {
   return (
     <GaugeContainer
       width={100}
       height={100}
       startAngle={-90}
       endAngle={90}
-      value={20}
+      value={value}
       
     >
       <GaugeReferenceArc />

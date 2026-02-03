@@ -6,8 +6,10 @@ const Page = () => {
   return (
     <div className="overflow-none w-full h-full">
       <div className="overflow-hidden w-full h-full space-y-2 font-semibold">
-        <h1 className="text-2xl">Terminal</h1>
-        <Separator />
+        <div className="w-full space-y-2 font-bold">
+          <h1 className="text-3xl">Terminal</h1>
+          <Separator />
+        </div>
         <XTerminal />
       </div>
       <div>
