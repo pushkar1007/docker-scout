@@ -8,7 +8,8 @@ import (
 	"net/http"
 	"os/exec"
 	"sync"
-
+	"io"
+	
 	"github.com/gorilla/websocket"
 )
 
@@ -129,49 +130,73 @@ func registerTerminal(mux *http.ServeMux, _ Deps) {
 
 				// Stream stdout
 				go func() {
-					scanner := bufio.NewScanner(stdout)
-					for scanner.Scan() {
-						line := scanner.Text()
-						sendMessage(conn, &mu, map[string]interface{}{
-							"type": "stdout",
-							"data": line,
-						})
-					}
+				    scanner := bufio.NewScanner(stdout)
+				    for scanner.Scan() {
+				        line := scanner.Text()
+				        sendMessage(conn, &mu, map[string]interface{}{
+				            "type": "stdout",
+				            "data": line,
+				        })
+				    }
 				}()
-
+				
 				// Stream stderr
 				go func() {
-					scanner := bufio.NewScanner(stderr)
-					for scanner.Scan() {
-						line := scanner.Text()
-						sendMessage(conn, &mu, map[string]interface{}{
-							"type": "stderr",
-							"data": line,
-						})
-					}
+				    scanner := bufio.NewScanner(stderr)
+				    for scanner.Scan() {
+				        line := scanner.Text()
+				        sendMessage(conn, &mu, map[string]interface{}{
+				            "type": "stderr",
+				            "data": line,
+				        })
+				    }
 				}()
-
+				
 				// Wait for command completion
+				// Buffer and send all at once after completion
 				go func() {
-					err := currentCmd.Wait()
-					mu.Lock()
-					currentCmd = nil
-					cancelFunc = nil
-					mu.Unlock()
-
-					if err != nil {
-						sendMessage(conn, &mu, map[string]interface{}{
-							"type": "exit",
-							"error": err.Error(),
-							"code": currentCmd.ProcessState.ExitCode(),
-						})
-					} else {
-						sendMessage(conn, &mu, map[string]interface{}{
-							"type": "exit",
-							"code": 0,
-							"message": "command completed successfully",
-						})
-					}
+				    // Read all available data from pipes into memory
+				    outData, _ := io.ReadAll(stdout)
+				    errData, _ := io.ReadAll(stderr)
+				
+				    // Wait for command to finish
+				    err := currentCmd.Wait()
+				
+				    mu.Lock()
+				    currentCmd = nil
+				    cancelFunc = nil
+				    mu.Unlock()
+				
+				    // Send the accumulated stdout once
+				    if len(outData) > 0 {
+				        sendMessage(conn, &mu, map[string]interface{}{
+				            "type": "stdout",
+				            "data": string(outData),
+				        })
+				    }
+				
+				    // Send the accumulated stderr once
+				    if len(errData) > 0 {
+				        sendMessage(conn, &mu, map[string]interface{}{
+				            "type": "stderr",
+				            "data": string(errData),
+				        })
+				    }
+				
+				    // Send final exit message
+				    if err != nil {
+				        sendMessage(conn, &mu, map[string]interface{}{
+				            "type": "exit",
+				            "error": err.Error(),
+				            "code": currentCmd.ProcessState.ExitCode(),
+				        })
+				    } else {
+				        sendMessage(conn, &mu, map[string]interface{}{
+				            "type": "exit",
+				            "code": 0,
+				            "message": "command completed successfully",
+				        })
+				    }
 				}()
 
 			default:
