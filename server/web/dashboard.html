@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Docker Scout</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 24px; }
+    h1 { margin-bottom: 8px; }
+    table { width: 100%; border-collapse: collapse; margin-top: 16px; }
+    th, td { padding: 8px 10px; border-bottom: 1px solid #ddd; text-align: left; }
+    .summary { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 12px; }
+    .card { padding: 10px 12px; border: 1px solid #ddd; border-radius: 6px; min-width: 140px; }
+  </style>
+</head>
+<body>
+  <h1>Docker Scout</h1>
+  <div class="summary" id="summary"></div>
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th><th>Name</th><th>State</th><th>Last Used</th><th>Image</th>
+        <th>CPU</th><th>Memory</th><th>Net I/O</th><th>Disk I/O</th>
+      </tr>
+    </thead>
+    <tbody id="rows"></tbody>
+  </table>
+  <script>
+    function render(data) {
+      const summary = document.getElementById('summary');
+      summary.innerHTML = '';
+      const cards = [
+        ['Active', data.summary.active_containers],
+        ['Avg CPU', data.summary.avg_cpu],
+        ['Avg Mem', data.summary.avg_memory],
+        ['Avg Net', data.summary.avg_net_io],
+        ['Avg Disk', data.summary.avg_disk_io],
+      ];
+      for (const [label, value] of cards) {
+        const div = document.createElement('div');
+        div.className = 'card';
+        div.innerHTML = '<strong>' + label + '</strong><div>' + value + '</div>';
+        summary.appendChild(div);
+      }
+      const rows = document.getElementById('rows');
+      rows.innerHTML = '';
+      for (const c of data.containers) {
+        const tr = document.createElement('tr');
+        tr.innerHTML =
+          '<td>' + c.id + '</td>' +
+          '<td>' + c.name + '</td>' +
+          '<td>' + c.state + '</td>' +
+          '<td>' + c.last_used + '</td>' +
+          '<td>' + c.image + '</td>' +
+          '<td>' + c.cpu + '</td>' +
+          '<td>' + c.memory + '</td>' +
+          '<td>' + c.net_io + '</td>' +
+          '<td>' + c.disk_io + '</td>';
+        rows.appendChild(tr);
+      }
+    }
+    const events = new EventSource('/events');
+    events.onmessage = (evt) => {
+      try {
+        render(JSON.parse(evt.data));
+      } catch (e) {
+      }
+    };
+  </script>
+</body>
+</html>
