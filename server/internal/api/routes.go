@@ -5,22 +5,17 @@ import (
 	"os"
 	"path/filepath"
 
-	"docker-scout/internal/state"
-
 	"github.com/moby/moby/client"
 )
 
 type Deps struct {
 	Docker        *client.Client
-	Cache         *state.Cache
-	Broadcaster   *state.Broadcaster
 	DashboardPath string
 }
 
 func RegisterRoutes(mux *http.ServeMux, deps Deps) {
-	registerEvents(mux, deps)
-	registerTerminal(mux, deps)
 	registerStats(mux, deps)
+	registerTerminal(mux, deps)
 	registerNetworks(mux, deps)
 	registerContainers(mux, deps)
 	registerImages(mux, deps)

@@ -1,8 +1,11 @@
 Docker Scout Server
 
-This server exposes a REST API + WebSocket stream for Docker resources.
+This server exposes a REST API + real-time WebSocket streams for Docker resources.
 
 **Default server URL:** `http://localhost:8089`
+**WebSocket endpoints:**
+- Stats: `ws://localhost:8089/stats`
+- Terminal: `ws://localhost:8089/terminal`
 
 ## Run (Linux/macOS)
 From `server/`:
@@ -99,6 +102,7 @@ while True:
 PY'
 ```
 
+<<<<<<< HEAD
 ## Routes And Curl Commands (All Endpoints)
 
 Set a base URL once:
@@ -188,6 +192,70 @@ curl -i -N -H "Connection: Upgrade" -H "Upgrade: websocket" \
 curl -i -N -H "Connection: Upgrade" -H "Upgrade: websocket" \
   -H "Sec-WebSocket-Key: dGhlIHNhbXBsZSBub25jZQ==" -H "Sec-WebSocket-Version: 13" \
   "$BASE/terminal"
+=======
+## Quick Start WebSocket Examples
+
+### Monitor Docker Stats in Real-Time
+
+```html
+<!DOCTYPE html>
+<html>
+<body>
+  <div id="stats"></div>
+  <script>
+    const ws = new WebSocket('ws://localhost:8089/stats');
+    ws.onmessage = (event) => {
+      const data = JSON.parse(event.data);
+      document.getElementById('stats').innerHTML = 
+        '<pre>' + JSON.stringify(data.stats, null, 2) + '</pre>';
+    };
+  </script>
+</body>
+</html>
+```
+
+### Execute Commands via Terminal WebSocket
+
+```html
+<!DOCTYPE html>
+<html>
+<body>
+  <input id="cmd" placeholder="Enter command" />
+  <button onclick="runCommand()">Run</button>
+  <button onclick="stopCommand()">Stop</button>
+  <pre id="output"></pre>
+  
+  <script>
+    let ws;
+    
+    function runCommand() {
+      if (ws) ws.close();
+      ws = new WebSocket('ws://localhost:8089/terminal');
+      
+      ws.onopen = () => {
+        const cmd = document.getElementById('cmd').value;
+        ws.send(JSON.stringify({ type: 'start', command: cmd }));
+      };
+      
+      ws.onmessage = (event) => {
+        const msg = JSON.parse(event.data);
+        const output = document.getElementById('output');
+        
+        if (msg.type === 'stdout' || msg.type === 'stderr') {
+          output.textContent += msg.data + '\\n';
+        } else if (msg.type === 'exit') {
+          output.textContent += `\\nExited with code: ${msg.code}\\n`;
+        }
+      };
+    }
+    
+    function stopCommand() {
+      if (ws) ws.send(JSON.stringify({ type: 'exitTerm' }));
+    }
+  </script>
+</body>
+</html>
+>>>>>>> 22f7920 (Updated WebSocket)
 ```
 
 ## API Requests (curl)
@@ -505,12 +573,169 @@ Returns current system statistics snapshot.
 }
 ```
 
-**Update Frequency:** Every 5 seconds
+**Update Frequency:** Real-time via WebSocket (every 1 second)
 
-**Example:**
-```bash
-curl http://localhost:8089/stats
+---
+
+## WebSocket Endpoints
+
+### Stats WebSocket
+
+**WS** `/stats`
+
+Real-time Docker container statistics streamed every second.
+
+**Connection:**
+```javascript
+const ws = new WebSocket('ws://localhost:8089/stats');
+
+ws.onmessage = (event) => {
+  const data = JSON.parse(event.data);
+  console.log('Stats:', data);
+};
 ```
+
+**Message Format:**
+```json
+{
+  "type": "stats",
+  "timestamp": 1234567890,
+  "stats": {
+    "container_id_1": {
+      "id": "abc123",
+      "name": "/web-server",
+      "cpu_percent": 12.5,
+      "memory_bytes": 104857600,
+      "memory_limit": 2147483648,
+      "net_rx_bps": 5000,
+      "net_tx_bps": 3000,
+      "disk_read_bps": 1024,
+      "disk_write_bps": 2048
+    }
+  }
+}
+```
+
+**Features:**
+- Auto-updates every 1 second
+- All running containers included
+- Real-time CPU, memory, network, and disk stats
+
+---
+
+### Terminal WebSocket
+
+**WS** `/terminal`
+
+Execute shell commands and stream output in real-time.
+
+**Connection:**
+```javascript
+const ws = new WebSocket('ws://localhost:8089/terminal');
+
+// Send command to execute
+ws.send(JSON.stringify({
+  type: 'start',
+  command: 'docker ps -a'
+}));
+
+// Receive output
+ws.onmessage = (event) => {
+  const data = JSON.parse(event.data);
+  
+  switch(data.type) {
+    case 'started':
+      console.log('Command started');
+      break;
+    case 'stdout':
+      console.log('Output:', data.data);
+      break;
+    case 'stderr':
+      console.error('Error:', data.data);
+      break;
+    case 'exit':
+      console.log('Exited with code:', data.code);
+      break;
+  }
+};
+
+// Terminate running command
+ws.send(JSON.stringify({ type: 'exitTerm' }));
+```
+
+**Request Messages:**
+
+1. **Start Command:**
+```json
+{
+  "type": "start",
+  "command": "your shell command here"
+}
+```
+
+2. **Terminate Command:**
+```json
+{
+  "type": "exitTerm"
+}
+```
+
+**Response Messages:**
+
+1. **Command Started:**
+```json
+{
+  "type": "started",
+  "message": "command started"
+}
+```
+
+2. **Standard Output (per line):**
+```json
+{
+  "type": "stdout",
+  "data": "output line"
+}
+```
+
+3. **Standard Error (per line):**
+```json
+{
+  "type": "stderr",
+  "data": "error line"
+}
+```
+
+4. **Command Exit:**
+```json
+{
+  "type": "exit",
+  "code": 0,
+  "message": "command completed successfully"
+}
+```
+
+5. **Command Terminated:**
+```json
+{
+  "type": "terminated",
+  "message": "command terminated"
+}
+```
+
+6. **Error:**
+```json
+{
+  "type": "error",
+  "message": "error description"
+}
+```
+
+**Features:**
+- Real-time output streaming (line by line)
+- Separate stdout and stderr streams
+- Graceful termination support
+- Exit code reporting
 
 ---
 
@@ -538,10 +763,15 @@ curl http://localhost:8089/stats
 | GET | `/networks` | List networks |
 | POST | `/networks/create` | Create network |
 | DELETE | `/networks/remove` | Remove network |
+<<<<<<< HEAD
 | GET | `/events` | WebSocket stream |
 | POST | `/events/publish` | Publish event |
 | GET | `/terminal` | WebSocket terminal |
 | GET | `/stats` | System statistics |
+=======
+| WS | `/stats` | Real-time stats stream |
+| WS | `/terminal` | Command execution stream |
+>>>>>>> 22f7920 (Updated WebSocket)
 | GET | `/` | Dashboard UI |
 | GET | `/echo` | Terminal UI |
 | GET | `/index` | Terminal UI (alias) |
@@ -719,12 +949,37 @@ async function startContainer(containerId) {
   console.log(data);
 }
 
-// Listen to events
-function listenToEvents() {
-  const ws = new WebSocket('ws://localhost:8089/events');
+// Listen to real-time stats
+function listenToStats() {
+  const ws = new WebSocket('ws://localhost:8089/stats');
   ws.onmessage = (event) => {
-    console.log('Event:', JSON.parse(event.data));
+    const data = JSON.parse(event.data);
+    console.log('Stats update:', data.stats);
   };
+}
+
+// Execute command and stream output
+function executeCommand(command) {
+  const ws = new WebSocket('ws://localhost:8089/terminal');
+  
+  ws.onopen = () => {
+    ws.send(JSON.stringify({ type: 'start', command }));
+  };
+  
+  ws.onmessage = (event) => {
+    const msg = JSON.parse(event.data);
+    
+    if (msg.type === 'stdout') {
+      console.log(msg.data);
+    } else if (msg.type === 'stderr') {
+      console.error(msg.data);
+    } else if (msg.type === 'exit') {
+      console.log('Exit code:', msg.code);
+      ws.close();
+    }
+  };
+  
+  // To terminate: ws.send(JSON.stringify({ type: 'exitTerm' }));
 }
 ```
 

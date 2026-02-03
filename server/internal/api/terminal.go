@@ -1,35 +1,20 @@
 package api
 
 import (
-	"bytes"
+	"bufio"
 	"context"
 	"encoding/json"
+	"log"
 	"net/http"
 	"os/exec"
-	"runtime"
-	"strings"
 	"sync"
-	"time"
 
 	"github.com/gorilla/websocket"
 )
 
-type terminalStartRequest struct {
-	Type        string   `json:"type"`
-	ContainerID string   `json:"container_id"`
-	Cmd         []string `json:"cmd"`
-	TTY         *bool    `json:"tty"`
-	Env         []string `json:"env"`
-	Workdir     string   `json:"workdir"`
-	User        string   `json:"user"`
-	Cols        uint     `json:"cols"`
-	Rows        uint     `json:"rows"`
-}
-
-type terminalResizeRequest struct {
-	Type string `json:"type"`
-	Cols uint   `json:"cols"`
-	Rows uint   `json:"rows"`
+type terminalRequest struct {
+	Type    string `json:"type"`    // "start" or "exitTerm"
+	Command string `json:"command"` // command to execute
 }
 
 var terminalUpgrader = websocket.Upgrader{
@@ -47,99 +32,173 @@ func registerTerminal(mux *http.ServeMux, _ Deps) {
 
 		conn, err := terminalUpgrader.Upgrade(w, r, nil)
 		if err != nil {
+			log.Printf("terminal ws upgrade failed: %v", err)
 			return
 		}
 		defer conn.Close()
 
-		writeMu := sync.Mutex{}
-		writeText := func(payload []byte) {
-			writeMu.Lock()
-			_ = conn.WriteMessage(websocket.TextMessage, payload)
-			writeMu.Unlock()
-		}
-		writeError := func(msg string) {
-			writeText([]byte("error: " + msg))
-		}
+		var (
+			mu          sync.Mutex
+			currentCmd  *exec.Cmd
+			cancelFunc  context.CancelFunc
+		)
 
-		_, first, err := conn.ReadMessage()
-		if err != nil {
-			return
-		}
-
-		var start terminalStartRequest
-		if err := json.Unmarshal(first, &start); err != nil || start.Type != "start" {
-			writeError("invalid start payload")
-			return
-		}
-
-		inputBuf := make([]byte, 0, 4096)
-		const maxCommandBuffer = 64 * 1024
-
+		// Handle incoming messages from frontend
 		for {
-			mt, msg, err := conn.ReadMessage()
+			_, message, err := conn.ReadMessage()
 			if err != nil {
+				log.Printf("read error: %v", err)
+				if cancelFunc != nil {
+					cancelFunc()
+				}
 				return
 			}
 
-			if mt == websocket.TextMessage {
-				trimmed := strings.TrimSpace(string(msg))
-				if strings.HasPrefix(trimmed, "{") {
-					var resize terminalResizeRequest
-					if json.Unmarshal(msg, &resize) == nil && resize.Type == "resize" {
-						if resize.Cols > 0 && resize.Rows > 0 {
-							start.Cols = resize.Cols
-							start.Rows = resize.Rows
-						}
-						continue
-					}
-				}
+			var req terminalRequest
+			if err := json.Unmarshal(message, &req); err != nil {
+				sendError(conn, &mu, "invalid request format")
+				continue
 			}
 
-			if len(msg) > 0 {
-				inputBuf = append(inputBuf, msg...)
-				if len(inputBuf) > maxCommandBuffer {
-					inputBuf = inputBuf[:0]
-					writeError("command buffer exceeded")
+			switch req.Type {
+			case "exitTerm":
+				mu.Lock()
+				if cancelFunc != nil {
+					cancelFunc()
+					cancelFunc = nil
+				}
+				if currentCmd != nil && currentCmd.Process != nil {
+					currentCmd.Process.Kill()
+					currentCmd = nil
+				}
+				mu.Unlock()
+				sendMessage(conn, &mu, map[string]interface{}{
+					"type": "terminated",
+					"message": "command terminated",
+				})
+
+			case "start":
+				if req.Command == "" {
+					sendError(conn, &mu, "command is required")
 					continue
 				}
-				for {
-					idx := bytes.IndexByte(inputBuf, 0)
-					if idx < 0 {
-						break
-					}
-					cmdBytes := inputBuf[:idx]
-					inputBuf = inputBuf[idx+1:]
-					command := strings.TrimSpace(string(cmdBytes))
-					if command == "" {
-						continue
-					}
 
-					ctx, cancel := context.WithTimeout(r.Context(), 15*time.Second)
-					output, err := runHostCommand(ctx, command)
-					cancel()
-					if output != "" {
-						writeText([]byte(output))
-					}
-					if err != nil {
-						writeError(err.Error())
-					}
+				// Cancel any existing command
+				mu.Lock()
+				if cancelFunc != nil {
+					cancelFunc()
 				}
+				if currentCmd != nil && currentCmd.Process != nil {
+					currentCmd.Process.Kill()
+				}
+				mu.Unlock()
+
+				// Execute the command
+				ctx, cancel := context.WithCancel(context.Background())
+				mu.Lock()
+				cancelFunc = cancel
+				currentCmd = exec.CommandContext(ctx, "sh", "-c", req.Command)
+				mu.Unlock()
+
+				// Get stdout and stderr pipes
+				stdout, err := currentCmd.StdoutPipe()
+				if err != nil {
+					sendError(conn, &mu, "failed to get stdout: "+err.Error())
+					cancel()
+					continue
+				}
+
+				stderr, err := currentCmd.StderrPipe()
+				if err != nil {
+					sendError(conn, &mu, "failed to get stderr: "+err.Error())
+					cancel()
+					continue
+				}
+
+				// Start the command
+				if err := currentCmd.Start(); err != nil {
+					sendError(conn, &mu, "failed to start command: "+err.Error())
+					cancel()
+					continue
+				}
+
+				sendMessage(conn, &mu, map[string]interface{}{
+					"type": "started",
+					"message": "command started",
+				})
+
+				// Stream stdout
+				go func() {
+					scanner := bufio.NewScanner(stdout)
+					for scanner.Scan() {
+						line := scanner.Text()
+						sendMessage(conn, &mu, map[string]interface{}{
+							"type": "stdout",
+							"data": line,
+						})
+					}
+				}()
+
+				// Stream stderr
+				go func() {
+					scanner := bufio.NewScanner(stderr)
+					for scanner.Scan() {
+						line := scanner.Text()
+						sendMessage(conn, &mu, map[string]interface{}{
+							"type": "stderr",
+							"data": line,
+						})
+					}
+				}()
+
+				// Wait for command completion
+				go func() {
+					err := currentCmd.Wait()
+					mu.Lock()
+					currentCmd = nil
+					cancelFunc = nil
+					mu.Unlock()
+
+					if err != nil {
+						sendMessage(conn, &mu, map[string]interface{}{
+							"type": "exit",
+							"error": err.Error(),
+							"code": currentCmd.ProcessState.ExitCode(),
+						})
+					} else {
+						sendMessage(conn, &mu, map[string]interface{}{
+							"type": "exit",
+							"code": 0,
+							"message": "command completed successfully",
+						})
+					}
+				}()
+
+			default:
+				sendError(conn, &mu, "unknown request type: "+req.Type)
 			}
 		}
 	})
 }
 
-func runHostCommand(ctx context.Context, command string) (string, error) {
-	if strings.TrimSpace(command) == "" {
-		return "", nil
+func sendMessage(conn *websocket.Conn, mu *sync.Mutex, data interface{}) {
+	mu.Lock()
+	defer mu.Unlock()
+
+	payload, err := json.Marshal(data)
+	if err != nil {
+		log.Printf("failed to marshal message: %v", err)
+		return
 	}
 
-	var c *exec.Cmd
-	if runtime.GOOS == "windows" {
-		c = exec.CommandContext(ctx, "cmd.exe", "/C", command)
-	} else {
-		c = exec.CommandContext(ctx, "/bin/sh", "-c", command)
+	if err := conn.WriteMessage(websocket.TextMessage, payload); err != nil {
+		log.Printf("failed to write message: %v", err)
 	}
-	out, err := c.CombinedOutput()
-	return string(out), err
+}
+
+func sendError(conn *websocket.Conn, mu *sync.Mutex, message string) {
+	sendMessage(conn, mu, map[string]interface{}{
+		"type": "error",
+		"message": message,
+	})
 }
