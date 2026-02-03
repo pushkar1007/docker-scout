@@ -20,6 +20,7 @@ type Deps struct {
 func RegisterRoutes(mux *http.ServeMux, deps Deps) {
 	registerEvents(mux, deps)
 	registerStats(mux, deps)
+	registerNetworks(mux, deps)
 	registerContainers(mux, deps)
 	registerImages(mux, deps)
 	registerVolumes(mux, deps)

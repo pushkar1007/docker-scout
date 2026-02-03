@@ -2,8 +2,12 @@ package state
 
 import "sync"
 
+// SSEClient is a channel for sending JSON events to Server-Sent Events subscribers.
 type SSEClient chan []byte
 
+// Broadcaster manages concurrent publish-subscribe for real-time events.
+// It serializes Add, Remove, and Send operations through a single goroutine (run)
+// to guarantee safe concurrent access without explicit locking on the clients map.
 type Broadcaster struct {
 	mu      sync.Mutex
 	clients map[SSEClient]struct{}
@@ -31,6 +35,8 @@ func (b *Broadcaster) Remove(c SSEClient) {
 	b.remove <- c
 }
 
+// Send attempts to queue a message for broadcast. Returns false if the send buffer is full,
+// indicating the broadcaster is overloaded and clients may drop events.
 func (b *Broadcaster) Send(msg []byte) bool {
 	select {
 	case b.send <- msg:
@@ -40,6 +46,9 @@ func (b *Broadcaster) Send(msg []byte) bool {
 	}
 }
 
+// run serializes all client operations on a single goroutine to avoid concurrent map access.
+// Clients that cannot receive (full channel) are immediately dropped to prevent the broadcaster
+// from blocking on any slow subscriber.
 func (b *Broadcaster) run() {
 	for {
 		select {
@@ -58,6 +67,7 @@ func (b *Broadcaster) run() {
 				select {
 				case c <- msg:
 				default:
+					// Client channel full; drop to prevent broadcaster stall.
 					delete(b.clients, c)
 					close(c)
 				}

@@ -14,6 +14,9 @@ import (
 	"github.com/moby/moby/client"
 )
 
+// UpdateCache polls Docker for container stats and updates the cache.
+// It queries all running and paused containers, computes aggregate averages (CPU, memory, network I/O, disk I/O),
+// and stores the snapshot atomically. Containers with stat retrieval errors are skipped from aggregate calculation.
 func UpdateCache(cli *client.Client, cache *Cache) {
 	ctx, cancel := context.WithTimeout(context.Background(), 15*time.Second)
 	defer cancel()
@@ -33,6 +36,7 @@ func UpdateCache(cli *client.Client, cache *Cache) {
 	)
 
 	for _, c := range containers.Items {
+		// Only include running and paused containers in stats; exclude stopped/created.
 		if c.State != "running" && c.State != "paused" {
 			continue
 		}
@@ -83,6 +87,7 @@ func UpdateCache(cli *client.Client, cache *Cache) {
 		AvgNetIO:         "-",
 		AvgDiskIO:        "-",
 	}
+	// Compute averages only from containers with successful stats. Failed stats are dropped from aggregation.
 	if count > 0 {
 		summary.AvgCPU = fmt.Sprintf("%.2f%%", totalCPU/float64(count))
 		summary.AvgMemory = util.FormatBytes(uint64(float64(totalMem) / float64(count)))

@@ -13,3 +13,9 @@ type BuildImageRequest struct {
 	Tag         string `json:"tag"`
 	NoCache     bool   `json:"no_cache"`
 }
+
+type CreateNetworkRequest struct {
+	Name    string            `json:"name"`
+	Driver  string            `json:"driver"`
+	Options map[string]string `json:"options"`
+}
