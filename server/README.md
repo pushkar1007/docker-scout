@@ -99,6 +99,97 @@ while True:
 PY'
 ```
 
+## Routes And Curl Commands (All Endpoints)
+
+Set a base URL once:
+
+```bash
+# Direct
+BASE=http://localhost:8089
+# Proxy
+# BASE=http://localhost/scout-server
+```
+
+### UI
+```bash
+curl "$BASE/"
+curl "$BASE/echo"
+curl "$BASE/index"
+```
+
+### System
+```bash
+curl "$BASE/system/health"
+curl -X POST "$BASE/system/nuke?confirm=true"
+```
+
+### Containers
+```bash
+curl "$BASE/containers"
+curl -X POST "$BASE/containers/create?start=true" \
+  -H "Content-Type: application/json" \
+  -d '{"name":"scout-demo","image":"alpine:3.20","cmd":["sh","-c","sleep 600"]}'
+curl -X POST "$BASE/containers/start?id=<container_id>"
+curl -X POST "$BASE/containers/stop?id=<container_id>"
+curl -X POST "$BASE/containers/pause?id=<container_id>"
+curl -X POST "$BASE/containers/unpause?id=<container_id>"
+curl -X DELETE "$BASE/containers/remove?id=<container_id>"
+```
+
+### Images
+```bash
+curl "$BASE/images"
+curl -X DELETE "$BASE/images/remove?name=nginx:latest&force=true"
+curl -X POST "$BASE/images/build" \
+  -H "Content-Type: application/json" \
+  -d '{"context_path":"/path/to/context","dockerfile":"Dockerfile","tag":"myapp:dev","no_cache":false}'
+```
+
+### Volumes
+```bash
+curl "$BASE/volumes"
+curl "$BASE/volumes/inspect?name=<volume_name>"
+curl -X POST "$BASE/volumes/create" \
+  -H "Content-Type: application/json" \
+  -d '{"name":"scout-vol","driver":"local"}'
+curl -X DELETE "$BASE/volumes/remove?name=<volume_name>"
+curl -X POST "$BASE/volumes/prune"
+```
+
+### Networks
+```bash
+curl "$BASE/networks"
+curl -X POST "$BASE/networks/create" \
+  -H "Content-Type: application/json" \
+  -d '{"name":"scout-net","driver":"bridge","options":{}}'
+curl -X DELETE "$BASE/networks/remove?id=<network_id_or_name>"
+```
+
+### Stats
+```bash
+curl "$BASE/stats"
+```
+
+### Events (WebSocket + Publish)
+```bash
+curl -X POST "$BASE/events/publish" \
+  -H "Content-Type: application/json" \
+  -d '{"event":"custom_event","data":"hello"}'
+
+# WebSocket handshake only (curl can’t send frames)
+curl -i -N -H "Connection: Upgrade" -H "Upgrade: websocket" \
+  -H "Sec-WebSocket-Key: dGhlIHNhbXBsZSBub25jZQ==" -H "Sec-WebSocket-Version: 13" \
+  "$BASE/events"
+```
+
+### Terminal (WebSocket)
+```bash
+# WebSocket handshake only (curl can’t send frames)
+curl -i -N -H "Connection: Upgrade" -H "Upgrade: websocket" \
+  -H "Sec-WebSocket-Key: dGhlIHNhbXBsZSBub25jZQ==" -H "Sec-WebSocket-Version: 13" \
+  "$BASE/terminal"
+```
+
 ## API Requests (curl)
 
 ### System Management
@@ -449,8 +540,11 @@ curl http://localhost:8089/stats
 | DELETE | `/networks/remove` | Remove network |
 | GET | `/events` | WebSocket stream |
 | POST | `/events/publish` | Publish event |
+| GET | `/terminal` | WebSocket terminal |
 | GET | `/stats` | System statistics |
 | GET | `/` | Dashboard UI |
+| GET | `/echo` | Terminal UI |
+| GET | `/index` | Terminal UI (alias) |
 
 ---
 
