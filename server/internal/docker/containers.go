@@ -3,6 +3,9 @@ package docker
 import (
 	"context"
 
+	"docker-scout/internal/model"
+
+	"github.com/moby/moby/api/types/container"
 	"github.com/moby/moby/client"
 )
 
@@ -63,4 +66,56 @@ func IsVolumeInUse(ctx context.Context, cli *client.Client, volumeName string) b
 		}
 	}
 	return false
+}
+
+func CreateContainer(ctx context.Context, cli *client.Client, req model.CreateContainerRequest) (string, error) {
+	// Build container config with all provided options
+	config := &container.Config{
+		Image: req.Image,
+	}
+
+	// Add labels if provided
+	if len(req.Labels) > 0 {
+		config.Labels = req.Labels
+	}
+
+	// Add environment variables if provided
+	if len(req.Env) > 0 {
+		config.Env = req.Env
+	}
+
+	// Add command if provided
+	if len(req.Cmd) > 0 {
+		config.Cmd = req.Cmd
+	}
+
+	// Build host config with networking and restart policy
+	hostConfig := &container.HostConfig{
+		RestartPolicy: container.RestartPolicy{
+			Name: container.RestartPolicyMode(req.RestartPolicy),
+		},
+	}
+
+	// Add network mode if provided
+	if req.NetworkMode != "" {
+		hostConfig.NetworkMode = container.NetworkMode(req.NetworkMode)
+	}
+
+	// Add volumes if provided
+	if len(req.Volumes) > 0 {
+		hostConfig.Binds = req.Volumes
+	}
+
+	opts := client.ContainerCreateOptions{
+		Name:       req.Name,
+		Config:     config,
+		HostConfig: hostConfig,
+	}
+
+	resp, err := cli.ContainerCreate(ctx, opts)
+	if err != nil {
+		return "", err
+	}
+
+	return resp.ID, nil
 }

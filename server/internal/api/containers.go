@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"docker-scout/internal/docker"
+	"docker-scout/internal/model"
 )
 
 func registerContainers(mux *http.ServeMux, deps Deps) {
@@ -162,5 +163,60 @@ func registerContainers(mux *http.ServeMux, deps Deps) {
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
 		json.NewEncoder(w).Encode(map[string]string{"status": "removed", "id": id})
+	})
+
+	mux.HandleFunc("/containers/create", func(w http.ResponseWriter, r *http.Request) {
+		if r.Method != http.MethodPost {
+			http.Error(w, "method not allowed", http.StatusMethodNotAllowed)
+			return
+		}
+
+		var req model.CreateContainerRequest
+		if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusBadRequest)
+			json.NewEncoder(w).Encode(map[string]string{"error": "invalid payload"})
+			return
+		}
+
+		if req.Image == "" {
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusBadRequest)
+			json.NewEncoder(w).Encode(map[string]string{"error": "image required"})
+			return
+		}
+
+		ctx, cancel := context.WithTimeout(r.Context(), 30*time.Second)
+		defer cancel()
+
+		containerID, err := docker.CreateContainer(ctx, deps.Docker, req)
+		if err != nil {
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusInternalServerError)
+			json.NewEncoder(w).Encode(map[string]string{"error": err.Error()})
+			return
+		}
+
+		// Check if ?start=true parameter is present
+		shouldStart := r.URL.Query().Get("start") == "true"
+		status := "created"
+
+		if shouldStart {
+			if err := docker.StartContainer(r.Context(), deps.Docker, containerID); err != nil {
+				w.Header().Set("Content-Type", "application/json")
+				w.WriteHeader(http.StatusInternalServerError)
+				json.NewEncoder(w).Encode(map[string]string{"error": err.Error()})
+				return
+			}
+			status = "created_and_started"
+		}
+
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusCreated)
+		json.NewEncoder(w).Encode(map[string]string{
+			"status": status,
+			"id":     containerID,
+			"name":   req.Name,
+		})
 	})
 }
