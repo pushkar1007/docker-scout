@@ -28,13 +28,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased dark`}
+        className={`${geistSans.variable} ${geistMono.variable} w-screen h-screen antialiased dark`}
       >
         <Navbar />
-        <main className="w-screen">
+        <main className="w-screen h-[calc(100vh-72px)]">
           <SidebarProvider>
           <AppSidebar />
-          <div className="w-[calc(100vw-256px)] p-6">
+          <div className="w-[calc(100vw-256px)] max-w-[calc(100vw-256px)] overflow-x-hidden p-6">
             {children}
           </div>
           </SidebarProvider>
