@@ -12,6 +12,14 @@ export type ContainerStats = {
   disk_io: string;
 };
 
+export type DockerImage = {
+  id: string;
+  name: string;
+  size: number;
+  tags: string[];
+  createdAt: string;
+};
+
 export type SystemSummary = {
   active_containers: number;
   avg_cpu: string;
