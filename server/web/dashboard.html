@@ -59,12 +59,22 @@
         rows.appendChild(tr);
       }
     }
-    const events = new EventSource('/events');
-    events.onmessage = (evt) => {
+
+    async function fetchAndRender() {
       try {
-        render(JSON.parse(evt.data));
+        const res = await fetch('/stats');
+        if (!res.ok) return;
+        const data = await res.json();
+        render(data);
       } catch (e) {
       }
+    }
+
+    fetchAndRender();
+
+    const events = new EventSource('/events');
+    events.onmessage = () => {
+      fetchAndRender();
     };
   </script>
 </body>

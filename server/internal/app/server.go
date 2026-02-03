@@ -23,6 +23,7 @@ func RunServer() {
 	cache := state.NewCache()
 	bcast := state.NewBroadcaster(256)
 	StartStatsUpdater(cli, cache, 5*time.Second)
+	StartDockerEventStream(cli, bcast)
 
 	mux := http.NewServeMux()
 	api.RegisterRoutes(mux, api.Deps{
