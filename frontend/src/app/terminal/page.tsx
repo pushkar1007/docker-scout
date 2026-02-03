@@ -10,10 +10,6 @@ const Page = () => {
         <Separator />
         <XTerminal />
       </div>
-      <div>
-
-      </div>
-      <div></div>
     </div>
   );
 }

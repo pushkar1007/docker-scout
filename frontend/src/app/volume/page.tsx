@@ -1,4 +1,5 @@
 import { Separator } from "@/components/ui/separator";
+import VolumeCard from "@/components/ui/VolumeCard";
 
 const Page = () => {
   return (
@@ -8,6 +9,7 @@ const Page = () => {
       </div>
       <div>
         <Separator />
+        <VolumeCard />
       </div>
     </div>
   );

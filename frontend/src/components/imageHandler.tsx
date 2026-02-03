@@ -1,44 +1,5 @@
 "use client";
 
-// export const mockDockerImages: DockerImage[] = [
-//   {
-//     id: "sha256:9f3a2c7b4d1e8a22f0a123456789abcd",
-//     name: "metrics-api",
-//     size: 245_678_912, // ~234 MB
-//     tags: ["latest", "prod"],
-//     createdAt: "2026-02-01T10:32:00Z",
-//   },
-//   {
-//     id: "sha256:ab12cd34ef56a7890bcdef1234567890",
-//     name: "metrics-worker",
-//     size: 198_432_102,
-//     tags: ["latest"],
-//     createdAt: "2026-01-30T18:05:00Z",
-//   },
-//   {
-//     id: "sha256:deadbeefcafebabefeedface12345678",
-//     name: "frontend-dashboard",
-//     size: 156_901_888,
-//     tags: ["dev", "latest"],
-//     createdAt: "2026-01-29T14:11:00Z",
-//   },
-//   {
-//     id: "sha256:1234abcd5678efgh9012ijklmnopqrst",
-//     name: "postgres-backup",
-//     size: 512_344_990,
-//     tags: ["nightly"],
-//     createdAt: "2026-01-28T02:44:00Z",
-//   },
-//   {
-//     id: "sha256:c0ffee1234567890badf00dabcdef9876",
-//     name: "redis-cache",
-//     size: 63_204_321,
-//     tags: ["stable"],
-//     createdAt: "2026-01-27T09:20:00Z",
-//   },
-// ];
-//
-
 import { DockerImage } from "@/types/types";
 import { useEffect, useState } from "react";
 
@@ -48,19 +9,16 @@ export default function DockerImages() {
 
   useEffect(() => {
     async function fetchImages() {
-      const res = await fetch("/api/docker/images");
+      const res = await fetch("http://10.172.201.84/docker_api_server/images");
       const data = await res.json();
-      setImages(data);
+      const images = data.Items;
+      setImages(images);
       setLoading(false);
     }
 
     fetchImages();
   }, []);
 
-  // useEffect(() => {
-  //   setLoading(false)
-  //   setImages(mockDockerImages)
-  // }, [])
 
 
   if (loading)
@@ -81,7 +39,7 @@ export default function DockerImages() {
     <div className="grid m-3 mt-6 gap-4 sm:grid-cols-2 lg:grid-cols-3">
       {images.map((img) => (
         <div
-          key={img.id}
+          key={img.Id}
           className="
     rounded-xl
     border border-border
@@ -93,9 +51,9 @@ export default function DockerImages() {
         >
 
           <div className="flex items-start justify-between">
-            <div className="font-medium truncate">{img.name}</div>
+            <div className="font-medium truncate">{img.RepoTags}</div>
             <span className="text-xs text-muted-foreground">
-              {formatBytes(img.size)}
+              {formatBytes(img.Size)}
             </span>
           </div>
 
@@ -103,25 +61,25 @@ export default function DockerImages() {
             <div className="flex justify-between">
               <span className="">ID</span>
               <code className="text-xs">
-                {img.id.replace("sha256:", "").slice(0, 12)}
+                {img.Id.replace("sha256:", "").slice(0, 12)}
               </code>
             </div>
 
             <div className="flex justify-between">
               <span className="text-muted-foreground">Created</span>
               <span>
-                {new Date(img.createdAt).toLocaleDateString()}
+                {new Date(img.Created * 1000).toLocaleDateString()}
               </span>
             </div>
           </div>
 
           <div className="mt-3 flex flex-wrap gap-1">
-            {img.tags.map((tag) => (
+            {img.Labels && Object.entries(img.Labels).map(([key, value]) => (
               <span
-                key={tag}
+                key={key}
                 className="rounded-md bg-muted px-2 py-0.5 text-xs"
               >
-                {tag}
+                {key}: {value}
               </span>
             ))}
           </div>
