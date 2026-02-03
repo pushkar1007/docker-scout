@@ -41,10 +41,10 @@ cd server
 docker compose up -d
 
 # Verify it's running
-curl http://localhost:8089/system/health
+curl http://localhost:3000/system/health
 ```
 
-**Server is now running at:** `http://localhost:8089`
+**Server is now running at:** `http://localhost:3000`
 
 ### Stop the Server
 
@@ -65,14 +65,14 @@ docker compose logs -f docker_api_server
 ### Environment Variables
 
 ```bash
-# Set custom port (default: 8089)
+# Set custom port (default: 3000)
 export DOCKER_SCOUT_ADDR=:9000
 docker compose up -d
 ```
 
 **Environment File (.env):**
 ```env
-DOCKER_SCOUT_ADDR=:8089
+DOCKER_SCOUT_ADDR=:3000
 ```
 
 Then run:
@@ -87,7 +87,7 @@ docker compose up -d
 ### Base URL
 
 ```
-http://localhost:8089
+http://localhost:3000
 ```
 
 ### Response Format
@@ -114,7 +114,7 @@ Health status and version check.
 
 **Example:**
 ```bash
-curl http://localhost:8089/system/health
+curl http://localhost:3000/system/health
 ```
 
 ---
@@ -137,7 +137,7 @@ curl http://localhost:8089/system/health
 
 **Example:**
 ```bash
-curl -X POST "http://localhost:8089/system/nuke?confirm=true"
+curl -X POST "http://localhost:3000/system/nuke?confirm=true"
 ```
 
 ---
@@ -173,7 +173,7 @@ Lists all containers (running and stopped).
 
 **Example:**
 ```bash
-curl http://localhost:8089/containers
+curl http://localhost:3000/containers
 ```
 
 ---
@@ -197,7 +197,7 @@ Starts a stopped container.
 
 **Example:**
 ```bash
-curl -X POST "http://localhost:8089/containers/start?id=web-server"
+curl -X POST "http://localhost:3000/containers/start?id=web-server"
 ```
 
 ---
@@ -221,7 +221,7 @@ Gracefully stops a running container.
 
 **Example:**
 ```bash
-curl -X POST "http://localhost:8089/containers/stop?id=web-server"
+curl -X POST "http://localhost:3000/containers/stop?id=web-server"
 ```
 
 ---
@@ -245,7 +245,7 @@ Pauses a running container (freezes processes).
 
 **Example:**
 ```bash
-curl -X POST "http://localhost:8089/containers/pause?id=web-server"
+curl -X POST "http://localhost:3000/containers/pause?id=web-server"
 ```
 
 ---
@@ -269,7 +269,7 @@ Resumes a paused container.
 
 **Example:**
 ```bash
-curl -X POST "http://localhost:8089/containers/unpause?id=web-server"
+curl -X POST "http://localhost:3000/containers/unpause?id=web-server"
 ```
 
 ---
@@ -293,7 +293,7 @@ Removes a container permanently.
 
 **Example:**
 ```bash
-curl -X DELETE "http://localhost:8089/containers/remove?id=web-server"
+curl -X DELETE "http://localhost:3000/containers/remove?id=web-server"
 ```
 
 ---
@@ -358,7 +358,7 @@ Creates a new container from an image.
 **Example:**
 ```bash
 # Simple container
-curl -X POST http://localhost:8089/containers/create \
+curl -X POST http://localhost:3000/containers/create \
   -H "Content-Type: application/json" \
   -d '{
     "name": "web-server",
@@ -366,7 +366,7 @@ curl -X POST http://localhost:8089/containers/create \
   }'
 
 # With port mappings and environment
-curl -X POST http://localhost:8089/containers/create \
+curl -X POST http://localhost:3000/containers/create \
   -H "Content-Type: application/json" \
   -d '{
     "name": "my-app",
@@ -377,7 +377,7 @@ curl -X POST http://localhost:8089/containers/create \
   }'
 
 # With volumes and labels
-curl -X POST http://localhost:8089/containers/create \
+curl -X POST http://localhost:3000/containers/create \
   -H "Content-Type: application/json" \
   -d '{
     "name": "database",
@@ -394,7 +394,7 @@ curl -X POST http://localhost:8089/containers/create \
 **Example Usage (Create & Start in One Request):**
 ```bash
 # Simple container - create and start
-curl -X POST "http://localhost:8089/containers/create?start=true" \
+curl -X POST "http://localhost:3000/containers/create?start=true" \
   -H "Content-Type: application/json" \
   -d '{
     "name": "web-server",
@@ -403,7 +403,7 @@ curl -X POST "http://localhost:8089/containers/create?start=true" \
 
 
 # With all options - PostgreSQL with env, volumes, labels, restart policy
-curl -X POST "http://localhost:8089/containers/create?start=true" \
+curl -X POST "http://localhost:3000/containers/create?start=true" \
   -H "Content-Type: application/json" \
   -d '{
     "name": "database",
@@ -415,7 +415,7 @@ curl -X POST "http://localhost:8089/containers/create?start=true" \
   }'
 
 # Verify it's running
-curl http://localhost:8089/containers | jq '.items[] | {name, state, image, labels}'
+curl http://localhost:3000/containers | jq '.items[] | {name, state, image, labels}'
 ```
 
 ---
@@ -445,7 +445,7 @@ Lists all available images.
 
 **Example:**
 ```bash
-curl http://localhost:8089/images
+curl http://localhost:3000/images
 ```
 
 ---
@@ -470,8 +470,8 @@ Removes an image.
 
 **Example:**
 ```bash
-curl -X DELETE "http://localhost:8089/images/remove?name=nginx:latest"
-curl -X DELETE "http://localhost:8089/images/remove?name=nginx:latest&force=true"
+curl -X DELETE "http://localhost:3000/images/remove?name=nginx:latest"
+curl -X DELETE "http://localhost:3000/images/remove?name=nginx:latest&force=true"
 ```
 
 ---
@@ -513,7 +513,7 @@ Successfully tagged myapp:1.0.0
 
 **Example:**
 ```bash
-curl -X POST http://localhost:8089/images/build \
+curl -X POST http://localhost:3000/images/build \
   -H "Content-Type: application/json" \
   -d '{
     "context_path": "/path/to/app",
@@ -550,7 +550,7 @@ Lists all volumes.
 
 **Example:**
 ```bash
-curl http://localhost:8089/volumes
+curl http://localhost:3000/volumes
 ```
 
 ---
@@ -579,7 +579,7 @@ Gets detailed information about a volume.
 
 **Example:**
 ```bash
-curl "http://localhost:8089/volumes/inspect?name=database_data"
+curl "http://localhost:3000/volumes/inspect?name=database_data"
 ```
 
 ---
@@ -624,7 +624,7 @@ Creates a new volume.
 
 **Example:**
 ```bash
-curl -X POST http://localhost:8089/volumes/create \
+curl -X POST http://localhost:3000/volumes/create \
   -H "Content-Type: application/json" \
   -d '{
     "name": "app_data",
@@ -653,7 +653,7 @@ Removes a volume.
 
 **Example:**
 ```bash
-curl -X DELETE "http://localhost:8089/volumes/remove?name=database_data"
+curl -X DELETE "http://localhost:3000/volumes/remove?name=database_data"
 ```
 
 ---
@@ -674,7 +674,7 @@ Removes all unused volumes.
 
 **Example:**
 ```bash
-curl -X POST http://localhost:8089/volumes/prune
+curl -X POST http://localhost:3000/volumes/prune
 ```
 
 ---
@@ -703,7 +703,7 @@ Lists all Docker networks.
 
 **Example:**
 ```bash
-curl http://localhost:8089/networks
+curl http://localhost:3000/networks
 ```
 
 ---
@@ -743,7 +743,7 @@ Creates a new network.
 
 **Example:**
 ```bash
-curl -X POST http://localhost:8089/networks/create \
+curl -X POST http://localhost:3000/networks/create \
   -H "Content-Type: application/json" \
   -d '{
     "name": "app_network",
@@ -773,8 +773,8 @@ Removes a network.
 
 **Example:**
 ```bash
-curl -X DELETE "http://localhost:8089/networks/remove?name=app_network"
-curl -X DELETE "http://localhost:8089/networks/remove?id=abc123def456"
+curl -X DELETE "http://localhost:3000/networks/remove?name=app_network"
+curl -X DELETE "http://localhost:3000/networks/remove?id=abc123def456"
 ```
 
 ---
@@ -806,15 +806,15 @@ data: {"type":"stats.updated","containers":5,"cpu":"25.4%","memory":"2.1GB"}
 **Example:**
 ```bash
 # Watch live events
-curl http://localhost:8089/events
+curl http://localhost:3000/events
 
 # Or with jq for formatting
-curl http://localhost:8089/events | jq .
+curl http://localhost:3000/events | jq .
 ```
 
 **JavaScript Client:**
 ```javascript
-const eventSource = new EventSource('http://localhost:8089/events');
+const eventSource = new EventSource('http://localhost:3000/events');
 
 eventSource.addEventListener('message', (event) => {
   const data = JSON.parse(event.data);
@@ -856,7 +856,7 @@ Publish a custom event to all connected clients.
 
 **Example:**
 ```bash
-curl -X POST http://localhost:8089/events/publish \
+curl -X POST http://localhost:3000/events/publish \
   -H "Content-Type: application/json" \
   -d '{
     "type": "custom.alert",
@@ -904,7 +904,7 @@ Returns current system statistics snapshot.
 
 **Example:**
 ```bash
-curl http://localhost:8089/stats
+curl http://localhost:3000/stats
 ```
 
 ---
@@ -1043,16 +1043,16 @@ curl http://localhost:8089/stats
 
 ```bash
 # 1. Check health
-curl http://localhost:8089/system/health
+curl http://localhost:3000/system/health
 
 # 2. List containers
-curl http://localhost:8089/containers
+curl http://localhost:3000/containers
 
 # 3. List images
-curl http://localhost:8089/images
+curl http://localhost:3000/images
 
 # 4. Create a container
-curl -X POST http://localhost:8089/containers/create \
+curl -X POST http://localhost:3000/containers/create \
   -H "Content-Type: application/json" \
   -d '{
     "name": "my-nginx",
@@ -1062,10 +1062,10 @@ curl -X POST http://localhost:8089/containers/create \
   }'
 
 # 5. Start the container
-curl -X POST "http://localhost:8089/containers/start?id=my-nginx"
+curl -X POST "http://localhost:3000/containers/start?id=my-nginx"
 
 # 6. Build new image
-curl -X POST http://localhost:8089/images/build \
+curl -X POST http://localhost:3000/images/build \
   -H "Content-Type: application/json" \
   -d '{
     "context_path": "/path/to/app",
@@ -1073,23 +1073,23 @@ curl -X POST http://localhost:8089/images/build \
   }'
 
 # 5. Create volume
-curl -X POST http://localhost:8089/volumes/create \
+curl -X POST http://localhost:3000/volumes/create \
   -H "Content-Type: application/json" \
   -d '{"name": "app_data", "driver": "local"}'
 
 # 6. Create network
-curl -X POST http://localhost:8089/networks/create \
+curl -X POST http://localhost:3000/networks/create \
   -H "Content-Type: application/json" \
   -d '{"name": "app_network", "driver": "bridge"}'
 
 # 7. Get statistics
-curl http://localhost:8089/stats
+curl http://localhost:3000/stats
 
 # 8. Stop container
-curl -X POST "http://localhost:8089/containers/stop?id=mycontainer"
+curl -X POST "http://localhost:3000/containers/stop?id=mycontainer"
 
 # 9. Remove container
-curl -X DELETE "http://localhost:8089/containers/remove?id=mycontainer"
+curl -X DELETE "http://localhost:3000/containers/remove?id=mycontainer"
 ```
 
 ### Using with JavaScript/Node.js
@@ -1097,14 +1097,14 @@ curl -X DELETE "http://localhost:8089/containers/remove?id=mycontainer"
 ```javascript
 // Simple async function to fetch containers
 async function listContainers() {
-  const response = await fetch('http://localhost:8089/containers');
+  const response = await fetch('http://localhost:3000/containers');
   const data = await response.json();
   console.log(data);
 }
 
 // Start a container
 async function startContainer(containerId) {
-  const response = await fetch(`http://localhost:8089/containers/start?id=${containerId}`, {
+  const response = await fetch(`http://localhost:3000/containers/start?id=${containerId}`, {
     method: 'POST'
   });
   const data = await response.json();
@@ -1113,7 +1113,7 @@ async function startContainer(containerId) {
 
 // Listen to events
 function listenToEvents() {
-  const eventSource = new EventSource('http://localhost:8089/events');
+  const eventSource = new EventSource('http://localhost:3000/events');
   eventSource.onmessage = (event) => {
     console.log('Event:', JSON.parse(event.data));
   };

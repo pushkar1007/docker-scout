@@ -9,6 +9,6 @@ FROM gcr.io/distroless/base-debian12
 WORKDIR /app
 COPY --from=build /out/scout /app/scout
 COPY web/dashboard.html /app/web/dashboard.html
-ENV DOCKER_SCOUT_ADDR=:8089
-EXPOSE 8089
+ENV DOCKER_SCOUT_ADDR=:3000
+EXPOSE 3000
 ENTRYPOINT ["/app/scout"]
