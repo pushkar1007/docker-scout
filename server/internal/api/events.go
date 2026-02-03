@@ -2,11 +2,19 @@ package api
 
 import (
 	"encoding/json"
-	"fmt"
 	"net/http"
+	"time"
 
 	"docker-scout/internal/state"
+
+	"github.com/gorilla/websocket"
 )
+
+var eventsUpgrader = websocket.Upgrader{
+	CheckOrigin: func(r *http.Request) bool {
+		return true
+	},
+}
 
 func registerEvents(mux *http.ServeMux, deps Deps) {
 	mux.HandleFunc("/events", func(w http.ResponseWriter, r *http.Request) {
@@ -15,31 +23,49 @@ func registerEvents(mux *http.ServeMux, deps Deps) {
 			return
 		}
 
-		// SSE stream is write-only; clients must reconnect on disconnect.
-		w.Header().Set("Content-Type", "text/event-stream")
-		w.Header().Set("Cache-Control", "no-cache")
-		w.Header().Set("Connection", "keep-alive")
-		w.Header().Set("Access-Control-Allow-Origin", "*")
-
-		flusher, ok := w.(http.Flusher)
-		if !ok {
-			http.Error(w, "streaming unsupported", http.StatusInternalServerError)
+		conn, err := eventsUpgrader.Upgrade(w, r, nil)
+		if err != nil {
 			return
 		}
+		defer conn.Close()
 
 		// Per-client buffer avoids one slow consumer stalling the broadcaster.
 		ch := make(state.SSEClient, 8)
 		deps.Broadcaster.Add(ch)
 		defer func() { deps.Broadcaster.Remove(ch) }()
 
-		notify := r.Context().Done()
+		conn.SetReadLimit(1024)
+		conn.SetReadDeadline(time.Now().Add(60 * time.Second))
+		conn.SetPongHandler(func(string) error {
+			conn.SetReadDeadline(time.Now().Add(60 * time.Second))
+			return nil
+		})
+
+		done := make(chan struct{})
+		go func() {
+			defer close(done)
+			for {
+				if _, _, err := conn.ReadMessage(); err != nil {
+					return
+				}
+			}
+		}()
+
+		ping := time.NewTicker(30 * time.Second)
+		defer ping.Stop()
+
 		for {
 			select {
-			case <-notify:
+			case <-done:
 				return
 			case msg := <-ch:
-				fmt.Fprintf(w, "data: %s\n\n", msg)
-				flusher.Flush()
+				if err := conn.WriteMessage(websocket.TextMessage, msg); err != nil {
+					return
+				}
+			case <-ping.C:
+				if err := conn.WriteControl(websocket.PingMessage, nil, time.Now().Add(5*time.Second)); err != nil {
+					return
+				}
 			}
 		}
 	})

@@ -72,8 +72,8 @@
 
     fetchAndRender();
 
-    const events = new EventSource('/events');
-    events.onmessage = () => {
+    const ws = new WebSocket((location.protocol === 'https:' ? 'wss://' : 'ws://') + location.host + '/events');
+    ws.onmessage = () => {
       fetchAndRender();
     };
   </script>

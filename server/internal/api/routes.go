@@ -19,6 +19,7 @@ type Deps struct {
 
 func RegisterRoutes(mux *http.ServeMux, deps Deps) {
 	registerEvents(mux, deps)
+	registerTerminal(mux, deps)
 	registerStats(mux, deps)
 	registerNetworks(mux, deps)
 	registerContainers(mux, deps)
@@ -29,13 +30,25 @@ func RegisterRoutes(mux *http.ServeMux, deps Deps) {
 }
 
 func registerDashboard(mux *http.ServeMux, deps Deps) {
-	path := deps.DashboardPath
-	if path == "" {
-		path = filepath.Join("web", "dashboard.html")
+	dashboardPath := deps.DashboardPath
+	if dashboardPath == "" {
+		dashboardPath = filepath.Join("web", "dashboard.html")
 	}
+	echoPath := filepath.Join("web", "index.html")
 
 	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		body, err := os.ReadFile(path)
+		if r.URL.Path == "/echo" || r.URL.Path == "/index" {
+			body, err := os.ReadFile(echoPath)
+			if err != nil {
+				http.Error(w, "echo page not found", http.StatusInternalServerError)
+				return
+			}
+			w.Header().Set("Content-Type", "text/html")
+			w.Write(body)
+			return
+		}
+
+		body, err := os.ReadFile(dashboardPath)
 		if err != nil {
 			http.Error(w, "dashboard not found", http.StatusInternalServerError)
 			return

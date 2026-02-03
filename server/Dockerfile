@@ -5,10 +5,11 @@ RUN go mod download
 COPY . .
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o /out/scout ./cmd/scout
 
-FROM gcr.io/distroless/base-debian12
+FROM debian:bookworm-slim
+RUN apt-get update && apt-get install -y --no-install-recommends ca-certificates && rm -rf /var/lib/apt/lists/*
 WORKDIR /app
 COPY --from=build /out/scout /app/scout
-COPY web/dashboard.html /app/web/dashboard.html
+COPY web /app/web
 ENV DOCKER_SCOUT_ADDR=:8089
 EXPOSE 8089
 ENTRYPOINT ["/app/scout"]

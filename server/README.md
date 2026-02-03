@@ -1,6 +1,6 @@
 Docker Scout Server
 
-This server exposes a REST API + SSE stream for Docker resources.
+This server exposes a REST API + WebSocket stream for Docker resources.
 
 **Default server URL:** `http://localhost:8089`
 
@@ -447,7 +447,7 @@ curl http://localhost:8089/stats
 | GET | `/networks` | List networks |
 | POST | `/networks/create` | Create network |
 | DELETE | `/networks/remove` | Remove network |
-| GET | `/events` | SSE stream |
+| GET | `/events` | WebSocket stream |
 | POST | `/events/publish` | Publish event |
 | GET | `/stats` | System statistics |
 | GET | `/` | Dashboard UI |
@@ -627,8 +627,8 @@ async function startContainer(containerId) {
 
 // Listen to events
 function listenToEvents() {
-  const eventSource = new EventSource('http://localhost:8089/events');
-  eventSource.onmessage = (event) => {
+  const ws = new WebSocket('ws://localhost:8089/events');
+  ws.onmessage = (event) => {
     console.log('Event:', JSON.parse(event.data));
   };
 }

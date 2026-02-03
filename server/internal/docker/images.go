@@ -2,6 +2,7 @@ package docker
 
 import (
 	"context"
+	"io"
 
 	"github.com/moby/moby/client"
 )
@@ -20,4 +21,14 @@ func RemoveImage(ctx context.Context, cli *client.Client, name string, force boo
 		},
 	)
 	return err
+}
+
+func PullImage(ctx context.Context, cli *client.Client, name string) error {
+	rc, err := cli.ImagePull(ctx, name, client.ImagePullOptions{})
+	if err != nil {
+		return err
+	}
+	defer rc.Close()
+	_, _ = io.Copy(io.Discard, rc)
+	return nil
 }

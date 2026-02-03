@@ -2,6 +2,7 @@ package docker
 
 import (
 	"context"
+	"strings"
 
 	"docker-scout/internal/model"
 
@@ -74,6 +75,10 @@ func CreateContainer(ctx context.Context, cli *client.Client, req model.CreateCo
 		Image: req.Image,
 	}
 
+	if len(req.Entrypoint) > 0 {
+		config.Entrypoint = req.Entrypoint
+	}
+
 	// Add labels if provided
 	if len(req.Labels) > 0 {
 		config.Labels = req.Labels
@@ -114,8 +119,23 @@ func CreateContainer(ctx context.Context, cli *client.Client, req model.CreateCo
 
 	resp, err := cli.ContainerCreate(ctx, opts)
 	if err != nil {
-		return "", err
+		if isImageNotFound(err) {
+			if pullErr := PullImage(ctx, cli, req.Image); pullErr == nil {
+				resp, err = cli.ContainerCreate(ctx, opts)
+			}
+		}
+		if err != nil {
+			return "", err
+		}
 	}
 
 	return resp.ID, nil
+}
+
+func isImageNotFound(err error) bool {
+	if err == nil {
+		return false
+	}
+	msg := strings.ToLower(err.Error())
+	return strings.Contains(msg, "no such image") || strings.Contains(msg, "image not found")
 }
