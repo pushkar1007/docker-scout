@@ -47,6 +47,6 @@ export default function XTerminal() {
     };
   }, []);
 
-  return <div ref={terminalRef} className="w-full h-screen bg-fuchsia-200" />;
+  return <div ref={terminalRef} className="w-full h-screen bg-black" />;
 }
 
