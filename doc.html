@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DocScout – Open Source Docker Control Platform</title>
+<meta name="description" content="DocScout: Open-source Docker management platform with metrics, container control, networks, and reverse proxy.">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #fff;
+    --text: #111;
+    --muted: #555;
+    --accent: #000;
+    --card-bg: #f9f9f9;
+    --border: #000;
+  }
+
+  [data-theme="dark"] {
+    --bg: #111;
+    --text: #eee;
+    --muted: #aaa;
+    --accent: #fff;
+    --card-bg: #1c1c1c;
+    --border: #333;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    padding: 2rem 1rem;
+    max-width: 900px;
+    margin: 0 auto;
+    transition: background 0.3s, color 0.3s;
+  }
+
+  h1, h2, h3 { font-weight: 700; margin-bottom: 1rem; }
+
+  h1 {
+    font-size: 2.8rem;
+    text-align: left;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+  }
+
+  h2 { font-size: 2rem; color: var(--accent); margin-top: 2rem; margin-bottom: 1rem; }
+
+  h3 { font-size: 1.3rem; color: var(--accent); margin-top: 1.5rem; margin-bottom: 0.5rem; }
+
+  p { margin-bottom: 1rem; }
+
+  .muted { color: var(--muted); }
+
+  ul, ol { padding-left: 1.25rem; margin-bottom: 1rem; }
+
+  .card {
+    background: var(--card-bg);
+    padding: 1.5rem;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    margin: 1.5rem 0;
+  }
+
+  .code {
+    display: block;
+    background: #f1f1f1;
+    padding: 0.75rem 1rem;
+    font-family: monospace;
+    font-size: 0.9rem;
+    border-radius: 8px;
+    margin: 1rem 0;
+    overflow-x: auto;
+  }
+
+  [data-theme="dark"] .code {
+    background: #222;
+    color: #eee;
+  }
+
+  footer {
+    text-align: center;
+    padding: 2rem 0;
+    color: var(--muted);
+    font-size: 0.85rem;
+    margin-top: 3rem;
+  }
+
+  .theme-switch {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 0.4rem 0.8rem;
+    font-size: 0.9rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.3s, color 0.3s;
+  }
+
+  @media (max-width: 600px) {
+    h1 { font-size: 2rem; flex-direction: column; align-items: flex-start; gap: 0.5rem; }
+    h2 { font-size: 1.5rem; }
+    h3 { font-size: 1.1rem; }
+  }
+</style>
+</head>
+<body data-theme="light">
+
+<h1 style="border-bottom: 2px solid var(--border); padding-bottom: 0.5rem; display: flex; justify-content: space-between; align-items: center;">
+  DocScout
+  <button class="theme-switch" id="themeToggle">Dark Mode</button>
+</h1>
+
+<br>
+<p>
+DocScout is a <strong>lightweight self-hosted Docker management platform</strong> written in Go, designed for microservice-heavy backend projects and software enthusiasts. It solves the chaos of scaling microservices by letting devs monitor, manage, and troubleshoot every layer of their server stack in one interactive place.
+</p>
+
+<h2>Core Features</h2>
+<ul class="muted">
+  <li>View all containers (running & stopped) with status, uptime, and resource metrics.</li>
+  <li>Browse all Docker images and their details.</li>
+  <li>Live metrics per container: CPU usage, memory, network traffic and other meta-data.</li>
+  <li>Network & group management: create networks, attach containers, and visualize groups.</li>
+  <li>A <strong>A Reverse Proxy</strong> that automatically forwards requests to <code>containername.localhost</code>, assuming microservices run on port 3000.</li>
+  <li>Volume management and inspection directly from the dashboard.</li>
+  <li>Spin up/down container groups for rapid experimentation.</li>
+  <li>A compose generator tool lets developers select the Docker images they need and instantly generates a ready-to-use Compose file<li/>
+</ul>
+
+<h2>Architecture Overview</h2>
+<ul class="muted">
+  <li><strong>API Server:</strong> Provides container, network, and volume data to the frontend.</li>
+  <li><strong>Reverse Proxy:</strong> Routes traffic automatically to containers running on port 3000.</li>
+  <li><strong>Frontend Dashboard:</strong> Displays live metrics, networks, volumes, and proxy mappings in an intuitive interface.</li>
+  <li><strong>Docker Compose:</strong> Spins up all components instantly for demo or hackathon use.</li>
+</ul>
+
+<h2>Network & Group Management</h2>
+<p>
+Containers attached to the same network are automatically grouped for easy visualization. Users can spin up or down groups of containers directly from the dashboard, enabling rapid testing of microservice setups without touching the CLI.
+</p>
+
+
+<h2>Quick Start</h2>
+<p>Getting started is simple—no coding required:</p>
+
+<div class="card">
+  <div class="step">
+    <p><strong>Step 1:</strong> Clone the repository</p>
+    <div class="code">git clone https://github.com/pushkar1007/DocScout.git</div>
+  </div>
+
+  <div class="step">
+    <p><strong>Step 2:</strong> Move into the project directory</p>
+    <div class="code">cd DocScout</div>
+  </div>
+
+  <div class="step">
+    <p><strong>Step 3:</strong> Start all services</p>
+    <div class="code">cd backend <br>
+go run
+        </div>
+            <div class="code">cd frontend <br>
+npm run dev
+        </div>
+
+  </div>
+
+  <div class="step">
+    <p><strong>Step 4:</strong> Explore the dashboard and proxy</p>
+    <div class="code">
+      Frontend → http://localhost:3000<br>
+      Reverse Proxy → containername.localhost<br>
+      API → http://localhost:4000 (optional)
+    </div>
+  </div>
+</div>
+
+<p>
+Everything you need—view containers, images, networks, volumes, spin up groups, and test reverse proxy routing—is accessible directly from the <strong>DocScout dashboard</strong>.
+</p>
+
+<footer>
+Built for a hackathon • Open-source • BSD-Clause || Simplified • Contributors welcome
+</footer>
+
+<script>
+const toggle = document.getElementById('themeToggle');
+toggle.addEventListener('click', () => {
+  const body = document.body;
+  const current = body.getAttribute('data-theme');
+  if(current === 'light') {
+    body.setAttribute('data-theme', 'dark');
+    toggle.textContent = 'Light Mode';
+  } else {
+    body.setAttribute('data-theme', 'light');
+    toggle.textContent = 'Dark Mode';
+  }
+});
+</script>
+
+</body>
+
+</html>
