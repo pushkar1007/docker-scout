@@ -20,6 +20,7 @@ func RunServer() {
 		log.Fatalf("docker client init failed: %v", err)
 	}
 
+	// Cache and broadcaster live for process lifetime; background updaters rely on them.
 	cache := state.NewCache()
 	bcast := state.NewBroadcaster(256)
 	StartStatsUpdater(cli, cache, 5*time.Second)
@@ -38,6 +39,7 @@ func RunServer() {
 		addr = envAddr
 	}
 
+	// Single http.Server; mux wiring is immutable after startup.
 	fmt.Printf("Dashboard running at http://localhost%s\n", addr)
 	fmt.Printf("SSE stream at http://localhost%s/events\n", addr)
 	fmt.Printf("Snapshot API at http://localhost%s/stats\n", addr)

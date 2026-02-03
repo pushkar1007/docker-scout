@@ -15,6 +15,7 @@ func registerEvents(mux *http.ServeMux, deps Deps) {
 			return
 		}
 
+		// SSE stream is write-only; clients must reconnect on disconnect.
 		w.Header().Set("Content-Type", "text/event-stream")
 		w.Header().Set("Cache-Control", "no-cache")
 		w.Header().Set("Connection", "keep-alive")
@@ -26,6 +27,7 @@ func registerEvents(mux *http.ServeMux, deps Deps) {
 			return
 		}
 
+		// Per-client buffer avoids one slow consumer stalling the broadcaster.
 		ch := make(state.SSEClient, 8)
 		deps.Broadcaster.Add(ch)
 		defer func() { deps.Broadcaster.Remove(ch) }()

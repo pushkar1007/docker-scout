@@ -29,6 +29,7 @@ type containerEventPayload struct {
 
 func StartDockerEventStream(cli *client.Client, bcast *state.Broadcaster) {
 	go func() {
+		// Stream only container lifecycle events to keep payloads bounded and relevant.
 		filters := make(client.Filters).Add("type", "container")
 		for {
 			ctx, cancel := context.WithCancel(context.Background())
@@ -53,6 +54,7 @@ func StartDockerEventStream(cli *client.Client, bcast *state.Broadcaster) {
 					if err != nil && !errors.Is(err, context.Canceled) && !errors.Is(err, io.EOF) {
 						log.Printf("docker events stream error: %v", err)
 					}
+					// Event streams are best-effort; re-establish after backoff.
 					goto restart
 				}
 			}
@@ -72,6 +74,7 @@ func buildContainerEvent(ctx context.Context, cli *client.Client, evt events.Mes
 		Attributes: evt.Actor.Attributes,
 	}
 
+	// Inspect can race with remove; return the event without container details in that case.
 	inspect, err := docker.InspectContainer(ctx, cli, evt.Actor.ID)
 	if err != nil || inspect.Container.ID == "" {
 		return payload
