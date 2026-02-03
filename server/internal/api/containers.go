@@ -20,7 +20,7 @@ func registerContainers(mux *http.ServeMux, deps Deps) {
 		ctx, cancel := context.WithTimeout(r.Context(), 10*time.Second)
 		defer cancel()
 
-		containers, err := docker.ListContainers(ctx, deps.Docker, false)
+		containers, err := docker.ListContainers(ctx, deps.Docker, true)
 		if err != nil {
 			w.Header().Set("Content-Type", "application/json")
 			json.NewEncoder(w).Encode(map[string]interface{}{

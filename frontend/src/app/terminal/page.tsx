@@ -12,10 +12,6 @@ const Page = () => {
         </div>
         <XTerminal />
       </div>
-      <div>
-
-      </div>
-      <div></div>
     </div>
   );
 }

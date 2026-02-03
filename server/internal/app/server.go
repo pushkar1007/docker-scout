@@ -33,7 +33,7 @@ func RunServer() {
 		DashboardPath: filepath.Join("web", "dashboard.html"),
 	})
 
-	addr := ":8089"
+	addr := "0.0.0.0:3000"
 	if envAddr := strings.TrimSpace(os.Getenv("DOCKER_SCOUT_ADDR")); envAddr != "" {
 		addr = envAddr
 	}
