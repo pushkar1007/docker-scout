@@ -1,0 +1,21 @@
+services:
+  reverse-proxy:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    ports:
+      - "80:80"
+      - "8080:8080"
+    networks:
+      - proxy-net
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - .:/app
+      - node_modules:/app/node_modules
+
+volumes:
+  node_modules:
+
+networks:
+  proxy-net:
+    external: true
