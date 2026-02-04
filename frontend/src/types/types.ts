@@ -1,3 +1,17 @@
+export type ContainerStats = {
+  id: string;
+  name: string;
+  state: string;
+  last_used: string;
+  image: string;
+  labels: Record<string, string>;
+  ports: string;
+  cpu: string;
+  memory: string;
+  net_io: string;
+  disk_io: string;
+};
+
 export interface DockerContainer {
   Id: string;
   Names: string[];

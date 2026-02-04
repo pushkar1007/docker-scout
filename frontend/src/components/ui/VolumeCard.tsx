@@ -7,11 +7,12 @@ import { useEffect, useState } from 'react';
 const VolumeCard = () => {
   const [volume, setVolume] = useState<DockerVolume[]>([]);
   const [loading, setLoading] = useState(true);
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 
   useEffect(() => {
     async function fetchVolumes() {
       try {
-        const res = await fetch("http://10.172.201.84/docker_api_server/volumes");
+        const res = await fetch(`${baseUrl}/volumes`);
 
         if (!res.ok) throw new Error("API failed");
 
@@ -28,17 +29,19 @@ const VolumeCard = () => {
     fetchVolumes();
   }, []);
 
+  console.log(volume);
+
   if (loading)
     return (
-      <div className="flex text-muted-foreground h-full justify-center items-center">
-        Inspecting containers…
+      <div className="flex h-9/10 text-muted-foreground justify-center overflow-y-hidden items-center">
+        <h1>Inspecting containers…</h1>
       </div>
     );
 
   if (!volume.length)
     return (
-      <div className="text-muted-foreground">
-        No Docker volumes. Build something real.
+      <div className="flex h-9/10 text-muted-foreground justify-center overflow-y-hidden items-center">
+        <h1>No Docker volumes. Build something real.</h1>
       </div>
     );
 
@@ -51,7 +54,7 @@ const VolumeCard = () => {
           key={vol.name}
           className={`
         rounded-xl border p-4 transition-all duration-200
-        bg-slate-900/70 backdrop-blur
+        bg-[#1D232F] backdrop-blur
         hover:-translate-y-1 hover:shadow-xl
         ${vol.in_use
               ? "border-emerald-500/50 hover:shadow-emerald-500/20"

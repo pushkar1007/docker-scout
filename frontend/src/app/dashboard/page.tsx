@@ -47,11 +47,11 @@ const Page = () => {
   const [containers, setContainers] = useState<ContainerData | null>(null);
   const [pausedContainers, setPausedContainers] = useState<number>(0);
   const [stoppedContainers, setStoppedContainers] = useState<number>(0);
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
   useEffect(() => {
     const fetchData = async () => {
-      const [containersResponse] = await Promise.all([
-        axios.get<ContainerData>("http://10.172.201.84/docker_api_server/containers"),
-      ]);
+      const containersResponse = await axios.get<ContainerData>(`${baseUrl}/containers`);
+      
       const items = containersResponse.data?.Items ?? [];
       const paused = items.filter((container) => container.State === "paused").length;
       const stopped = items.filter(
@@ -186,7 +186,7 @@ const Page = () => {
             </AccordionTrigger>
             <AccordionContent className="flex flex-col">
               {stats?.containers?.map((stat) => (
-                <div key={stat.Id} className="flex items-center justify-between">
+                <div key={stat.id} className="flex items-center justify-between">
                   <div className="flex gap-4 items-center w-1/5">
                     <div className="rounded-full w-4 h-4 bg-chart-2 animate-pulse"></div>
                     <h3 className="text-md truncate leading-none mt-[-4px]">{stat.name ?? "Unknown"}</h3>
