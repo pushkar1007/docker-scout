@@ -163,11 +163,13 @@ Containers attached to the same network are automatically grouped for easy visua
 
   <div class="step">
     <p><strong>Step 3:</strong> Start all services</p>
-    <div class="code">cd backend <br>
-go run
+    <div class="code">cd proxy <br>
+          docker compose up
+              <div class="code">cd server <br>
+          docker compose up
         </div>
             <div class="code">cd frontend <br>
-npm run dev
+          npm run dev
         </div>
 
   </div>
@@ -176,8 +178,8 @@ npm run dev
     <p><strong>Step 4:</strong> Explore the dashboard and proxy</p>
     <div class="code">
       Frontend → http://localhost:3000<br>
-      Reverse Proxy → containername.localhost<br>
-      API → http://localhost:4000 (optional)
+      Reverse Proxy → containername.localhost<br> → proxy accepts all the requests(0.0.0.0) through proxynet
+          {default net is proxy-net}
     </div>
   </div>
 </div>
@@ -185,6 +187,15 @@ npm run dev
 <p>
 Everything you need view containers, images, networks, volumes, spin up groups, and test reverse proxy routing—is accessible directly from the <strong>DocScout dashboard</strong>.
 </p>
+
+      <a href="https://github.com/pushkar1007/docker-scout" target="_blank" rel="noopener noreferrer">
+  <img
+    src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
+    alt="GitHub"
+    width="32"
+    height="32"
+  />
+</a>
 
 <footer>
 Built for a hackathon • Open-source • BSD-Clause || Simplified • Contributors welcome
