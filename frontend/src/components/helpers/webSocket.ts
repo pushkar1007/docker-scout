@@ -1,6 +1,8 @@
+import { DashboardData } from "@/types/types";
+
 export function connectTerminalWS(
   url: string,
-  onMessage: (data: Uint8Array) => void,
+  onMessage: (data: DashboardData) => void,
   onOpen?: () => void,
   onClose?: () => void,
   onError?: (ev: Event) => void,
@@ -13,11 +15,7 @@ export function connectTerminalWS(
   };
 
   ws.onmessage = (event) => {
-    if (event.data instanceof ArrayBuffer) {
-      onMessage(new Uint8Array(event.data));
-    } else if (typeof event.data === "string") {
-      onMessage(new TextEncoder().encode(event.data));
-    }
+    onMessage(event.data);
   };
 
   ws.onclose = () => {

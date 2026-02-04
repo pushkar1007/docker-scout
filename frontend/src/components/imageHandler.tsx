@@ -36,57 +36,63 @@ export default function DockerImages() {
     );
 
   return (
-    <div className="grid m-3 mt-6 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+    <div className="grid m-3 mt-6 gap-6 sm:grid-cols-2 lg:grid-cols-3">
       {images.map((img) => (
         <div
           key={img.Id}
           className="
-    rounded-xl
-    border border-border
-    backdrop-blur
-    p-4
-    bg-blue-900       shadow-sm
-    transition
-    hover:bg-blue-600/80   "
+        rounded-xl border border-slate-500/70
+        p-4 transition-all duration-200
+        bg-gray-800/60 backdrop-blur
+        hover:-translate-y-0.5
+        hover:shadow-lg hover:shadow-black/40
+      "
         >
+          {/* Header */}
+          <div className="flex items-center justify-between">
+            <h3 className="text-sm font-mono text-slate-200 truncate">
+              {img.RepoTags?.[0] ?? "untagged"}
+            </h3>
 
-          <div className="flex items-start justify-between">
-            <div className="font-medium truncate">{img.RepoTags}</div>
-            <span className="text-xs text-muted-foreground">
+            <span className="text-xs px-2 py-0.5 rounded-md bg-slate-800 text-slate-300">
               {formatBytes(img.Size)}
             </span>
           </div>
 
-          <div className="mt-3 space-y-2 text-sm">
-            <div className="flex justify-between">
-              <span className="">ID</span>
-              <code className="text-xs">
+          {/* Body */}
+          <div className="mt-4 space-y-2 text-sm text-slate-400">
+            <p className="flex justify-between">
+              <span className="text-slate-500">ID</span>
+              <code className="text-sky-400 text-xs">
                 {img.Id.replace("sha256:", "").slice(0, 12)}
               </code>
-            </div>
+            </p>
 
-            <div className="flex justify-between">
-              <span className="text-muted-foreground">Created</span>
+            <p className="flex justify-between">
+              <span className="text-slate-500">Created</span>
               <span>
                 {new Date(img.Created * 1000).toLocaleDateString()}
               </span>
-            </div>
+            </p>
           </div>
 
-          <div className="mt-3 flex flex-wrap gap-1">
-            {img.Labels && Object.entries(img.Labels).map(([key, value]) => (
-              <span
-                key={key}
-                className="rounded-md bg-muted px-2 py-0.5 text-xs"
-              >
-                {key}: {value}
-              </span>
-            ))}
-          </div>
+          {/* Labels */}
+          {img.Labels && Object.keys(img.Labels).length > 0 && (
+            <div className="mt-3 flex flex-wrap gap-1">
+              {Object.entries(img.Labels).map(([key, value]) => (
+                <span
+                  key={key}
+                  className="rounded-md bg-slate-800/70 px-2 py-0.5 text-xs text-slate-400"
+                >
+                  {key}: {value}
+                </span>
+              ))}
+            </div>
+          )}
         </div>
       ))}
     </div>
-  );
+  )
 }
 
 function formatBytes(bytes: number) {
