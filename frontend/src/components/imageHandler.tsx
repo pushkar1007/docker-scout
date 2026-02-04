@@ -1,16 +1,17 @@
 "use client";
 
 import { DockerImage } from "@/types/types";
+import axios from "axios";
 import { useEffect, useState } from "react";
 
 export default function DockerImages() {
   const [images, setImages] = useState<DockerImage[]>([]);
   const [loading, setLoading] = useState(true);
-
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
   useEffect(() => {
     async function fetchImages() {
-      const res = await fetch("http://10.172.201.84/docker_api_server/images");
-      const data = await res.json();
+      const res = await axios.get(`${baseUrl}/images`);
+      const data = res.data;
       const images = data.Items;
       setImages(images);
       setLoading(false);

@@ -9,13 +9,43 @@ import { JSXElementConstructor, Key, ReactElement, ReactNode, ReactPortal, useEf
 const Page = () => {
     const [data, setData] = useState<any>(null);
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+    
+    const fetchData = async () => {
+        const response = await axios.get(`${baseUrl}/containers`);
+        setData(response.data);
+    };
+    
     useEffect(() => {
-        const fetchData = async () => {
-            const response = await axios.get(`${baseUrl}/containers`);
-            setData(response.data);
-        };
         fetchData();
     }, []);
+
+    const handleStart = async (containerId: string) => {
+        try {
+            await axios.post(`${baseUrl}/containers/start?id=${containerId}`);
+            await fetchData(); // Refresh the container list
+        } catch (error) {
+            console.error('Error starting container:', error);
+        }
+    };
+
+    const handlePause = async (containerId: string) => {
+        try {
+            await axios.post(`${baseUrl}/containers/pause?id=${containerId}`);
+            await fetchData(); // Refresh the container list
+        } catch (error) {
+            console.error('Error pausing container:', error);
+        }
+    };
+
+    const handleStop = async (containerId: string) => {
+        try {
+            await axios.post(`${baseUrl}/containers/stop?id=${containerId}`);
+            await fetchData(); // Refresh the container list
+        } catch (error) {
+            console.error('Error stopping container:', error);
+        }
+    };
+
     console.log(data);
     return(
         <div className="w-full">
@@ -32,9 +62,9 @@ const Page = () => {
                                 <h2 className="text-xl font-semibold mt-2 leading-none mt-[-5px]">{container.Names[0]}</h2>
                             </div>
                             <div className="flex gap-1">
-                                <Button variant="outline" size="sm" className="cursor-pointer"><Play className="text-green-500" /></Button>
-                                <Button variant="outline" size="sm" className="cursor-pointer"><Pause className="text-yellow-500"/></Button>
-                                <Button variant="outline" size="sm" className="cursor-pointer"><StopCircle className="text-red-500" /></Button>
+                                <Button variant="outline" size="sm" className="cursor-pointer" onClick={() => handleStart(container.Id)}><Play className="text-green-500" /></Button>
+                                <Button variant="outline" size="sm" className="cursor-pointer" onClick={() => handlePause(container.Id)}><Pause className="text-yellow-500"/></Button>
+                                <Button variant="outline" size="sm" className="cursor-pointer" onClick={() => handleStop(container.Id)}><StopCircle className="text-red-500" /></Button>
                             </div>
                         </div>
                         <div>
