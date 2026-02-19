@@ -1,0 +1,284 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (c) 2024-2026 usulnet contributors
+// https://github.com/fr4nsys/usulnet
+
+// Package web provides the web UI layer for USULNET.
+package web
+
+import (
+	"context"
+	"errors"
+
+	"github.com/google/uuid"
+
+	"github.com/fr4nsys/usulnet/internal/docker"
+	giteapkg "github.com/fr4nsys/usulnet/internal/integrations/gitea"
+	"github.com/fr4nsys/usulnet/internal/integrations/npm"
+	"github.com/fr4nsys/usulnet/internal/pkg/crypto"
+	"github.com/fr4nsys/usulnet/internal/repository/postgres"
+	"github.com/fr4nsys/usulnet/internal/scheduler"
+	authsvc "github.com/fr4nsys/usulnet/internal/services/auth"
+	backupsvc "github.com/fr4nsys/usulnet/internal/services/backup"
+	configsvc "github.com/fr4nsys/usulnet/internal/services/config"
+	containersvc "github.com/fr4nsys/usulnet/internal/services/container"
+	gitsvc "github.com/fr4nsys/usulnet/internal/services/git"
+	hostsvc "github.com/fr4nsys/usulnet/internal/services/host"
+	imagesvc "github.com/fr4nsys/usulnet/internal/services/image"
+	"github.com/fr4nsys/usulnet/internal/services/monitoring"
+	networksvc "github.com/fr4nsys/usulnet/internal/services/network"
+	proxysvc "github.com/fr4nsys/usulnet/internal/services/proxy"
+	securitysvc "github.com/fr4nsys/usulnet/internal/services/security"
+	sshsvc "github.com/fr4nsys/usulnet/internal/services/ssh"
+	stacksvc "github.com/fr4nsys/usulnet/internal/services/stack"
+	storagesvc "github.com/fr4nsys/usulnet/internal/services/storage"
+	teamsvc "github.com/fr4nsys/usulnet/internal/services/team"
+	updatesvc "github.com/fr4nsys/usulnet/internal/services/update"
+	volumesvc "github.com/fr4nsys/usulnet/internal/services/volume"
+)
+
+// ErrServiceNotConfigured is returned when an operation is attempted on a service that is not configured.
+var ErrServiceNotConfigured = errors.New("service not configured")
+
+// ServiceRegistry holds all backend services and provides adapted interfaces for the web layer.
+type ServiceRegistry struct {
+	// Backend services
+	containerSvc *containersvc.Service
+	imageSvc     *imagesvc.Service
+	volumeSvc    *volumesvc.Service
+	networkSvc   *networksvc.Service
+	stackSvc     *stacksvc.Service
+	backupSvc    *backupsvc.Service
+	configSvc    *configsvc.Service
+	securitySvc  *securitysvc.Service
+	updateSvc    *updatesvc.Service
+	hostSvc      *hostsvc.Service
+	authSvc      *authsvc.Service
+	npmSvc       *npm.Service
+	proxySvc     *proxysvc.Service
+	storageSvc   *storagesvc.Service
+	teamSvc      *teamsvc.Service
+	giteaSvc     *giteapkg.Service
+	gitSvc       *gitsvc.Service
+	sshSvc       *sshsvc.Service
+	metricsSvc   MetricsServiceFull
+	alertSvc     *monitoring.AlertService
+	schedulerSvc *scheduler.Scheduler
+
+	// User repository for user management
+	userRepo *postgres.UserRepository
+
+	// Encryptor for TOTP secrets
+	encryptor *crypto.AESEncryptor
+
+	// Session store for auth validation
+	sessionStore *WebSessionStore
+
+	// Docker client for events
+	dockerClient docker.ClientAPI
+
+	// Default host ID for standalone mode
+	defaultHostID uuid.UUID
+}
+
+// ServiceRegistryDeps holds all dependencies for ServiceRegistry constructor injection.
+// Optional fields (nil-safe) can be left nil if the corresponding feature is disabled.
+type ServiceRegistryDeps struct {
+	DefaultHostID    uuid.UUID
+	ContainerService *containersvc.Service
+	ImageService     *imagesvc.Service
+	VolumeService    *volumesvc.Service
+	NetworkService   *networksvc.Service
+	StackService     *stacksvc.Service
+	BackupService    *backupsvc.Service
+	ConfigService    *configsvc.Service
+	SecurityService  *securitysvc.Service
+	UpdateService    *updatesvc.Service
+	HostService      *hostsvc.Service
+	AuthService      *authsvc.Service
+	NPMService       *npm.Service        // Optional: requires npm.enabled
+	ProxyService     *proxysvc.Service    // Optional: requires caddy.enabled
+	StorageService   *storagesvc.Service  // Optional: requires minio.enabled
+	TeamService      *teamsvc.Service
+	GiteaService     *giteapkg.Service    // Optional: requires Gitea integration
+	GitService       *gitsvc.Service      // Optional: requires Git integration
+	SSHService       *sshsvc.Service      // Optional: requires SSH service
+	MetricsService   MetricsServiceFull
+	AlertService     *monitoring.AlertService
+	SchedulerService *scheduler.Scheduler // Optional: set after scheduler init
+	UserRepository   *postgres.UserRepository
+	Encryptor        *crypto.AESEncryptor // Optional: requires encryption key
+	SessionStore     *WebSessionStore     // Optional: requires Redis
+	DockerClient     docker.ClientAPI     // Optional: set after Docker init
+}
+
+// NewServiceRegistry creates a new service registry with all dependencies injected.
+func NewServiceRegistry(deps ServiceRegistryDeps) *ServiceRegistry {
+	return &ServiceRegistry{
+		defaultHostID: deps.DefaultHostID,
+		containerSvc:  deps.ContainerService,
+		imageSvc:      deps.ImageService,
+		volumeSvc:     deps.VolumeService,
+		networkSvc:    deps.NetworkService,
+		stackSvc:      deps.StackService,
+		backupSvc:     deps.BackupService,
+		configSvc:     deps.ConfigService,
+		securitySvc:   deps.SecurityService,
+		updateSvc:     deps.UpdateService,
+		hostSvc:       deps.HostService,
+		authSvc:       deps.AuthService,
+		npmSvc:        deps.NPMService,
+		proxySvc:      deps.ProxyService,
+		storageSvc:    deps.StorageService,
+		teamSvc:       deps.TeamService,
+		giteaSvc:      deps.GiteaService,
+		gitSvc:        deps.GitService,
+		sshSvc:        deps.SSHService,
+		metricsSvc:    deps.MetricsService,
+		alertSvc:      deps.AlertService,
+		schedulerSvc:  deps.SchedulerService,
+		userRepo:      deps.UserRepository,
+		encryptor:     deps.Encryptor,
+		sessionStore:  deps.SessionStore,
+		dockerClient:  deps.DockerClient,
+	}
+}
+
+// resolveHostID extracts the active host ID from context, falling back to the default.
+// This enables all service adapters to route operations to the host selected by the user.
+func resolveHostID(ctx context.Context, defaultID uuid.UUID) uuid.UUID {
+	activeHostID := GetActiveHostIDFromContext(ctx)
+	if activeHostID != "" {
+		if id, err := uuid.Parse(activeHostID); err == nil {
+			return id
+		}
+	}
+	return defaultID
+}
+
+// ============================================================================
+// Services interface implementation
+// ============================================================================
+
+func (r *ServiceRegistry) Containers() ContainerService {
+	return &containerAdapter{svc: r.containerSvc, hostID: r.defaultHostID}
+}
+
+func (r *ServiceRegistry) Images() ImageService {
+	return &imageAdapter{svc: r.imageSvc, hostID: r.defaultHostID}
+}
+
+func (r *ServiceRegistry) Volumes() VolumeService {
+	return &volumeAdapter{svc: r.volumeSvc, containerSvc: r.containerSvc, hostID: r.defaultHostID}
+}
+
+func (r *ServiceRegistry) Networks() NetworkService {
+	return &networkAdapter{svc: r.networkSvc, hostID: r.defaultHostID}
+}
+
+func (r *ServiceRegistry) Stacks() StackService {
+	return &stackAdapter{svc: r.stackSvc, hostID: r.defaultHostID}
+}
+
+func (r *ServiceRegistry) Backups() BackupService {
+	return &backupAdapter{svc: r.backupSvc, hostID: r.defaultHostID}
+}
+
+func (r *ServiceRegistry) Config() ConfigService {
+	return &configAdapter{svc: r.configSvc}
+}
+
+func (r *ServiceRegistry) Security() SecurityService {
+	return &securityAdapter{svc: r.securitySvc, hostSvc: r.hostSvc, containerSvc: r.containerSvc, hostID: r.defaultHostID}
+}
+
+func (r *ServiceRegistry) Updates() UpdateService {
+	return &updateAdapter{svc: r.updateSvc, hostID: r.defaultHostID}
+}
+
+func (r *ServiceRegistry) Hosts() HostService {
+	return &hostAdapter{svc: r.hostSvc, hostID: r.defaultHostID}
+}
+
+func (r *ServiceRegistry) Events() EventService {
+	return &eventAdapter{dockerClient: r.dockerClient}
+}
+
+func (r *ServiceRegistry) Proxy() ProxyService {
+	// Prefer Caddy-based proxy if configured
+	if r.proxySvc != nil {
+		return newCaddyProxyAdapter(r.proxySvc)
+	}
+	// Fallback to NPM adapter
+	return &proxyAdapter{npmSvc: r.npmSvc, hostID: r.defaultHostID}
+}
+
+func (r *ServiceRegistry) Storage() StorageService {
+	if r.storageSvc == nil {
+		return nil
+	}
+	return &storageAdapter{svc: r.storageSvc}
+}
+
+func (r *ServiceRegistry) Auth() AuthService {
+	return &authAdapter{svc: r.authSvc, sessionStore: r.sessionStore}
+}
+
+func (r *ServiceRegistry) Users() UserService {
+	return &userAdapter{repo: r.userRepo, authSvc: r.authSvc, encryptor: r.encryptor}
+}
+
+func (r *ServiceRegistry) Stats() StatsService {
+	return &statsAdapter{
+		containerSvc: r.containerSvc,
+		imageSvc:     r.imageSvc,
+		volumeSvc:    r.volumeSvc,
+		networkSvc:   r.networkSvc,
+		stackSvc:     r.stackSvc,
+		securitySvc:  r.securitySvc,
+		hostSvc:      r.hostSvc,
+		hostID:       r.defaultHostID,
+	}
+}
+
+func (r *ServiceRegistry) Teams() TeamService {
+	return r.teamSvc
+}
+
+// Gitea returns the Gitea integration service, or nil if not configured.
+func (r *ServiceRegistry) Gitea() GiteaService {
+	if r.giteaSvc == nil {
+		return nil
+	}
+	return r.giteaSvc
+}
+
+// Git returns the unified Git service, or nil if not configured.
+func (r *ServiceRegistry) Git() GitService {
+	if r.gitSvc == nil {
+		return nil
+	}
+	return r.gitSvc
+}
+
+// Metrics returns the metrics service, or nil if not configured.
+func (r *ServiceRegistry) Metrics() MetricsServiceFull {
+	return r.metricsSvc
+}
+
+// SSH returns the SSH service, or nil if not configured.
+func (r *ServiceRegistry) SSH() *sshsvc.Service {
+	return r.sshSvc
+}
+
+// Alerts returns the alert monitoring service, or nil if not configured.
+func (r *ServiceRegistry) Alerts() AlertsService {
+	if r.alertSvc == nil {
+		return nil
+	}
+	return r.alertSvc
+}
+
+// Scheduler returns the scheduler service, or nil if not configured.
+func (r *ServiceRegistry) Scheduler() *scheduler.Scheduler {
+	return r.schedulerSvc
+}
