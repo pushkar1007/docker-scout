@@ -358,7 +358,7 @@ func (s *SlackChannel) getPriorityEmoji(priority Priority) string {
 	case PriorityCritical:
 		return ":red_circle:"
 	case PriorityHigh:
-		return ":large_orange_circle:"
+		return ":large_blue_circle:"
 	case PriorityNormal:
 		return ":large_blue_circle:"
 	default:

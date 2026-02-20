@@ -1122,7 +1122,7 @@ func gradeClass(grade string) string {
 	case "C":
 		return "bg-yellow-500/20 text-yellow-400"
 	case "D":
-		return "bg-orange-500/20 text-orange-400"
+		return "bg-blue-500/20 bg-white-400"
 	default:
 		return "bg-red-500/20 text-red-400"
 	}

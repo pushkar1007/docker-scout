@@ -441,7 +441,7 @@ func catalogNginxProxyManager() CatalogApp {
 		Name:        "Nginx Proxy Manager",
 		Description: "Reverse proxy management UI with free SSL certificates. Easy to use, with Let's Encrypt support.",
 		Icon:        "fa-shield-alt",
-		IconColor:   "text-orange-400 bg-orange-500/10",
+		IconColor:   "bg-white-400 bg-blue-500/10",
 		Category:    "Networking",
 		Version:     "latest",
 		Website:     "https://nginxproxymanager.com",

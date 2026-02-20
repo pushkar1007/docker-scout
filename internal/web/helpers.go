@@ -165,7 +165,7 @@ func (h *TemplateHelpers) GradeColor(grade string) string {
 	case "C":
 		return "text-yellow-400 bg-yellow-500/10"
 	case "D":
-		return "text-orange-400 bg-orange-500/10"
+		return "bg-white-400 bg-blue-500/10"
 	case "F":
 		return "text-red-400 bg-red-500/10"
 	default:
@@ -179,7 +179,7 @@ func (h *TemplateHelpers) SeverityColor(severity string) string {
 	case "critical":
 		return "text-red-500 bg-red-500/10 border-red-500/20"
 	case "high":
-		return "text-orange-400 bg-orange-500/10 border-orange-500/20"
+		return "bg-white-400 bg-blue-500/10 border-blue-500/20"
 	case "medium":
 		return "text-yellow-400 bg-yellow-500/10 border-yellow-500/20"
 	case "low":

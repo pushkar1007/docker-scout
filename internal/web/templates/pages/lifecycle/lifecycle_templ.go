@@ -902,7 +902,7 @@ func resourceBadge(resourceType string) templ.Component {
 				return templ_7745c5c3_Err
 			}
 		case "network":
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 73, "<span class=\"px-2 py-0.5 text-xs bg-orange-500/20 text-orange-400 rounded\">Network</span>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 73, "<span class=\"px-2 py-0.5 text-xs bg-blue-500/20 bg-white-400 rounded\">Network</span>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -1047,7 +1047,7 @@ func policyIconBg(resourceType string) string {
 	case "volume":
 		return "bg-purple-500/20"
 	case "network":
-		return "bg-orange-500/20"
+		return "bg-blue-500/20"
 	default:
 		return "bg-gray-500/20"
 	}
@@ -1062,7 +1062,7 @@ func policyIconColor(resourceType string) string {
 	case "volume":
 		return "text-purple-400"
 	case "network":
-		return "text-orange-400"
+		return "bg-white-400"
 	default:
 		return "text-gray-400"
 	}

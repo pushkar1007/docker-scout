@@ -134,7 +134,7 @@ templ ContainerInspect(data ContainerInspectData) {
 						return json.replace(
 							/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g,
 							function (match) {
-								let cls = 'text-orange-300'; // number
+								let cls = 'text-blue-300'; // number
 								if (/^"/.test(match)) {
 									if (/:$/.test(match)) {
 										cls = 'text-blue-400'; // key

@@ -813,7 +813,7 @@ func deployStatus(status string) templ.Component {
 				return templ_7745c5c3_Err
 			}
 		case "rolled_back":
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 68, "<span class=\"px-2 py-0.5 text-xs bg-orange-500/20 text-orange-400 rounded flex items-center gap-1 w-fit\"><span class=\"w-1.5 h-1.5 rounded-full bg-orange-400\"></span>Rolled Back</span>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 68, "<span class=\"px-2 py-0.5 text-xs bg-blue-500/20 bg-white-400 rounded flex items-center gap-1 w-fit\"><span class=\"w-1.5 h-1.5 rounded-full bg-blue-400\"></span>Rolled Back</span>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -924,7 +924,7 @@ func providerBg(provider string) string {
 	case "github":
 		return "bg-gray-500/20"
 	case "gitlab":
-		return "bg-orange-500/20"
+		return "bg-blue-500/20"
 	case "gitea":
 		return "bg-green-500/20"
 	default:
@@ -937,7 +937,7 @@ func providerColor(provider string) string {
 	case "github":
 		return "text-gray-300"
 	case "gitlab":
-		return "text-orange-400"
+		return "bg-white-400"
 	case "gitea":
 		return "text-green-400"
 	default:

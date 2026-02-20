@@ -742,7 +742,7 @@ func permissionsTab(data TeamDetailData) templ.Component {
 				templ.KV("bg-purple-500/20 text-purple-400", p.ResourceType == "stack"),
 				templ.KV("bg-blue-500/20 text-blue-400", p.ResourceType == "container_group"),
 				templ.KV("bg-green-500/20 text-green-400", p.ResourceType == "gitea_connection"),
-				templ.KV("bg-orange-500/20 text-orange-400", p.ResourceType == "s3_connection"),
+				templ.KV("bg-blue-500/20 bg-white-400", p.ResourceType == "s3_connection"),
 				templ.KV("bg-cyan-500/20 text-cyan-400", p.ResourceType == "host"),
 				templ.KV("bg-yellow-500/20 text-yellow-400", p.ResourceType == "network"),
 				templ.KV("bg-pink-500/20 text-pink-400", p.ResourceType == "volume")}

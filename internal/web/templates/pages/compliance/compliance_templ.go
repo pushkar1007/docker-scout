@@ -795,7 +795,7 @@ func severityBadge(severity string) templ.Component {
 				return templ_7745c5c3_Err
 			}
 		case "high":
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 66, "<span class=\"px-2 py-0.5 text-xs bg-orange-500/20 text-orange-400 rounded\">High</span>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 66, "<span class=\"px-2 py-0.5 text-xs bg-blue-500/20 bg-white-400 rounded\">High</span>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

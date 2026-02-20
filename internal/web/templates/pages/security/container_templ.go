@@ -66,7 +66,7 @@ func severityColor(severity string) string {
 	case "critical":
 		return "text-red-500 bg-red-500/10 border-red-500/20"
 	case "high":
-		return "text-orange-400 bg-orange-500/10 border-orange-500/20"
+		return "bg-white-400 bg-blue-500/10 border-blue-500/20"
 	case "medium":
 		return "text-yellow-400 bg-yellow-500/10 border-yellow-500/20"
 	case "low":
@@ -264,7 +264,7 @@ func Container(data ContainerSecurityData) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 13, "</span></div><div class=\"flex items-center gap-2 p-2 rounded-lg bg-orange-500/5\"><span class=\"w-3 h-3 rounded-full bg-orange-500\"></span> <span class=\"text-sm text-gray-400\">High</span> <span class=\"text-sm font-bold text-orange-400 ml-auto\">")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 13, "</span></div><div class=\"flex items-center gap-2 p-2 rounded-lg bg-blue-500/5\"><span class=\"w-3 h-3 rounded-full bg-blue-500\"></span> <span class=\"text-sm text-gray-400\">High</span> <span class=\"text-sm font-bold bg-white-400 ml-auto\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -791,7 +791,7 @@ func gradeColorBorder(grade string) string {
 	case "C":
 		return "text-yellow-400 bg-yellow-500/10 border-yellow-500/30"
 	case "D":
-		return "text-orange-400 bg-orange-500/10 border-orange-500/30"
+		return "bg-white-400 bg-blue-500/10 border-blue-500/30"
 	default:
 		return "text-red-400 bg-red-500/10 border-red-500/30"
 	}
@@ -802,7 +802,7 @@ func cvssColor(score float64) string {
 	case score >= 9.0:
 		return "text-red-500 font-bold"
 	case score >= 7.0:
-		return "text-orange-400 font-bold"
+		return "bg-white-400 font-bold"
 	case score >= 4.0:
 		return "text-yellow-400"
 	default:

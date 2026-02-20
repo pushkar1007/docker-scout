@@ -735,7 +735,7 @@ func getObjectClassIcon(objectClasses []string) string {
 		case "domain", "domainDNS":
 			return "fas fa-globe text-indigo-400"
 		case "organization":
-			return "fas fa-building text-orange-400"
+			return "fas fa-building bg-white-400"
 		}
 	}
 	return "fas fa-circle text-gray-400"

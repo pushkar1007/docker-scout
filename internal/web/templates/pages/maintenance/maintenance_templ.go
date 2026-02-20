@@ -537,7 +537,7 @@ func windowCard(w MaintenanceWindowView, csrfToken string) templ.Component {
 			}
 		}
 		if w.Actions.PruneVolumes {
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 44, "<span class=\"px-2 py-0.5 text-xs bg-orange-500/10 text-orange-400 rounded\">Prune Volumes</span> ")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 44, "<span class=\"px-2 py-0.5 text-xs bg-blue-500/10 bg-white-400 rounded\">Prune Volumes</span> ")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

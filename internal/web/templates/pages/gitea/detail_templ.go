@@ -1151,7 +1151,7 @@ func fileIcon(name string) string {
 	case "py":
 		return "fa-file-code text-green-400"
 	case "rs":
-		return "fa-file-code text-orange-400"
+		return "fa-file-code bg-white-400"
 	case "md", "txt", "rst":
 		return "fa-file-alt text-gray-400"
 	case "json", "yaml", "yml", "toml":
@@ -1665,7 +1665,7 @@ func tier1Modals(data RepoDetailData) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 129, "\" class=\"w-full px-3 py-2 bg-gray-900 border border-red-600/50 rounded-lg text-white focus:border-red-500 focus:ring-1 focus:ring-red-500\"></div><div class=\"flex justify-end gap-3 pt-2\"><button type=\"button\" onclick=\"closeModal('delete-repo-modal')\" class=\"btn-ghost\">Cancel</button> <button type=\"submit\" class=\"bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg transition-colors\">Delete Repository</button></div></form></div></div><!-- Commit Detail Modal --><div id=\"commit-detail-modal\" class=\"fixed inset-0 bg-black/60 z-50 hidden items-center justify-center\"><div class=\"bg-gray-800 rounded-xl border border-gray-700 p-6 w-full max-w-2xl mx-4 max-h-[90vh] overflow-y-auto\"><div class=\"flex items-center justify-between mb-4\"><h3 class=\"text-lg font-semibold text-white\"><i class=\"fas fa-code-commit mr-2 text-orange-400\"></i> <span id=\"commit-sha-title\"></span></h3><button onclick=\"closeModal('commit-detail-modal')\" class=\"text-gray-400 hover:text-white\"><i class=\"fas fa-times\"></i></button></div><div id=\"commit-detail-content\"><div class=\"animate-pulse\"><div class=\"h-4 bg-gray-700 rounded w-3/4 mb-2\"></div><div class=\"h-4 bg-gray-700 rounded w-1/2\"></div></div></div></div></div>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 129, "\" class=\"w-full px-3 py-2 bg-gray-900 border border-red-600/50 rounded-lg text-white focus:border-red-500 focus:ring-1 focus:ring-red-500\"></div><div class=\"flex justify-end gap-3 pt-2\"><button type=\"button\" onclick=\"closeModal('delete-repo-modal')\" class=\"btn-ghost\">Cancel</button> <button type=\"submit\" class=\"bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg transition-colors\">Delete Repository</button></div></form></div></div><!-- Commit Detail Modal --><div id=\"commit-detail-modal\" class=\"fixed inset-0 bg-black/60 z-50 hidden items-center justify-center\"><div class=\"bg-gray-800 rounded-xl border border-gray-700 p-6 w-full max-w-2xl mx-4 max-h-[90vh] overflow-y-auto\"><div class=\"flex items-center justify-between mb-4\"><h3 class=\"text-lg font-semibold text-white\"><i class=\"fas fa-code-commit mr-2 bg-white-400\"></i> <span id=\"commit-sha-title\"></span></h3><button onclick=\"closeModal('commit-detail-modal')\" class=\"text-gray-400 hover:text-white\"><i class=\"fas fa-times\"></i></button></div><div id=\"commit-detail-content\"><div class=\"animate-pulse\"><div class=\"h-4 bg-gray-700 rounded w-3/4 mb-2\"></div><div class=\"h-4 bg-gray-700 rounded w-1/2\"></div></div></div></div></div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

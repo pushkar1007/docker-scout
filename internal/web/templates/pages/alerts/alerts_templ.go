@@ -206,7 +206,7 @@ func List(data AlertsData) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 7, "</div><div class=\"text-sm text-gray-400\">Firing</div></div><div class=\"card p-4\"><div class=\"text-2xl font-bold text-orange-400\">")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 7, "</div><div class=\"text-sm text-gray-400\">Firing</div></div><div class=\"card p-4\"><div class=\"text-2xl font-bold bg-white-400\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -551,7 +551,7 @@ func rulesTab(data AlertsData) templ.Component {
 			}
 			var templ_7745c5c3_Var30 = []any{"badge text-xs",
 				templ.KV("bg-red-500/20 text-red-400", rule.Severity == "critical"),
-				templ.KV("bg-orange-500/20 text-orange-400", rule.Severity == "warning"),
+				templ.KV("bg-blue-500/20 bg-white-400", rule.Severity == "warning"),
 				templ.KV("bg-blue-500/20 text-blue-400", rule.Severity == "info")}
 			templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var30...)
 			if templ_7745c5c3_Err != nil {
@@ -855,7 +855,7 @@ func eventsTab(data AlertsData) templ.Component {
 			}
 			var templ_7745c5c3_Var45 = []any{"badge text-xs",
 				templ.KV("bg-red-500/20 text-red-400", event.Severity == "critical"),
-				templ.KV("bg-orange-500/20 text-orange-400", event.Severity == "warning"),
+				templ.KV("bg-blue-500/20 bg-white-400", event.Severity == "warning"),
 				templ.KV("bg-blue-500/20 text-blue-400", event.Severity == "info")}
 			templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var45...)
 			if templ_7745c5c3_Err != nil {

@@ -675,7 +675,7 @@ func patternsTab(data LogManagementData) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 45, "</div><div class=\"text-sm text-gray-400\">Exceptions</div></div><div class=\"card p-4 border-l-4 border-orange-500\"><div class=\"text-xl font-bold text-orange-400\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 45, "</div><div class=\"text-sm text-gray-400\">Exceptions</div></div><div class=\"card p-4 border-l-4 border-blue-500\"><div class=\"text-xl font-bold bg-white-400\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -1262,7 +1262,7 @@ func patternTypeBadge(t string) string {
 	case "exception", "panic", "fatal":
 		return "bg-red-500/20 text-red-400"
 	case "timeout", "connection":
-		return "bg-orange-500/20 text-orange-400"
+		return "bg-blue-500/20 bg-white-400"
 	case "oom", "segfault":
 		return "bg-purple-500/20 text-purple-400"
 	default:

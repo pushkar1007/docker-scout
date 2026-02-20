@@ -602,7 +602,7 @@ func policiesTab(data UpdatesData) templ.Component {
 					}
 				}
 				if policy.IncludePrerelease {
-					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 53, "<span class=\"bg-orange-500/10 text-orange-400 px-2 py-0.5 rounded-full\">Pre-release</span>")
+					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 53, "<span class=\"bg-blue-500/10 bg-white-400 px-2 py-0.5 rounded-full\">Pre-release</span>")
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
@@ -950,7 +950,7 @@ func historyTab(data UpdatesData) templ.Component {
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
-					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 88, "\"> <button type=\"submit\" onclick=\"return confirm('Roll back this update? The previous version will be restored from backup.')\" class=\"text-sm text-orange-400 hover:text-orange-300\" title=\"Rollback to previous version\"><i class=\"fas fa-undo mr-1\"></i>Rollback</button></form>")
+					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 88, "\"> <button type=\"submit\" onclick=\"return confirm('Roll back this update? The previous version will be restored from backup.')\" class=\"text-sm bg-white-400 hover:text-blue-300\" title=\"Rollback to previous version\"><i class=\"fas fa-undo mr-1\"></i>Rollback</button></form>")
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}

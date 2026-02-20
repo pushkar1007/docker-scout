@@ -103,7 +103,7 @@ templ Dependencies(data DependencyData) {
 				@depStat("Images", data.Stats.TotalImages, "fas fa-layer-group", "cyan")
 				@depStat("Isolated", data.Stats.IsolatedContainers, "fas fa-unlink", "yellow")
 				@depStat("Shared Nets", data.Stats.SharedNetworks, "fas fa-share-alt", "primary")
-				@depStat("Shared Vols", data.Stats.SharedVolumes, "fas fa-clone", "orange")
+				@depStat("Shared Vols", data.Stats.SharedVolumes, "fas fa-clone", "blue")
 				@depStat("Orphaned", data.Stats.OrphanedVolumes + data.Stats.OrphanedImages, "fas fa-ghost", "red")
 			</div>
 
@@ -524,8 +524,8 @@ func depColor(color string) string {
 		return "text-yellow-400"
 	case "primary":
 		return "text-primary-400"
-	case "orange":
-		return "text-orange-400"
+	case "white":
+		return "bg-white-400"
 	case "red":
 		return "text-red-400"
 	default:

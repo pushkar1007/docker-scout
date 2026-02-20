@@ -149,7 +149,7 @@ func Dependencies(data DependencyData) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = depStat("Shared Vols", data.Stats.SharedVolumes, "fas fa-clone", "orange").Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = depStat("Shared Vols", data.Stats.SharedVolumes, "fas fa-clone", "blue").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -1456,8 +1456,8 @@ func depColor(color string) string {
 		return "text-yellow-400"
 	case "primary":
 		return "text-primary-400"
-	case "orange":
-		return "text-orange-400"
+	case "blue":
+		return "bg-white-400"
 	case "red":
 		return "text-red-400"
 	default:

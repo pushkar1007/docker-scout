@@ -409,7 +409,7 @@ templ resourceBadge(resourceType string) {
 		case "volume":
 			<span class="px-2 py-0.5 text-xs bg-purple-500/20 text-purple-400 rounded">Volume</span>
 		case "network":
-			<span class="px-2 py-0.5 text-xs bg-orange-500/20 text-orange-400 rounded">Network</span>
+			<span class="px-2 py-0.5 text-xs bg-blue-500/20 bg-white-400 rounded">Network</span>
 		default:
 			<span class="px-2 py-0.5 text-xs bg-gray-500/20 text-gray-400 rounded">{ resourceType }</span>
 	}
@@ -486,7 +486,7 @@ func policyIconBg(resourceType string) string {
 	case "volume":
 		return "bg-purple-500/20"
 	case "network":
-		return "bg-orange-500/20"
+		return "bg-blue-500/20"
 	default:
 		return "bg-gray-500/20"
 	}
@@ -501,7 +501,7 @@ func policyIconColor(resourceType string) string {
 	case "volume":
 		return "text-purple-400"
 	case "network":
-		return "text-orange-400"
+		return "bg-white-400"
 	default:
 		return "text-gray-400"
 	}

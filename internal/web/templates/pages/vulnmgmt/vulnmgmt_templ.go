@@ -129,7 +129,7 @@ func VulnManagement(data VulnMgmtData) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = vulnStat("High", fmt.Sprintf("%d", data.Stats.HighVulns), "fas fa-exclamation-circle", "orange").Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = vulnStat("High", fmt.Sprintf("%d", data.Stats.HighVulns), "fas fa-exclamation-circle", "blue").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -314,7 +314,7 @@ func VulnManagement(data VulnMgmtData) templ.Component {
 						return templ_7745c5c3_Err
 					}
 					if c.HighCount > 0 {
-						templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 23, "<span class=\"px-2 py-0.5 text-xs bg-orange-500/20 text-orange-400 rounded\">")
+						templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 23, "<span class=\"px-2 py-0.5 text-xs bg-blue-500/20 bg-white-400 rounded\">")
 						if templ_7745c5c3_Err != nil {
 							return templ_7745c5c3_Err
 						}
@@ -960,7 +960,7 @@ func vulnSeverity(severity string) templ.Component {
 				return templ_7745c5c3_Err
 			}
 		case "high":
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 84, "<span class=\"px-2 py-0.5 text-xs bg-orange-500/20 text-orange-400 rounded\">High</span>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 84, "<span class=\"px-2 py-0.5 text-xs bg-blue-500/20 bg-white-400 rounded\">High</span>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -1025,7 +1025,7 @@ func vulnPriority(priority string) templ.Component {
 				return templ_7745c5c3_Err
 			}
 		case "p1":
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 90, "<span class=\"px-2 py-0.5 text-xs bg-orange-500/20 text-orange-300 rounded\">P1</span>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 90, "<span class=\"px-2 py-0.5 text-xs bg-blue-500/20 text-blue-300 rounded\">P1</span>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -1142,7 +1142,7 @@ func riskBadge(risk string) templ.Component {
 				return templ_7745c5c3_Err
 			}
 		case "high":
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 101, "<span class=\"px-2 py-0.5 text-xs bg-orange-500/20 text-orange-400 rounded\">High</span>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 101, "<span class=\"px-2 py-0.5 text-xs bg-blue-500/20 bg-white-400 rounded\">High</span>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -1196,8 +1196,8 @@ func vulnStatColor(color string) string {
 		return "text-blue-400"
 	case "red":
 		return "text-red-400"
-	case "orange":
-		return "text-orange-400"
+	case "blue":
+		return "bg-white-400"
 	case "yellow":
 		return "text-yellow-400"
 	case "cyan":
@@ -1234,7 +1234,7 @@ func vulnSevBg(severity string) string {
 	case "critical":
 		return "bg-red-500/20"
 	case "high":
-		return "bg-orange-500/20"
+		return "bg-blue-500/20"
 	case "medium":
 		return "bg-yellow-500/20"
 	case "low":
@@ -1249,7 +1249,7 @@ func vulnSevColor(severity string) string {
 	case "critical":
 		return "text-red-400"
 	case "high":
-		return "text-orange-400"
+		return "bg-white-400"
 	case "medium":
 		return "text-yellow-400"
 	case "low":

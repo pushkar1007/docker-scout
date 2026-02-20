@@ -374,7 +374,7 @@ func TestAuditActionColor(t *testing.T) {
 		{"update", "text-yellow-400"},
 		{"delete", "text-red-400"},
 		{"start", "text-green-400"},
-		{"stop", "text-orange-400"},
+		{"stop", "bg-white-400"},
 		{"restart", "text-cyan-400"},
 		{"security_scan", "text-purple-400"},
 		{"unknown", "text-gray-400"},

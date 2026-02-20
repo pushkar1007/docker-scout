@@ -741,7 +741,7 @@ func categoryBg(category string) string {
 	case "devtools":
 		return "bg-cyan-500/20"
 	case "storage":
-		return "bg-orange-500/20"
+		return "bg-blue-500/20"
 	case "messaging":
 		return "bg-pink-500/20"
 	default:
@@ -762,7 +762,7 @@ func categoryColor(category string) string {
 	case "devtools":
 		return "text-cyan-400"
 	case "storage":
-		return "text-orange-400"
+		return "bg-white-400"
 	case "messaging":
 		return "text-pink-400"
 	default:

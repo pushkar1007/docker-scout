@@ -63,7 +63,7 @@ func gradeColor(grade string) string {
 	case "C":
 		return "text-yellow-400 bg-yellow-500/10"
 	case "D":
-		return "text-orange-400 bg-orange-500/10"
+		return "bg-white-400 bg-blue-500/10"
 	default:
 		return "text-red-400 bg-red-500/10"
 	}
@@ -147,7 +147,7 @@ func List(data SecurityData) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, "</div></div><div class=\"card p-4\"><div class=\"flex items-center gap-2 mb-1\"><i class=\"fas fa-exclamation-triangle text-orange-400 text-sm\"></i> <span class=\"text-xs text-gray-500 uppercase tracking-wider\">High</span></div><div class=\"text-3xl font-bold text-orange-400\">")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, "</div></div><div class=\"card p-4\"><div class=\"flex items-center gap-2 mb-1\"><i class=\"fas fa-exclamation-triangle bg-white-400 text-sm\"></i> <span class=\"text-xs text-gray-500 uppercase tracking-wider\">High</span></div><div class=\"text-3xl font-bold bg-white-400\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -331,7 +331,7 @@ func List(data SecurityData) templ.Component {
 					}
 				}
 				if data.Overview.GradeD > 0 {
-					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 23, "<div class=\"bg-orange-500 rounded flex items-center justify-center text-xs font-bold text-white\" style=\"")
+					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 23, "<div class=\"bg-blue-500 rounded flex items-center justify-center text-xs font-bold text-white\" style=\"")
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
@@ -459,7 +459,7 @@ func List(data SecurityData) templ.Component {
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 34, ")</span> <span class=\"flex items-center gap-1\"><span class=\"w-2 h-2 rounded-full bg-orange-500 inline-block\"></span> D (")
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 34, ")</span> <span class=\"flex items-center gap-1\"><span class=\"w-2 h-2 rounded-full bg-blue-500 inline-block\"></span> D (")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
@@ -526,7 +526,7 @@ func List(data SecurityData) templ.Component {
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 41, "</div></div></div><div class=\"flex items-center gap-3\"><span class=\"text-xs text-gray-400 w-16\">High</span><div class=\"flex-1 h-6 bg-dark-900 rounded overflow-hidden\"><div class=\"h-full bg-orange-500 rounded flex items-center justify-center text-xs font-bold text-white\" style=\"")
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 41, "</div></div></div><div class=\"flex items-center gap-3\"><span class=\"text-xs text-gray-400 w-16\">High</span><div class=\"flex-1 h-6 bg-dark-900 rounded overflow-hidden\"><div class=\"h-full bg-blue-500 rounded flex items-center justify-center text-xs font-bold text-white\" style=\"")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
@@ -1001,7 +1001,7 @@ func scoreTextColor(score int) string {
 	case score >= 40:
 		return "text-yellow-400"
 	case score >= 20:
-		return "text-orange-400"
+		return "bg-white-400"
 	default:
 		return "text-red-400"
 	}

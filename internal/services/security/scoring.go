@@ -350,7 +350,7 @@ func GetGradeColor(grade models.SecurityGrade) string {
 	case models.SecurityGradeC:
 		return "#eab308" // yellow-500
 	case models.SecurityGradeD:
-		return "#f97316" // orange-500
+		return "#0000FF" // blue-500
 	case models.SecurityGradeF:
 		return "#ef4444" // red-500
 	default:
@@ -364,7 +364,7 @@ func GetSeverityColor(severity models.IssueSeverity) string {
 	case models.IssueSeverityCritical:
 		return "#dc2626" // red-600
 	case models.IssueSeverityHigh:
-		return "#ea580c" // orange-600
+		return "#ea580c" // blue-600
 	case models.IssueSeverityMedium:
 		return "#ca8a04" // yellow-600
 	case models.IssueSeverityLow:

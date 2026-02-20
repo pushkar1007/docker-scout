@@ -55,7 +55,7 @@ func gradeColor(grade string) string {
 	case "C":
 		return "text-yellow-400 bg-yellow-500/10"
 	case "D":
-		return "text-orange-400 bg-orange-500/10"
+		return "bg-white-400 bg-blue-500/10"
 	default:
 		return "text-red-400 bg-red-500/10"
 	}
@@ -156,10 +156,10 @@ templ List(data SecurityData) {
 				</div>
 				<div class="card p-4">
 					<div class="flex items-center gap-2 mb-1">
-						<i class="fas fa-exclamation-triangle text-orange-400 text-sm"></i>
+						<i class="fas fa-exclamation-triangle bg-white-400 text-sm"></i>
 						<span class="text-xs text-gray-500 uppercase tracking-wider">High</span>
 					</div>
-					<div class="text-3xl font-bold text-orange-400">{ fmt.Sprintf("%d", data.Overview.HighIssues) }</div>
+					<div class="text-3xl font-bold bg-white-400">{ fmt.Sprintf("%d", data.Overview.HighIssues) }</div>
 				</div>
 				<div class="card p-4">
 					<div class="flex items-center gap-2 mb-1">
@@ -200,7 +200,7 @@ templ List(data SecurityData) {
 								</div>
 							}
 							if data.Overview.GradeD > 0 {
-								<div class="bg-orange-500 rounded flex items-center justify-center text-xs font-bold text-white" style={ fmt.Sprintf("width: %d%%", maxInt(data.Overview.GradeD*100/data.Overview.TotalContainers, 10)) } title={ fmt.Sprintf("D: %d", data.Overview.GradeD) }>
+								<div class="bg-blue-500 rounded flex items-center justify-center text-xs font-bold text-white" style={ fmt.Sprintf("width: %d%%", maxInt(data.Overview.GradeD*100/data.Overview.TotalContainers, 10)) } title={ fmt.Sprintf("D: %d", data.Overview.GradeD) }>
 									{ fmt.Sprintf("%d", data.Overview.GradeD) }
 								</div>
 							}
@@ -214,7 +214,7 @@ templ List(data SecurityData) {
 							<span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-green-500 inline-block"></span> A ({ fmt.Sprintf("%d", data.Overview.GradeA) })</span>
 							<span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-blue-500 inline-block"></span> B ({ fmt.Sprintf("%d", data.Overview.GradeB) })</span>
 							<span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-yellow-500 inline-block"></span> C ({ fmt.Sprintf("%d", data.Overview.GradeC) })</span>
-							<span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-orange-500 inline-block"></span> D ({ fmt.Sprintf("%d", data.Overview.GradeD) })</span>
+							<span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-blue-500 inline-block"></span> D ({ fmt.Sprintf("%d", data.Overview.GradeD) })</span>
 							<span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-red-500 inline-block"></span> F ({ fmt.Sprintf("%d", data.Overview.GradeF) })</span>
 						</div>
 					} else {
@@ -241,7 +241,7 @@ templ List(data SecurityData) {
 							<div class="flex items-center gap-3">
 								<span class="text-xs text-gray-400 w-16">High</span>
 								<div class="flex-1 h-6 bg-dark-900 rounded overflow-hidden">
-									<div class="h-full bg-orange-500 rounded flex items-center justify-center text-xs font-bold text-white" style={ fmt.Sprintf("width: %d%%", maxInt(data.Overview.HighIssues*100/totalIssues(data.Overview), 8)) }>
+									<div class="h-full bg-blue-500 rounded flex items-center justify-center text-xs font-bold text-white" style={ fmt.Sprintf("width: %d%%", maxInt(data.Overview.HighIssues*100/totalIssues(data.Overview), 8)) }>
 										{ fmt.Sprintf("%d", data.Overview.HighIssues) }
 									</div>
 								</div>
@@ -415,7 +415,7 @@ func scoreTextColor(score int) string {
 	case score >= 40:
 		return "text-yellow-400"
 	case score >= 20:
-		return "text-orange-400"
+		return "bg-white-400"
 	default:
 		return "text-red-400"
 	}

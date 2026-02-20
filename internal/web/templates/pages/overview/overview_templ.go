@@ -701,7 +701,7 @@ func gradeColor(grade string) string {
 	case "C":
 		return "text-yellow-400"
 	case "D":
-		return "text-orange-400"
+		return "bg-white-400"
 	default:
 		return "text-red-400"
 	}

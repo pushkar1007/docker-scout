@@ -112,7 +112,7 @@ templ BulkOps(data BulkOpsData) {
 						<button @click="bulkAction('start')" :disabled="selected.length === 0" class="px-3 py-1.5 bg-green-600 hover:bg-green-700 disabled:bg-dark-600 disabled:text-gray-500 text-white text-sm rounded-lg transition-colors flex items-center gap-1.5">
 							<i class="fas fa-play text-xs"></i>Start
 						</button>
-						<button @click="bulkAction('stop')" :disabled="selected.length === 0" class="px-3 py-1.5 bg-orange-600 hover:bg-orange-700 disabled:bg-dark-600 disabled:text-gray-500 text-white text-sm rounded-lg transition-colors flex items-center gap-1.5">
+						<button @click="bulkAction('stop')" :disabled="selected.length === 0" class="px-3 py-1.5 bg-blue-600 hover:bg-blue-700 disabled:bg-dark-600 disabled:text-gray-500 text-white text-sm rounded-lg transition-colors flex items-center gap-1.5">
 							<i class="fas fa-stop text-xs"></i>Stop
 						</button>
 						<button @click="bulkAction('restart')" :disabled="selected.length === 0" class="px-3 py-1.5 bg-blue-600 hover:bg-blue-700 disabled:bg-dark-600 disabled:text-gray-500 text-white text-sm rounded-lg transition-colors flex items-center gap-1.5">

@@ -751,7 +751,7 @@ func Detail(data HostDetailData) templ.Component {
 				return templ_7745c5c3_Err
 			}
 			if len(data.Host.Runtimes) > 0 {
-				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 64, "<div class=\"card\"><div class=\"px-5 py-4 border-b border-dark-700\"><h2 class=\"text-lg font-semibold text-white flex items-center gap-2\"><i class=\"fas fa-cogs text-orange-400\"></i> Runtimes</h2></div><div class=\"p-5\"><div class=\"flex flex-wrap gap-2\">")
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 64, "<div class=\"card\"><div class=\"px-5 py-4 border-b border-dark-700\"><h2 class=\"text-lg font-semibold text-white flex items-center gap-2\"><i class=\"fas fa-cogs bg-white-400\"></i> Runtimes</h2></div><div class=\"p-5\"><div class=\"flex flex-wrap gap-2\">")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}

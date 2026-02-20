@@ -347,26 +347,26 @@ func RegisterFrontendRoutes(r chi.Router, h *Handler, m *Middleware) {
 			})
 		})
 
-		// Security
-		r.Route("/security", func(r chi.Router) {
-			// View - require security:view
-			r.Group(func(r chi.Router) {
-				r.Use(m.RequirePermission("security:view"))
-				r.Get("/", h.SecurityTempl)
-				r.Get("/trends", h.SecurityTrendsTempl)
-				r.Get("/report", h.SecurityReportTempl)
-				r.Get("/container/{id}", h.SecurityContainerTempl)
-			})
+		// // Security
+		// r.Route("/security", func(r chi.Router) {
+		// 	// View - require security:view
+		// 	r.Group(func(r chi.Router) {
+		// 		r.Use(m.RequirePermission("security:view"))
+		// 		r.Get("/", h.SecurityTempl)
+		// 		r.Get("/trends", h.SecurityTrendsTempl)
+		// 		r.Get("/report", h.SecurityReportTempl)
+		// 		r.Get("/container/{id}", h.SecurityContainerTempl)
+		// 	})
 
-			// Scan - require security:scan
-			r.Group(func(r chi.Router) {
-				r.Use(m.RequirePermission("security:scan"))
-				r.Post("/scan", h.SecurityScan)
-				r.Post("/scan/{id}", h.SecurityScanContainer)
-				r.Post("/issues/{id}/ignore", h.SecurityIssueIgnore)
-				r.Post("/issues/{id}/resolve", h.SecurityIssueResolve)
-			})
-		})
+		// 	// Scan - require security:scan
+		// 	r.Group(func(r chi.Router) {
+		// 		r.Use(m.RequirePermission("security:scan"))
+		// 		r.Post("/scan", h.SecurityScan)
+		// 		r.Post("/scan/{id}", h.SecurityScanContainer)
+		// 		r.Post("/issues/{id}/ignore", h.SecurityIssueIgnore)
+		// 		r.Post("/issues/{id}/resolve", h.SecurityIssueResolve)
+		// 	})
+		// })
 
 		// Updates & Auto-Update
 		r.Route("/updates", func(r chi.Router) {
@@ -393,71 +393,71 @@ func RegisterFrontendRoutes(r chi.Router, h *Handler, m *Middleware) {
 		})
 
 		// Backups
-		r.Route("/backups", func(r chi.Router) {
-			// View - require backup:view
-			r.Group(func(r chi.Router) {
-				r.Use(m.RequirePermission("backup:view"))
-				r.Get("/", h.BackupsTempl)
-				r.Get("/new", h.BackupNewTempl)
-				r.Get("/schedules", h.BackupSchedulesTempl)
-				r.Get("/{id}", h.BackupDetailTempl)
-				r.Get("/{id}/download", h.BackupDownload)
-			})
+		// r.Route("/backups", func(r chi.Router) {
+		// 	// View - require backup:view
+		// 	r.Group(func(r chi.Router) {
+		// 		r.Use(m.RequirePermission("backup:view"))
+		// 		r.Get("/", h.BackupsTempl)
+		// 		r.Get("/new", h.BackupNewTempl)
+		// 		r.Get("/schedules", h.BackupSchedulesTempl)
+		// 		r.Get("/{id}", h.BackupDetailTempl)
+		// 		r.Get("/{id}/download", h.BackupDownload)
+		// 	})
 
-			// Create - require backup:create
-			r.Group(func(r chi.Router) {
-				r.Use(m.RequirePermission("backup:create"))
-				r.Post("/create", h.BackupCreate)
-				r.Post("/{id}/delete", h.BackupRemove)
-				r.Post("/schedules", h.BackupScheduleCreate)
-				r.Post("/schedules/{id}/delete", h.BackupScheduleDelete)
-				r.Post("/schedules/{id}/run", h.BackupScheduleRun)
-			})
+		// 	// Create - require backup:create
+		// 	r.Group(func(r chi.Router) {
+		// 		r.Use(m.RequirePermission("backup:create"))
+		// 		r.Post("/create", h.BackupCreate)
+		// 		r.Post("/{id}/delete", h.BackupRemove)
+		// 		r.Post("/schedules", h.BackupScheduleCreate)
+		// 		r.Post("/schedules/{id}/delete", h.BackupScheduleDelete)
+		// 		r.Post("/schedules/{id}/run", h.BackupScheduleRun)
+		// 	})
 
-			// Restore - require backup:restore
-			r.Group(func(r chi.Router) {
-				r.Use(m.RequirePermission("backup:restore"))
-				r.Post("/{id}/restore", h.BackupRestore)
-			})
-		})
+		// 	// Restore - require backup:restore
+		// 	r.Group(func(r chi.Router) {
+		// 		r.Use(m.RequirePermission("backup:restore"))
+		// 		r.Post("/{id}/restore", h.BackupRestore)
+		// 	})
+		// })
 
 		// Config
-		r.Route("/config", func(r chi.Router) {
-			// View - require config:view
-			r.Group(func(r chi.Router) {
-				r.Use(m.RequirePermission("config:view"))
-				r.Get("/", h.ConfigTempl)
-				r.Get("/new", h.ConfigTempl)
-				r.Get("/variables/{id}", h.ConfigTempl)
-				r.Get("/audit", h.ConfigTempl)
-				r.Get("/templates", h.ConfigTempl)
-				r.Get("/templates/{id}", h.ConfigTempl)
-				r.Get("/export", h.ConfigExport)
-			})
+		// r.Route("/config", func(r chi.Router) {
+		// 	// View - require config:view
+		// 	r.Group(func(r chi.Router) {
+		// 		r.Use(m.RequirePermission("config:view"))
+		// 		r.Get("/", h.ConfigTempl)
+		// 		r.Get("/new", h.ConfigTempl)
+		// 		r.Get("/variables/{id}", h.ConfigTempl)
+		// 		r.Get("/audit", h.ConfigTempl)
+		// 		r.Get("/templates", h.ConfigTempl)
+		// 		r.Get("/templates/{id}", h.ConfigTempl)
+		// 		r.Get("/export", h.ConfigExport)
+		// 	})
 
-			// Create - require config:create
-			r.Group(func(r chi.Router) {
-				r.Use(m.RequirePermission("config:create"))
-				r.Post("/variables", h.ConfigVarCreate)
-				r.Post("/templates", h.ConfigTemplateCreate)
-				r.Post("/import", h.ConfigImport)
-			})
+		// 	// Create - require config:create
+		// 	r.Group(func(r chi.Router) {
+		// 		r.Use(m.RequirePermission("config:create"))
+		// 		r.Post("/variables", h.ConfigVarCreate)
+		// 		r.Post("/templates", h.ConfigTemplateCreate)
+		// 		r.Post("/import", h.ConfigImport)
+		// 	})
 
-			// Update - require config:update
-			r.Group(func(r chi.Router) {
-				r.Use(m.RequirePermission("config:update"))
-				r.Post("/variables/{id}", h.ConfigVarUpdate)
-				r.Post("/templates/{id}", h.ConfigTemplateUpdate)
-				r.Post("/sync/{id}", h.ConfigSync)
-			})
+		// 	// Update - require config:update
+		// 	r.Group(func(r chi.Router) {
+		// 		r.Use(m.RequirePermission("config:update"))
+		// 		r.Post("/variables/{id}", h.ConfigVarUpdate)
+		// 		r.Post("/templates/{id}", h.ConfigTemplateUpdate)
+		// 		r.Post("/sync/{id}", h.ConfigSync)
+		// 	})
 
-			// Remove - require config:remove
-			r.Group(func(r chi.Router) {
-				r.Use(m.RequirePermission("config:remove"))
-				r.Post("/variables/{id}/delete", h.ConfigVarDelete)
-				r.Delete("/variables/{id}", h.ConfigVarDelete)
-			})
-		})
+		// 	// Remove - require config:remove
+		// 	r.Group(func(r chi.Router) {
+		// 		r.Use(m.RequirePermission("config:remove"))
+		// 		r.Post("/variables/{id}/delete", h.ConfigVarDelete)
+		// 		r.Delete("/variables/{id}", h.ConfigVarDelete)
+		// 	})
+		// })
 
 		// Terminal Hub (multi-tab terminal) - requires container:exec
 		r.Route("/terminal", func(r chi.Router) {
@@ -689,95 +689,95 @@ func RegisterFrontendRoutes(r chi.Router, h *Handler, m *Middleware) {
 			r.Get("/", h.ConnectionsTempl)
 
 			// SSH Connections (optional service — gated by middleware)
-			r.Route("/ssh", func(r chi.Router) {
-				r.Use(h.requireServiceMiddleware(
-					func() bool { return h.sshService != nil },
-					"SSH Connections", "Enable SSH by configuring an encryption key (USULNET_ENCRYPTION_KEY)",
-				))
-				r.Get("/", h.SSHConnectionsTempl)
-				r.Get("/new", h.SSHConnectionNewTempl)
-				r.Post("/", h.SSHConnectionCreate)
-				r.Get("/{id}", h.SSHConnectionDetailTempl)
-				r.Post("/{id}", h.SSHConnectionUpdate)
-				r.Delete("/{id}", h.SSHConnectionDelete)
-				r.Post("/{id}/test", h.SSHConnectionTest)
-				r.Post("/{id}/duplicate", h.SSHConnectionDuplicate)
-				r.Get("/{id}/terminal", h.SSHConnectionTerminalTempl)
+			// r.Route("/ssh", func(r chi.Router) {
+			// 	r.Use(h.requireServiceMiddleware(
+			// 		func() bool { return h.sshService != nil },
+			// 		"SSH Connections", "Enable SSH by configuring an encryption key (USULNET_ENCRYPTION_KEY)",
+			// 	))
+			// 	r.Get("/", h.SSHConnectionsTempl)
+			// 	r.Get("/new", h.SSHConnectionNewTempl)
+			// 	r.Post("/", h.SSHConnectionCreate)
+			// 	r.Get("/{id}", h.SSHConnectionDetailTempl)
+			// 	r.Post("/{id}", h.SSHConnectionUpdate)
+			// 	r.Delete("/{id}", h.SSHConnectionDelete)
+			// 	r.Post("/{id}/test", h.SSHConnectionTest)
+			// 	r.Post("/{id}/duplicate", h.SSHConnectionDuplicate)
+			// 	r.Get("/{id}/terminal", h.SSHConnectionTerminalTempl)
 
-				// SFTP Browser
-				r.Get("/{id}/files", h.SFTPBrowserTempl)
-				r.Get("/{id}/files/list", h.SFTPListFiles)
-				r.Post("/{id}/files/upload", h.SFTPUpload)
-				r.Get("/{id}/files/download", h.SFTPDownload)
-				r.Post("/{id}/files/delete", h.SFTPDelete)
-				r.Post("/{id}/files/mkdir", h.SFTPMkdir)
-				r.Post("/{id}/files/rename", h.SFTPRename)
+			// 	// SFTP Browser
+			// 	r.Get("/{id}/files", h.SFTPBrowserTempl)
+			// 	r.Get("/{id}/files/list", h.SFTPListFiles)
+			// 	r.Post("/{id}/files/upload", h.SFTPUpload)
+			// 	r.Get("/{id}/files/download", h.SFTPDownload)
+			// 	r.Post("/{id}/files/delete", h.SFTPDelete)
+			// 	r.Post("/{id}/files/mkdir", h.SFTPMkdir)
+			// 	r.Post("/{id}/files/rename", h.SFTPRename)
 
-				// SSH Tunnels
-				r.Get("/{id}/tunnels", h.SSHTunnelsTempl)
-				r.Post("/{id}/tunnels", h.SSHTunnelCreate)
-				r.Post("/{id}/tunnels/{tunnelID}/toggle", h.SSHTunnelToggle)
-				r.Delete("/{id}/tunnels/{tunnelID}", h.SSHTunnelDelete)
-			})
+			// 	// SSH Tunnels
+			// 	r.Get("/{id}/tunnels", h.SSHTunnelsTempl)
+			// 	r.Post("/{id}/tunnels", h.SSHTunnelCreate)
+			// 	r.Post("/{id}/tunnels/{tunnelID}/toggle", h.SSHTunnelToggle)
+			// 	r.Delete("/{id}/tunnels/{tunnelID}", h.SSHTunnelDelete)
+			// })
 
-			// RDP Connections
-			r.Route("/rdp", func(r chi.Router) {
-				r.Get("/", h.RDPConnectionsTempl)
-				r.Get("/new", h.RDPConnectionNewTempl)
-				r.Post("/", h.RDPConnectionCreate)
-				r.Get("/{id}", h.RDPConnectionDetailTempl)
-				r.Post("/{id}", h.RDPConnectionUpdate)
-				r.Delete("/{id}", h.RDPConnectionDelete)
-				r.Post("/{id}/test", h.RDPConnectionTest)
-				r.Get("/{id}/download", h.RDPConnectionDownload)
-				r.Get("/{id}/session", h.RDPSessionTempl)
-			})
+			// // RDP Connections
+			// r.Route("/rdp", func(r chi.Router) {
+			// 	r.Get("/", h.RDPConnectionsTempl)
+			// 	r.Get("/new", h.RDPConnectionNewTempl)
+			// 	r.Post("/", h.RDPConnectionCreate)
+			// 	r.Get("/{id}", h.RDPConnectionDetailTempl)
+			// 	r.Post("/{id}", h.RDPConnectionUpdate)
+			// 	r.Delete("/{id}", h.RDPConnectionDelete)
+			// 	r.Post("/{id}/test", h.RDPConnectionTest)
+			// 	r.Get("/{id}/download", h.RDPConnectionDownload)
+			// 	r.Get("/{id}/session", h.RDPSessionTempl)
+			// })
 
 			// SSH Keys
-			r.Route("/keys", func(r chi.Router) {
-				r.Get("/", h.SSHKeysTempl)
-				r.Get("/new", h.SSHKeyNewTempl)
-				r.Post("/", h.SSHKeyCreate)
-				r.Get("/{id}", h.SSHKeyDetailTempl)
-				r.Delete("/{id}", h.SSHKeyDelete)
-				r.Get("/{id}/download", h.SSHKeyDownload)
-			})
+			// r.Route("/keys", func(r chi.Router) {
+			// 	r.Get("/", h.SSHKeysTempl)
+			// 	r.Get("/new", h.SSHKeyNewTempl)
+			// 	r.Post("/", h.SSHKeyCreate)
+			// 	r.Get("/{id}", h.SSHKeyDetailTempl)
+			// 	r.Delete("/{id}", h.SSHKeyDelete)
+			// 	r.Get("/{id}/download", h.SSHKeyDownload)
+			// })
 
 			// Web Shortcuts
-			r.Route("/shortcuts", func(r chi.Router) {
-				r.Get("/", h.ShortcutsTempl)
-				r.Get("/new", h.ShortcutNewTempl)
-				r.Post("/", h.ShortcutCreate)
-				r.Get("/{id}/edit", h.ShortcutEditTempl)
-				r.Post("/{id}", h.ShortcutUpdate)
-				r.Delete("/{id}", h.ShortcutDelete)
-			})
+			// r.Route("/shortcuts", func(r chi.Router) {
+			// 	r.Get("/", h.ShortcutsTempl)
+			// 	r.Get("/new", h.ShortcutNewTempl)
+			// 	r.Post("/", h.ShortcutCreate)
+			// 	r.Get("/{id}/edit", h.ShortcutEditTempl)
+			// 	r.Post("/{id}", h.ShortcutUpdate)
+			// 	r.Delete("/{id}", h.ShortcutDelete)
+			// })
 
-			// Database Connections
-			r.Route("/database", func(r chi.Router) {
-				r.Get("/", h.DatabaseConnectionsTempl)
-				r.Post("/", h.DatabaseConnectionCreate)
-				r.Get("/{id}", h.DatabaseBrowserTempl)
-				r.Post("/{id}/test", h.DatabaseConnectionTest)
-				r.Delete("/{id}", h.DatabaseConnectionDelete)
-				r.Post("/{id}/write-mode", h.DatabaseWriteModeToggle)
-				r.Get("/{id}/query", h.DatabaseQueryTempl)
-				r.Post("/{id}/query", h.DatabaseQueryExecute)
-			})
+			// // Database Connections
+			// r.Route("/database", func(r chi.Router) {
+			// 	r.Get("/", h.DatabaseConnectionsTempl)
+			// 	r.Post("/", h.DatabaseConnectionCreate)
+			// 	r.Get("/{id}", h.DatabaseBrowserTempl)
+			// 	r.Post("/{id}/test", h.DatabaseConnectionTest)
+			// 	r.Delete("/{id}", h.DatabaseConnectionDelete)
+			// 	r.Post("/{id}/write-mode", h.DatabaseWriteModeToggle)
+			// 	r.Get("/{id}/query", h.DatabaseQueryTempl)
+			// 	r.Post("/{id}/query", h.DatabaseQueryExecute)
+			// })
 
-			// LDAP Connections
-			r.Route("/ldap", func(r chi.Router) {
-				r.Get("/", h.LDAPConnectionsTempl)
-				r.Post("/", h.LDAPConnectionCreate)
-				r.Get("/{id}", h.LDAPBrowserTempl)
-				r.Get("/{id}/settings", h.LDAPConnectionSettingsTempl)
-				r.Post("/{id}/settings", h.LDAPConnectionSettingsUpdate)
-				r.Post("/{id}/test", h.LDAPConnectionTest)
-				r.Delete("/{id}", h.LDAPConnectionDelete)
-				r.Post("/{id}/write-mode", h.LDAPWriteModeToggle)
-				r.Get("/{id}/search", h.LDAPSearchTempl)
-				r.Post("/{id}/search", h.LDAPSearchExecute)
-			})
+			// // LDAP Connections
+			// r.Route("/ldap", func(r chi.Router) {
+			// 	r.Get("/", h.LDAPConnectionsTempl)
+			// 	r.Post("/", h.LDAPConnectionCreate)
+			// 	r.Get("/{id}", h.LDAPBrowserTempl)
+			// 	r.Get("/{id}/settings", h.LDAPConnectionSettingsTempl)
+			// 	r.Post("/{id}/settings", h.LDAPConnectionSettingsUpdate)
+			// 	r.Post("/{id}/test", h.LDAPConnectionTest)
+			// 	r.Delete("/{id}", h.LDAPConnectionDelete)
+			// 	r.Post("/{id}/write-mode", h.LDAPWriteModeToggle)
+			// 	r.Get("/{id}/search", h.LDAPSearchTempl)
+			// 	r.Post("/{id}/search", h.LDAPSearchExecute)
+			// })
 		})
 
 		// WebSocket for SSH Terminal
@@ -1057,19 +1057,19 @@ func RegisterFrontendRoutes(r chi.Router, h *Handler, m *Middleware) {
 		r.Get("/dependencies", h.DependenciesTempl)
 
 		// Lifecycle Policies (automated resource cleanup) - requires settings:update
-		r.Route("/lifecycle", func(r chi.Router) {
-			r.Group(func(r chi.Router) {
-				r.Use(m.RequirePermission("settings:view"))
-				r.Get("/", h.LifecyclePoliciesTempl)
-			})
-			r.Group(func(r chi.Router) {
-				r.Use(m.RequirePermission("settings:update"))
-				r.Post("/policies", h.LifecyclePolicyCreate)
-				r.Post("/policies/{id}/toggle", h.LifecyclePolicyToggle)
-				r.Post("/policies/{id}/delete", h.LifecyclePolicyDelete)
-				r.Post("/policies/{id}/execute", h.LifecyclePolicyExecute)
-			})
-		})
+		// r.Route("/lifecycle", func(r chi.Router) {
+		// 	r.Group(func(r chi.Router) {
+		// 		r.Use(m.RequirePermission("settings:view"))
+		// 		r.Get("/", h.LifecyclePoliciesTempl)
+		// 	})
+		// 	r.Group(func(r chi.Router) {
+		// 		r.Use(m.RequirePermission("settings:update"))
+		// 		r.Post("/policies", h.LifecyclePolicyCreate)
+		// 		r.Post("/policies/{id}/toggle", h.LifecyclePolicyToggle)
+		// 		r.Post("/policies/{id}/delete", h.LifecyclePolicyDelete)
+		// 		r.Post("/policies/{id}/execute", h.LifecyclePolicyExecute)
+		// 	})
+		// })
 
 		// Resource Quotas (admin only)
 		r.Route("/quotas", func(r chi.Router) {
@@ -1110,14 +1110,14 @@ func RegisterFrontendRoutes(r chi.Router, h *Handler, m *Middleware) {
 		})
 
 		// Maintenance Windows (admin only)
-		r.Route("/maintenance", func(r chi.Router) {
-			r.Use(m.AdminRequired)
-			r.Get("/", h.MaintenanceTempl)
-			r.Post("/", h.MaintenanceCreate)
-			r.Post("/{id}/toggle", h.MaintenanceToggle)
-			r.Post("/{id}/delete", h.MaintenanceDelete)
-			r.Post("/{id}/execute", h.MaintenanceExecute)
-		})
+		// r.Route("/maintenance", func(r chi.Router) {
+		// 	r.Use(m.AdminRequired)
+		// 	r.Get("/", h.MaintenanceTempl)
+		// 	r.Post("/", h.MaintenanceCreate)
+		// 	r.Post("/{id}/toggle", h.MaintenanceToggle)
+		// 	r.Post("/{id}/delete", h.MaintenanceDelete)
+		// 	r.Post("/{id}/execute", h.MaintenanceExecute)
+		// })
 
 		// Compliance Policies (security & compliance) - requires security:view/scan
 		r.Route("/compliance", func(r chi.Router) {
@@ -1147,19 +1147,19 @@ func RegisterFrontendRoutes(r chi.Router, h *Handler, m *Middleware) {
 		})
 
 		// Vulnerability Management - requires security:view/scan
-		r.Route("/vulnerabilities", func(r chi.Router) {
-			r.Group(func(r chi.Router) {
-				r.Use(m.RequirePermission("security:view"))
-				r.Get("/", h.VulnMgmtTempl)
-			})
-			r.Group(func(r chi.Router) {
-				r.Use(m.RequirePermission("security:scan"))
-				r.Post("/scan", h.VulnScan)
-				r.Post("/{id}/acknowledge", h.VulnAcknowledge)
-				r.Post("/{id}/resolve", h.VulnResolve)
-				r.Post("/{id}/accept", h.VulnAcceptRisk)
-			})
-		})
+		// r.Route("/vulnerabilities", func(r chi.Router) {
+		// 	r.Group(func(r chi.Router) {
+		// 		r.Use(m.RequirePermission("security:view"))
+		// 		r.Get("/", h.VulnMgmtTempl)
+		// 	})
+		// 	r.Group(func(r chi.Router) {
+		// 		r.Use(m.RequirePermission("security:scan"))
+		// 		r.Post("/scan", h.VulnScan)
+		// 		r.Post("/{id}/acknowledge", h.VulnAcknowledge)
+		// 		r.Post("/{id}/resolve", h.VulnResolve)
+		// 		r.Post("/{id}/accept", h.VulnAcceptRisk)
+		// 	})
+		// })
 
 		// Access Control Audit (admin only)
 		r.Route("/access-audit", func(r chi.Router) {
@@ -1450,13 +1450,13 @@ func RegisterFrontendRoutes(r chi.Router, h *Handler, m *Middleware) {
 		// ================================================================
 
 		// Compliance frameworks (Enterprise license)
-		r.Route("/api/v1/compliance", func(r chi.Router) {
-			r.Use(h.requireFeature(license.FeatureCompliance))
-			r.Get("/frameworks", h.ComplianceFrameworksTempl)
-			r.Post("/frameworks/{id}/assess", h.ComplianceFrameworkAssess)
-			r.Get("/assessments/{assessmentId}/report", h.ComplianceFrameworkReport)
-			r.Post("/frameworks/seed", h.ComplianceFrameworkSeed)
-		})
+		// r.Route("/api/v1/compliance", func(r chi.Router) {
+		// 	r.Use(h.requireFeature(license.FeatureCompliance))
+		// 	r.Get("/frameworks", h.ComplianceFrameworksTempl)
+		// 	r.Post("/frameworks/{id}/assess", h.ComplianceFrameworkAssess)
+		// 	r.Get("/assessments/{assessmentId}/report", h.ComplianceFrameworkReport)
+		// 	r.Post("/frameworks/seed", h.ComplianceFrameworkSeed)
+		// })
 
 		// OPA policy engine (Enterprise license)
 		r.Route("/api/v1/opa", func(r chi.Router) {

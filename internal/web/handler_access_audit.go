@@ -311,7 +311,7 @@ func auditActionColor(action string) string {
 	case "start":
 		return "text-green-400"
 	case "stop":
-		return "text-orange-400"
+		return "bg-white-400"
 	case "restart":
 		return "text-cyan-400"
 	case "security_scan":

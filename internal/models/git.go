@@ -59,7 +59,7 @@ func (p GitProviderType) Color() string {
 	case GitProviderGitHub:
 		return "text-gray-100"
 	case GitProviderGitLab:
-		return "text-orange-400"
+		return "bg-white-400"
 	default:
 		return "text-blue-400"
 	}

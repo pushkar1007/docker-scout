@@ -85,7 +85,7 @@ templ VulnManagement(data VulnMgmtData) {
 			<div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-3">
 				@vulnStat("Total", fmt.Sprintf("%d", data.Stats.TotalVulns), "fas fa-bug", "primary")
 				@vulnStat("Critical", fmt.Sprintf("%d", data.Stats.CriticalVulns), "fas fa-skull-crossbones", "red")
-				@vulnStat("High", fmt.Sprintf("%d", data.Stats.HighVulns), "fas fa-exclamation-circle", "orange")
+				@vulnStat("High", fmt.Sprintf("%d", data.Stats.HighVulns), "fas fa-exclamation-circle", "blue")
 				@vulnStat("Medium", fmt.Sprintf("%d", data.Stats.MediumVulns), "fas fa-exclamation-triangle", "yellow")
 				@vulnStat("Low", fmt.Sprintf("%d", data.Stats.LowVulns), "fas fa-info-circle", "blue")
 				@vulnStat("SLA Breached", fmt.Sprintf("%d", data.Stats.SLABreached), "fas fa-clock", "red")
@@ -174,7 +174,7 @@ templ VulnManagement(data VulnMgmtData) {
 											</td>
 											<td class="px-4 py-3 text-center">
 												if c.HighCount > 0 {
-													<span class="px-2 py-0.5 text-xs bg-orange-500/20 text-orange-400 rounded">{ fmt.Sprintf("%d", c.HighCount) }</span>
+													<span class="px-2 py-0.5 text-xs bg-blue-500/20 bg-white-400 rounded">{ fmt.Sprintf("%d", c.HighCount) }</span>
 												} else {
 													<span class="text-xs text-gray-400">0</span>
 												}
@@ -295,7 +295,7 @@ templ vulnSeverity(severity string) {
 		case "critical":
 			<span class="px-2 py-0.5 text-xs bg-red-500/20 text-red-400 rounded font-bold">Critical</span>
 		case "high":
-			<span class="px-2 py-0.5 text-xs bg-orange-500/20 text-orange-400 rounded">High</span>
+			<span class="px-2 py-0.5 text-xs bg-blue-500/20 bg-white-400 rounded">High</span>
 		case "medium":
 			<span class="px-2 py-0.5 text-xs bg-yellow-500/20 text-yellow-400 rounded">Medium</span>
 		case "low":
@@ -310,7 +310,7 @@ templ vulnPriority(priority string) {
 		case "p0":
 			<span class="px-2 py-0.5 text-xs bg-red-500/30 text-red-300 rounded font-bold">P0</span>
 		case "p1":
-			<span class="px-2 py-0.5 text-xs bg-orange-500/20 text-orange-300 rounded">P1</span>
+			<span class="px-2 py-0.5 text-xs bg-blue-500/20 text-blue-300 rounded">P1</span>
 		case "p2":
 			<span class="px-2 py-0.5 text-xs bg-yellow-500/20 text-yellow-300 rounded">P2</span>
 		case "p3":
@@ -340,7 +340,7 @@ templ riskBadge(risk string) {
 		case "critical":
 			<span class="px-2 py-0.5 text-xs bg-red-500/20 text-red-400 rounded font-bold">Critical</span>
 		case "high":
-			<span class="px-2 py-0.5 text-xs bg-orange-500/20 text-orange-400 rounded">High</span>
+			<span class="px-2 py-0.5 text-xs bg-blue-500/20 bg-white-400 rounded">High</span>
 		case "medium":
 			<span class="px-2 py-0.5 text-xs bg-yellow-500/20 text-yellow-400 rounded">Medium</span>
 		case "low":
@@ -367,8 +367,8 @@ func vulnStatColor(color string) string {
 		return "text-blue-400"
 	case "red":
 		return "text-red-400"
-	case "orange":
-		return "text-orange-400"
+	case "white":
+		return "bg-white-400"
 	case "yellow":
 		return "text-yellow-400"
 	case "cyan":
@@ -405,7 +405,7 @@ func vulnSevBg(severity string) string {
 	case "critical":
 		return "bg-red-500/20"
 	case "high":
-		return "bg-orange-500/20"
+		return "bg-blue-500/20"
 	case "medium":
 		return "bg-yellow-500/20"
 	case "low":
@@ -420,7 +420,7 @@ func vulnSevColor(severity string) string {
 	case "critical":
 		return "text-red-400"
 	case "high":
-		return "text-orange-400"
+		return "bg-white-400"
 	case "medium":
 		return "text-yellow-400"
 	case "low":

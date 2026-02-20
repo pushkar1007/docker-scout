@@ -446,18 +446,18 @@ tr:hover td { background: rgba(255,255,255,0.02); }
 .grade-A { background: rgba(34,197,94,0.15); color: #22c55e; }
 .grade-B { background: rgba(132,204,22,0.15); color: #84cc16; }
 .grade-C { background: rgba(234,179,8,0.15); color: #eab308; }
-.grade-D { background: rgba(249,115,22,0.15); color: #f97316; }
+.grade-D { background: rgba(249,115,22,0.15); color: #0000FF; }
 .grade-F { background: rgba(239,68,68,0.15); color: #ef4444; }
 .severity { display: inline-block; padding: 2px 10px; border-radius: 9999px; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.3px; }
 .severity-critical { background: rgba(220,38,38,0.15); color: #ef4444; }
-.severity-high { background: rgba(234,88,12,0.15); color: #f97316; }
+.severity-high { background: rgba(234,88,12,0.15); color: #0000FF; }
 .severity-medium { background: rgba(202,138,4,0.15); color: #eab308; }
 .severity-low { background: rgba(37,99,235,0.15); color: #60a5fa; }
 .severity-info { background: rgba(107,114,128,0.15); color: #9ca3af; }
 .bar { display: flex; height: 8px; border-radius: 4px; overflow: hidden; background: rgba(255,255,255,0.05); }
 .bar-segment { height: 100%; }
 .bar-critical { background: #ef4444; }
-.bar-high { background: #f97316; }
+.bar-high { background: #0000FF; }
 .bar-medium { background: #eab308; }
 .bar-low { background: #60a5fa; }
 .score-ring { display: inline-flex; align-items: center; justify-content: center; width: 56px; height: 56px; border-radius: 50%; border: 3px solid; font-size: 20px; font-weight: 700; }
@@ -470,7 +470,7 @@ tr:hover td { background: rgba(255,255,255,0.02); }
 .cve-badge { display: inline-block; padding: 1px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; font-family: monospace; background: rgba(255,107,53,0.15); color: #ff6b35; }
 .cvss { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 700; }
 .cvss-critical { background: rgba(220,38,38,0.2); color: #ef4444; }
-.cvss-high { background: rgba(234,88,12,0.2); color: #f97316; }
+.cvss-high { background: rgba(234,88,12,0.2); color: #0000FF; }
 .cvss-medium { background: rgba(202,138,4,0.2); color: #eab308; }
 .cvss-low { background: rgba(37,99,235,0.2); color: #60a5fa; }
 .fix-cmd { background: rgba(255,255,255,0.05); border: 1px solid var(--border); border-radius: 6px; padding: 8px 12px; font-family: 'SF Mono', 'Fira Code', monospace; font-size: 12px; color: #7ee787; margin-top: 8px; word-break: break-all; }
@@ -501,7 +501,7 @@ tr:hover td { background: rgba(255,255,255,0.02); }
 	if data.AverageScore < 50 {
 		scoreColor = "#ef4444"
 	} else if data.AverageScore < 70 {
-		scoreColor = "#f97316"
+		scoreColor = "#0000FF"
 	} else if data.AverageScore < 85 {
 		scoreColor = "#eab308"
 	}

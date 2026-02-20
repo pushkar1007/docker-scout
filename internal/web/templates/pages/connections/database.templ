@@ -174,8 +174,8 @@ templ DatabaseConnectionsList(data DatabaseConnectionsListData) {
 									</label>
 									<label class="cursor-pointer">
 										<input type="radio" name="type" value="mysql" class="hidden peer"/>
-										<div class="p-3 rounded-lg border border-dark-600 text-center peer-checked:border-orange-500 peer-checked:bg-orange-500/10 hover:border-orange-500/50 transition-colors">
-											<i class="fas fa-database text-orange-400"></i>
+										<div class="p-3 rounded-lg border border-dark-600 text-center peer-checked:border-blue-500 peer-checked:bg-blue-500/10 hover:border-blue-500/50 transition-colors">
+											<i class="fas fa-database bg-white-400"></i>
 											<p class="text-xs text-gray-400 mt-1">MySQL</p>
 										</div>
 									</label>
@@ -509,7 +509,7 @@ func getDatabaseBgColor(t DatabaseType) string {
 	case DatabaseTypePostgres:
 		return "bg-blue-500/20"
 	case DatabaseTypeMySQL:
-		return "bg-orange-500/20"
+		return "bg-blue-500/20"
 	case DatabaseTypeMariaDB:
 		return "bg-sky-500/20"
 	case DatabaseTypeMongoDB:
@@ -526,7 +526,7 @@ func getDatabaseTextColor(t DatabaseType) string {
 	case DatabaseTypePostgres:
 		return "text-blue-400"
 	case DatabaseTypeMySQL:
-		return "text-orange-400"
+		return "bg-white-400"
 	case DatabaseTypeMariaDB:
 		return "text-sky-400"
 	case DatabaseTypeMongoDB:

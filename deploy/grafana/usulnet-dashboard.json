@@ -43,7 +43,7 @@
     {
       "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
       "fieldConfig": {
-        "defaults": { "thresholds": { "steps": [{ "color": "green", "value": null }, { "color": "orange", "value": 1 }, { "color": "red", "value": 10 }] } }
+        "defaults": { "thresholds": { "steps": [{ "color": "green", "value": null }, { "color": "blue", "value": 1 }, { "color": "red", "value": 10 }] } }
       },
       "gridPos": { "h": 4, "w": 4, "x": 8, "y": 1 },
       "id": 3,
