@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Copyright (c) 2024-2026 usulnet contributors
-// https://github.com/fr4nsys/usulnet
+// Copyright (c) 2024-2026 dockerscout contributors
+// https://github.com/fr4nsys/dockerscout
 
-// Package nats provides a NATS client wrapper for usulnet.
+// Package nats provides a NATS client wrapper for dockerscout.
 package nats
 
 import (
@@ -66,7 +66,7 @@ type Config struct {
 func DefaultConfig() Config {
 	return Config{
 		URL:              "nats://localhost:4222",
-		Name:             "usulnet-client",
+		Name:             "dockerscout-client",
 		MaxReconnects:    -1, // infinite
 		ReconnectWait:    2 * time.Second,
 		Timeout:          5 * time.Second,

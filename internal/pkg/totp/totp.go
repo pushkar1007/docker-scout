@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Copyright (c) 2024-2026 usulnet contributors
-// https://github.com/fr4nsys/usulnet
+// Copyright (c) 2024-2026 dockerscout contributors
+// https://github.com/fr4nsys/dockerscout
 
 package totp
 
@@ -25,7 +25,7 @@ const (
 	// DefaultSecretSize is the size of the TOTP secret in bytes (160 bits)
 	DefaultSecretSize = 20
 	// DefaultIssuer is the default issuer name for otpauth URIs
-	DefaultIssuer = "usulnet"
+	DefaultIssuer = "dockerscout"
 	// DefaultSkew allows codes from adjacent time periods (1 = ±30s)
 	DefaultSkew = 1
 )

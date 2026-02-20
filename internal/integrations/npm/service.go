@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Copyright (c) 2024-2026 usulnet contributors
-// https://github.com/fr4nsys/usulnet
+// Copyright (c) 2024-2026 dockerscout contributors
+// https://github.com/fr4nsys/dockerscout
 
 // Package npm provides NPM integration services including auto-proxy.
 package npm
@@ -15,10 +15,10 @@ import (
 	"github.com/google/uuid"
 	"go.uber.org/zap"
 
-	"github.com/fr4nsys/usulnet/internal/models"
-	"github.com/fr4nsys/usulnet/internal/pkg/crypto"
-	"github.com/fr4nsys/usulnet/internal/pkg/errors"
-	"github.com/fr4nsys/usulnet/internal/repository/postgres"
+	"github.com/fr4nsys/dockerscout/internal/models"
+	"github.com/fr4nsys/dockerscout/internal/pkg/crypto"
+	"github.com/fr4nsys/dockerscout/internal/pkg/errors"
+	"github.com/fr4nsys/dockerscout/internal/repository/postgres"
 )
 
 // ConnectionCreate is an alias for models.NPMConnectionCreate.
@@ -355,7 +355,7 @@ func (s *Service) CreateAutoProxy(ctx context.Context, hostID string, config *mo
 		AllowWebsocketUpgrade: config.Websocket,
 		Enabled:              true,
 		Meta: map[string]interface{}{
-			"usulnet_auto_proxy": true,
+			"dockerscout_auto_proxy": true,
 			"container_id":       config.ContainerID,
 			"container_name":     config.ContainerName,
 		},
@@ -429,7 +429,7 @@ func (s *Service) UpdateAutoProxy(ctx context.Context, hostID string, config *mo
 		AllowWebsocketUpgrade: config.Websocket,
 		Enabled:              true,
 		Meta: map[string]interface{}{
-			"usulnet_auto_proxy": true,
+			"dockerscout_auto_proxy": true,
 			"container_id":       config.ContainerID,
 			"container_name":     config.ContainerName,
 		},

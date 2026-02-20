@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Copyright (c) 2024-2026 usulnet contributors
-// https://github.com/fr4nsys/usulnet
+// Copyright (c) 2024-2026 dockerscout contributors
+// https://github.com/fr4nsys/dockerscout
 
 package channels
 
@@ -112,7 +112,7 @@ func (p *PagerDutyChannel) Send(ctx context.Context, msg RenderedMessage) error 
 		EventAction: "trigger",
 		Payload: pagerDutyPayload{
 			Summary:       summary,
-			Source:        "usulnet",
+			Source:        "dockerscout",
 			Severity:      severity,
 			Timestamp:     msg.Timestamp.Format(time.RFC3339),
 			Component:     p.config.Component,
@@ -157,9 +157,9 @@ func (p *PagerDutyChannel) Send(ctx context.Context, msg RenderedMessage) error 
 // Test sends a test notification.
 func (p *PagerDutyChannel) Test(ctx context.Context) error {
 	return p.Send(ctx, RenderedMessage{
-		Title:     "USULNET Test Notification",
-		Body:      "This is a test notification from USULNET to verify PagerDuty integration.",
-		BodyPlain: "This is a test notification from USULNET to verify PagerDuty integration.",
+		Title:     "DOCKERSCOUT Test Notification",
+		Body:      "This is a test notification from DOCKERSCOUT to verify PagerDuty integration.",
+		BodyPlain: "This is a test notification from DOCKERSCOUT to verify PagerDuty integration.",
 		Priority:  PriorityNormal,
 		Timestamp: time.Now(),
 		Type:      TypeTestMessage,

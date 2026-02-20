@@ -2,7 +2,7 @@ package stacks
 
 import (
 	"fmt"
-	"github.com/fr4nsys/usulnet/internal/web/templates/layouts"
+	"github.com/fr4nsys/dockerscout/internal/web/templates/layouts"
 )
 
 type StackDetailData struct {
@@ -412,7 +412,7 @@ templ Detail(data StackDetailData) {
 					loadMonaco() {
 						require.config({ paths: { 'vs': '/static/vendor/monaco-editor/min/vs' }});
 						require(['vs/editor/editor.main'], () => {
-							monaco.editor.defineTheme('usulnet-dark', {
+							monaco.editor.defineTheme('dockerscout-dark', {
 								base: 'vs-dark',
 								inherit: true,
 								rules: [],
@@ -455,7 +455,7 @@ templ Detail(data StackDetailData) {
 						this.monacoEditor = monaco.editor.create(container, {
 							value: content,
 							language: 'yaml',
-							theme: 'usulnet-dark',
+							theme: 'dockerscout-dark',
 							readOnly: true,
 							minimap: { enabled: false },
 							scrollBeyondLastLine: false,
@@ -503,7 +503,7 @@ templ Detail(data StackDetailData) {
 							const modifiedModel = monaco.editor.createModel(toContent, 'yaml');
 
 							this.monacoDiffEditor = monaco.editor.createDiffEditor(container, {
-								theme: 'usulnet-dark',
+								theme: 'dockerscout-dark',
 								readOnly: true,
 								minimap: { enabled: false },
 								scrollBeyondLastLine: false,

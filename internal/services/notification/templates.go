@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Copyright (c) 2024-2026 usulnet contributors
-// https://github.com/fr4nsys/usulnet
+// Copyright (c) 2024-2026 dockerscout contributors
+// https://github.com/fr4nsys/dockerscout
 
-// Package notification provides the notification service for USULNET.
+// Package notification provides the notification service for DOCKERSCOUT.
 // Department L: Notifications
 package notification
 
@@ -13,7 +13,7 @@ import (
 	"text/template"
 	"time"
 
-	"github.com/fr4nsys/usulnet/internal/services/notification/channels"
+	"github.com/fr4nsys/dockerscout/internal/services/notification/channels"
 )
 
 // TemplateEngine renders notification messages using templates.
@@ -351,12 +351,12 @@ The host agent is not responding. Please check connectivity.`,
 	// Test Message
 	e.templates[channels.TypeTestMessage] = &NotificationTemplate{
 		Title: must(template.New("title").Funcs(e.funcMap).Parse(
-			`USULNET Test Notification`,
+			`DOCKERSCOUT Test Notification`,
 		)),
 		Body: must(template.New("body").Funcs(e.funcMap).Parse(
 			`🧪 **Test Notification**
 
-This is a test message from USULNET to verify your notification configuration is working correctly.
+This is a test message from DOCKERSCOUT to verify your notification configuration is working correctly.
 
 If you received this message, your notification channel is properly configured!`,
 		)),

@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Copyright (c) 2024-2026 usulnet contributors
-// https://github.com/fr4nsys/usulnet
+// Copyright (c) 2024-2026 dockerscout contributors
+// https://github.com/fr4nsys/dockerscout
 
 package web
 
@@ -20,25 +20,25 @@ import (
 	"github.com/go-chi/chi/v5"
 	"github.com/google/uuid"
 
-	"github.com/fr4nsys/usulnet/internal/docker"
-	"github.com/fr4nsys/usulnet/internal/integrations/gitea"
-	"github.com/fr4nsys/usulnet/internal/license"
-	"github.com/fr4nsys/usulnet/internal/models"
-	totppkg "github.com/fr4nsys/usulnet/internal/pkg/totp"
-	"github.com/fr4nsys/usulnet/internal/scheduler"
-	"github.com/fr4nsys/usulnet/internal/scheduler/workers"
-	compliancesvc "github.com/fr4nsys/usulnet/internal/services/compliance"
-	ephemeralsvc "github.com/fr4nsys/usulnet/internal/services/ephemeral"
-	gitsvc "github.com/fr4nsys/usulnet/internal/services/git"
-	gitsyncsvc "github.com/fr4nsys/usulnet/internal/services/gitsync"
-	manifestsvc "github.com/fr4nsys/usulnet/internal/services/manifest"
-	imagesignsvc "github.com/fr4nsys/usulnet/internal/services/imagesign"
-	logaggsvc "github.com/fr4nsys/usulnet/internal/services/logagg"
-	opasvc "github.com/fr4nsys/usulnet/internal/services/opa"
-	runtimesvc "github.com/fr4nsys/usulnet/internal/services/runtime"
-	swarmsvc "github.com/fr4nsys/usulnet/internal/services/swarm"
-	"github.com/fr4nsys/usulnet/internal/web/templates/pages"
-	"github.com/fr4nsys/usulnet/internal/web/templates/pages/images"
+	"github.com/fr4nsys/dockerscout/internal/docker"
+	"github.com/fr4nsys/dockerscout/internal/integrations/gitea"
+	"github.com/fr4nsys/dockerscout/internal/license"
+	"github.com/fr4nsys/dockerscout/internal/models"
+	totppkg "github.com/fr4nsys/dockerscout/internal/pkg/totp"
+	"github.com/fr4nsys/dockerscout/internal/scheduler"
+	"github.com/fr4nsys/dockerscout/internal/scheduler/workers"
+	compliancesvc "github.com/fr4nsys/dockerscout/internal/services/compliance"
+	ephemeralsvc "github.com/fr4nsys/dockerscout/internal/services/ephemeral"
+	gitsvc "github.com/fr4nsys/dockerscout/internal/services/git"
+	gitsyncsvc "github.com/fr4nsys/dockerscout/internal/services/gitsync"
+	manifestsvc "github.com/fr4nsys/dockerscout/internal/services/manifest"
+	imagesignsvc "github.com/fr4nsys/dockerscout/internal/services/imagesign"
+	logaggsvc "github.com/fr4nsys/dockerscout/internal/services/logagg"
+	opasvc "github.com/fr4nsys/dockerscout/internal/services/opa"
+	runtimesvc "github.com/fr4nsys/dockerscout/internal/services/runtime"
+	swarmsvc "github.com/fr4nsys/dockerscout/internal/services/swarm"
+	"github.com/fr4nsys/dockerscout/internal/web/templates/pages"
+	"github.com/fr4nsys/dockerscout/internal/web/templates/pages/images"
 )
 
 // Services interface aggregates all service interfaces needed by handlers.
@@ -539,7 +539,7 @@ type GiteaService interface {
 	ListCommitStatuses(ctx context.Context, repoID uuid.UUID, ref string, page, limit int) ([]gitea.APICommitStatus, error)
 	CreateCommitStatus(ctx context.Context, repoID uuid.UUID, sha string, opts gitea.CreateStatusOptions) (*gitea.APICommitStatus, error)
 
-	// Internal Webhooks (usulnet sync)
+	// Internal Webhooks (dockerscout sync)
 	RegisterWebhook(ctx context.Context, connID, repoID uuid.UUID, callbackURL string) error
 	HandleWebhook(ctx context.Context, connectionID uuid.UUID, eventType, deliveryID string, payload []byte) error
 	GetWebhookSecret(ctx context.Context, connectionID uuid.UUID) (string, error)
@@ -778,7 +778,7 @@ func (h *Handler) requireFeature(feature license.Feature) func(http.Handler) htt
 					return
 				}
 				// Redirect with flash instead of rendering a sidebar-less error page
-				h.setFlash(w, r, "warning", "This feature requires a Business or Enterprise license. Visit usulnet.com/#pricing to upgrade.")
+				h.setFlash(w, r, "warning", "This feature requires a Business or Enterprise license. Visit dockerscout.com/#pricing to upgrade.")
 				h.redirect(w, r, "/")
 				return
 			}
@@ -897,7 +897,7 @@ func (h *Handler) LoginSubmit(w http.ResponseWriter, r *http.Request) {
 // Logout handles user logout.
 func (h *Handler) Logout(w http.ResponseWriter, r *http.Request) {
 	// Get session to retrieve session ID for auth service logout
-	session, _ := h.sessionStore.Get(r, "usulnet_session")
+	session, _ := h.sessionStore.Get(r, "dockerscout_session")
 	userName := ""
 	userID := ""
 	if session != nil {
@@ -913,7 +913,7 @@ func (h *Handler) Logout(w http.ResponseWriter, r *http.Request) {
 	RecordAccessEvent(userName, userID, "logout", "session", "", "", "User logged out", getClientIP(r), r.UserAgent(), true, "")
 
 	// Delete session cookie
-	if err := h.sessionStore.Delete(r, w, "usulnet_session"); err != nil {
+	if err := h.sessionStore.Delete(r, w, "dockerscout_session"); err != nil {
 		h.logger.Warn("failed to delete session cookie", "error", err)
 	}
 	h.redirect(w, r, "/login")
@@ -2033,7 +2033,7 @@ func (h *Handler) ConfigExport(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.Header().Set("Content-Type", "application/json")
-	w.Header().Set("Content-Disposition", "attachment; filename=\"usulnet-config-export.json\"")
+	w.Header().Set("Content-Disposition", "attachment; filename=\"dockerscout-config-export.json\"")
 	json.NewEncoder(w).Encode(export)
 }
 

@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Copyright (c) 2024-2026 usulnet contributors
-// https://github.com/fr4nsys/usulnet
+// Copyright (c) 2024-2026 dockerscout contributors
+// https://github.com/fr4nsys/dockerscout
 
-// Package notification provides the notification service for USULNET.
+// Package notification provides the notification service for DOCKERSCOUT.
 // Department L: Notifications
 package notification
 
@@ -10,7 +10,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/fr4nsys/usulnet/internal/services/notification/channels"
+	"github.com/fr4nsys/dockerscout/internal/services/notification/channels"
 )
 
 // Throttler controls notification rate to prevent spam.

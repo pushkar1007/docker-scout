@@ -1,13 +1,13 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Copyright (c) 2024-2026 usulnet contributors
-// https://github.com/fr4nsys/usulnet
+// Copyright (c) 2024-2026 dockerscout contributors
+// https://github.com/fr4nsys/dockerscout
 
 package web
 
 import (
 	"time"
 
-	"github.com/fr4nsys/usulnet/internal/web/templates/types"
+	"github.com/fr4nsys/dockerscout/internal/web/templates/types"
 )
 
 // PageData contains all data passed to page templates.
@@ -316,7 +316,7 @@ type StackView struct {
 	Path           string    `json:"path"`
 	ComposeFile    string    `json:"compose_file"`
 	ContainerNames []string  `json:"container_names"`
-	IsExternal     bool      `json:"is_external"` // true if discovered from Docker, not managed by usulnet
+	IsExternal     bool      `json:"is_external"` // true if discovered from Docker, not managed by dockerscout
 }
 
 // StackServiceView represents a service within a stack for templates.

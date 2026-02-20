@@ -1,11 +1,11 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Copyright (c) 2024-2026 usulnet contributors
-// https://github.com/fr4nsys/usulnet
+// Copyright (c) 2024-2026 dockerscout contributors
+// https://github.com/fr4nsys/dockerscout
 
 package workers
 
 import (
-	"github.com/fr4nsys/usulnet/internal/pkg/logger"
+	"github.com/fr4nsys/dockerscout/internal/pkg/logger"
 )
 
 // Dependencies holds all service dependencies for workers

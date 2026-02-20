@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Copyright (c) 2024-2026 usulnet contributors
-// https://github.com/fr4nsys/usulnet
+// Copyright (c) 2024-2026 dockerscout contributors
+// https://github.com/fr4nsys/dockerscout
 
 package models
 
@@ -15,7 +15,7 @@ type ShortcutType string
 
 const (
 	ShortcutTypeWeb      ShortcutType = "web"      // External web URL
-	ShortcutTypeInternal ShortcutType = "internal" // Internal usulnet page
+	ShortcutTypeInternal ShortcutType = "internal" // Internal dockerscout page
 	ShortcutTypeSSH      ShortcutType = "ssh"      // SSH connection shortcut
 	ShortcutTypeDB       ShortcutType = "db"       // Database connection shortcut
 )

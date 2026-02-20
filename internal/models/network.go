@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Copyright (c) 2024-2026 usulnet contributors
-// https://github.com/fr4nsys/usulnet
+// Copyright (c) 2024-2026 dockerscout contributors
+// https://github.com/fr4nsys/dockerscout
 
 package models
 
@@ -291,9 +291,9 @@ type NetworkDNSConfig struct {
 
 // Label keys for storing DNS configuration in network labels
 const (
-	LabelDNSServers = "usulnet.dns.servers" // Comma-separated DNS servers
-	LabelDNSSearch  = "usulnet.dns.search"  // Comma-separated search domains
-	LabelDNSOptions = "usulnet.dns.options" // Comma-separated DNS options
+	LabelDNSServers = "dockerscout.dns.servers" // Comma-separated DNS servers
+	LabelDNSSearch  = "dockerscout.dns.search"  // Comma-separated search domains
+	LabelDNSOptions = "dockerscout.dns.options" // Comma-separated DNS options
 )
 
 // SetDNSConfigInput represents input for setting DNS configuration on a network

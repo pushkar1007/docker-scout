@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS git_sync_configs (
     branch                  VARCHAR(255) NOT NULL DEFAULT 'main',
     auto_commit             BOOLEAN NOT NULL DEFAULT true,
     auto_deploy             BOOLEAN NOT NULL DEFAULT false,
-    commit_message_template VARCHAR(512) NOT NULL DEFAULT 'chore: sync {{.Resource}} via usulnet',
+    commit_message_template VARCHAR(512) NOT NULL DEFAULT 'chore: sync {{.Resource}} via dockerscout',
     conflict_strategy       VARCHAR(20) NOT NULL DEFAULT 'manual',       -- 'manual', 'prefer_git', 'prefer_ui'
     is_enabled              BOOLEAN NOT NULL DEFAULT true,
     last_sync_at            TIMESTAMPTZ,

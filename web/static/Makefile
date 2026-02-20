@@ -1,4 +1,4 @@
-# usulnet - Frontend Build
+# dockerscout - Frontend Build
 # Usa Tailwind CLI standalone (sin Node.js/npm)
 
 TAILWIND_VERSION := 3.4.1

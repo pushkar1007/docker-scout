@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Copyright (c) 2024-2026 usulnet contributors
-// https://github.com/fr4nsys/usulnet
+// Copyright (c) 2024-2026 dockerscout contributors
+// https://github.com/fr4nsys/dockerscout
 
 package logger
 
@@ -21,7 +21,7 @@ import (
 
 // FileConfig configures file-based logging with rotation.
 type FileConfig struct {
-	Path       string // Log file path (e.g., /var/log/usulnet/usulnet.log)
+	Path       string // Log file path (e.g., /var/log/dockerscout/dockerscout.log)
 	MaxSize    int64  // Max file size in bytes before rotation (default 100MB)
 	MaxBackups int    // Max rotated files to keep (default 5)
 	MaxAge     int    // Max age in days for rotated files (default 30)

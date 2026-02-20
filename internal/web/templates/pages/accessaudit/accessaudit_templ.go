@@ -10,7 +10,7 @@ import templruntime "github.com/a-h/templ/runtime"
 
 import (
 	"fmt"
-	"github.com/fr4nsys/usulnet/internal/web/templates/layouts"
+	"github.com/fr4nsys/dockerscout/internal/web/templates/layouts"
 )
 
 // AccessAuditData holds all data for the access control audit page.

@@ -1,7 +1,7 @@
 # Binaries
 bin/
-/usulnet
-/usulnet-agent
+/dockerscout
+/dockerscout-agent
 *.exe
 *.dll
 *.so

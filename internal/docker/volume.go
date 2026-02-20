@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Copyright (c) 2024-2026 usulnet contributors
-// https://github.com/fr4nsys/usulnet
+// Copyright (c) 2024-2026 dockerscout contributors
+// https://github.com/fr4nsys/dockerscout
 
 package docker
 
@@ -13,8 +13,8 @@ import (
         "github.com/docker/docker/api/types/swarm"
 	"github.com/docker/docker/client"
 
-	"github.com/fr4nsys/usulnet/internal/pkg/errors"
-	"github.com/fr4nsys/usulnet/internal/pkg/logger"
+	"github.com/fr4nsys/dockerscout/internal/pkg/errors"
+	"github.com/fr4nsys/dockerscout/internal/pkg/logger"
 )
 
 // VolumeListOptions specifies options for listing volumes

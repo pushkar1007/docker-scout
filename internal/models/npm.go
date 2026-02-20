@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Copyright (c) 2024-2026 usulnet contributors
-// https://github.com/fr4nsys/usulnet
+// Copyright (c) 2024-2026 dockerscout contributors
+// https://github.com/fr4nsys/dockerscout
 
 package models
 
@@ -92,15 +92,15 @@ const (
 )
 
 // AutoProxyLabels defines the Docker labels for auto-proxy feature.
-// Example: com.usulnet.proxy.domain=example.com
+// Example: com.dockerscout.proxy.domain=example.com
 const (
-	LabelProxyDomain      = "com.usulnet.proxy.domain"       // Domain name
-	LabelProxyPort        = "com.usulnet.proxy.port"         // Backend port (default: first exposed)
-	LabelProxyScheme      = "com.usulnet.proxy.scheme"       // http/https (default: http)
-	LabelProxySSL         = "com.usulnet.proxy.ssl"          // Enable SSL (default: true if domain set)
-	LabelProxySSLForced   = "com.usulnet.proxy.ssl_forced"   // Force HTTPS (default: true)
-	LabelProxyWebsocket   = "com.usulnet.proxy.websocket"    // Enable WebSocket (default: false)
-	LabelProxyBlockExploit = "com.usulnet.proxy.block_exploits" // Block exploits (default: true)
+	LabelProxyDomain      = "com.dockerscout.proxy.domain"       // Domain name
+	LabelProxyPort        = "com.dockerscout.proxy.port"         // Backend port (default: first exposed)
+	LabelProxyScheme      = "com.dockerscout.proxy.scheme"       // http/https (default: http)
+	LabelProxySSL         = "com.dockerscout.proxy.ssl"          // Enable SSL (default: true if domain set)
+	LabelProxySSLForced   = "com.dockerscout.proxy.ssl_forced"   // Force HTTPS (default: true)
+	LabelProxyWebsocket   = "com.dockerscout.proxy.websocket"    // Enable WebSocket (default: false)
+	LabelProxyBlockExploit = "com.dockerscout.proxy.block_exploits" // Block exploits (default: true)
 )
 
 // AutoProxyConfig represents the configuration extracted from container labels.

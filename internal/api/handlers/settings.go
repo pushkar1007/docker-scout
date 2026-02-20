@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Copyright (c) 2024-2026 usulnet contributors
-// https://github.com/fr4nsys/usulnet
+// Copyright (c) 2024-2026 dockerscout contributors
+// https://github.com/fr4nsys/dockerscout
 
 package handlers
 
@@ -12,13 +12,13 @@ import (
 	"github.com/go-chi/chi/v5"
 	"github.com/google/uuid"
 
-	apierrors "github.com/fr4nsys/usulnet/internal/api/errors"
-	"github.com/fr4nsys/usulnet/internal/api/middleware"
-	"github.com/fr4nsys/usulnet/internal/license"
-	"github.com/fr4nsys/usulnet/internal/models"
-	"github.com/fr4nsys/usulnet/internal/pkg/logger"
-	"github.com/fr4nsys/usulnet/internal/repository/postgres"
-	"github.com/fr4nsys/usulnet/internal/services/audit"
+	apierrors "github.com/fr4nsys/dockerscout/internal/api/errors"
+	"github.com/fr4nsys/dockerscout/internal/api/middleware"
+	"github.com/fr4nsys/dockerscout/internal/license"
+	"github.com/fr4nsys/dockerscout/internal/models"
+	"github.com/fr4nsys/dockerscout/internal/pkg/logger"
+	"github.com/fr4nsys/dockerscout/internal/repository/postgres"
+	"github.com/fr4nsys/dockerscout/internal/services/audit"
 )
 
 // SettingsHandler handles application settings endpoints.
@@ -226,7 +226,7 @@ type TestLDAPResponse struct {
 func defaultSettings() SettingsResponse {
 	return SettingsResponse{
 		General: GeneralSettings{
-			AppName:     "usulnet",
+			AppName:     "dockerscout",
 			AppURL:      "",
 			SessionTTL:  1440, // 24 hours
 			EnableSignup: false,

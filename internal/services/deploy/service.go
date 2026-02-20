@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Copyright (c) 2024-2026 usulnet contributors
-// https://github.com/fr4nsys/usulnet
+// Copyright (c) 2024-2026 dockerscout contributors
+// https://github.com/fr4nsys/dockerscout
 
 // Package deploy provides automated agent deployment via SSH + Docker.
 // It handles connecting to remote hosts, generating TLS certificates,
@@ -22,8 +22,8 @@ import (
 	"github.com/google/uuid"
 	gossh "golang.org/x/crypto/ssh"
 
-	"github.com/fr4nsys/usulnet/internal/pkg/crypto"
-	"github.com/fr4nsys/usulnet/internal/pkg/logger"
+	"github.com/fr4nsys/dockerscout/internal/pkg/crypto"
+	"github.com/fr4nsys/dockerscout/internal/pkg/logger"
 )
 
 // DeployStatus represents the current state of a deployment.
@@ -63,7 +63,7 @@ type DeployRequest struct {
 	AgentToken string
 	// GatewayURL is the master's NATS URL the agent connects to
 	GatewayURL string
-	// AgentImage is the Docker image for the agent (default: usulnet-agent:latest)
+	// AgentImage is the Docker image for the agent (default: dockerscout-agent:latest)
 	AgentImage string
 	// SSHHostKeyFingerprint is the expected SSH host key fingerprint (SHA256:...).
 	// If empty, the key is accepted on first connection (TOFU).
@@ -152,7 +152,7 @@ func (s *Service) Deploy(ctx context.Context, req DeployRequest) (string, error)
 		req.SSHPort = 22
 	}
 	if req.AgentImage == "" {
-		req.AgentImage = "usulnet-agent:latest"
+		req.AgentImage = "dockerscout-agent:latest"
 	}
 
 	deployID := uuid.New().String()[:8]
@@ -261,7 +261,7 @@ func (s *Service) runDeploy(ctx context.Context, req DeployRequest, result *Depl
 
 	// Step 4: Create remote directories
 	result.addLog("Creating agent directories on remote host")
-	if _, err := s.sshExec(client, "sudo mkdir -p /opt/usulnet-agent/config /opt/usulnet-agent/data /opt/usulnet-agent/certs"); err != nil {
+	if _, err := s.sshExec(client, "sudo mkdir -p /opt/dockerscout-agent/config /opt/dockerscout-agent/data /opt/dockerscout-agent/certs"); err != nil {
 		result.setError(fmt.Errorf("failed to create directories: %w", err))
 		result.addLog("ERROR: " + err.Error())
 		return
@@ -270,21 +270,21 @@ func (s *Service) runDeploy(ctx context.Context, req DeployRequest, result *Depl
 	// Step 5: Write TLS certificates to remote host
 	if tlsEnabled {
 		result.addLog("Deploying TLS certificates")
-		if err := s.sshWriteFile(client, "/opt/usulnet-agent/certs/agent.crt", certPEM); err != nil {
+		if err := s.sshWriteFile(client, "/opt/dockerscout-agent/certs/agent.crt", certPEM); err != nil {
 			result.setError(fmt.Errorf("failed to write agent cert: %w", err))
 			return
 		}
-		if err := s.sshWriteFile(client, "/opt/usulnet-agent/certs/agent.key", keyPEM); err != nil {
+		if err := s.sshWriteFile(client, "/opt/dockerscout-agent/certs/agent.key", keyPEM); err != nil {
 			result.setError(fmt.Errorf("failed to write agent key: %w", err))
 			return
 		}
-		if err := s.sshWriteFile(client, "/opt/usulnet-agent/certs/ca.crt", caPEM); err != nil {
+		if err := s.sshWriteFile(client, "/opt/dockerscout-agent/certs/ca.crt", caPEM); err != nil {
 			result.setError(fmt.Errorf("failed to write CA cert: %w", err))
 			return
 		}
 		// Secure permissions
-		s.sshExec(client, "sudo chmod 600 /opt/usulnet-agent/certs/agent.key")
-		s.sshExec(client, "sudo chmod 644 /opt/usulnet-agent/certs/agent.crt /opt/usulnet-agent/certs/ca.crt")
+		s.sshExec(client, "sudo chmod 600 /opt/dockerscout-agent/certs/agent.key")
+		s.sshExec(client, "sudo chmod 644 /opt/dockerscout-agent/certs/agent.crt /opt/dockerscout-agent/certs/ca.crt")
 		result.addLog("TLS certificates deployed")
 	}
 
@@ -295,7 +295,7 @@ func (s *Service) runDeploy(ctx context.Context, req DeployRequest, result *Depl
 		result.setError(fmt.Errorf("failed to generate agent config: %w", err))
 		return
 	}
-	if err := s.sshWriteFile(client, "/opt/usulnet-agent/config/agent.yaml", agentConfig); err != nil {
+	if err := s.sshWriteFile(client, "/opt/dockerscout-agent/config/agent.yaml", agentConfig); err != nil {
 		result.setError(fmt.Errorf("failed to write agent config: %w", err))
 		return
 	}
@@ -308,7 +308,7 @@ func (s *Service) runDeploy(ctx context.Context, req DeployRequest, result *Depl
 		result.setError(fmt.Errorf("failed to generate compose file: %w", err))
 		return
 	}
-	if err := s.sshWriteFile(client, "/opt/usulnet-agent/docker-compose.yml", composeYAML); err != nil {
+	if err := s.sshWriteFile(client, "/opt/dockerscout-agent/docker-compose.yml", composeYAML); err != nil {
 		result.setError(fmt.Errorf("failed to write compose file: %w", err))
 		return
 	}
@@ -316,10 +316,10 @@ func (s *Service) runDeploy(ctx context.Context, req DeployRequest, result *Depl
 
 	// Step 8: Stop existing agent (if any) and start new one
 	result.addLog("Stopping existing agent (if any)")
-	s.sshExec(client, "cd /opt/usulnet-agent && sudo docker compose down 2>/dev/null || true")
+	s.sshExec(client, "cd /opt/dockerscout-agent && sudo docker compose down 2>/dev/null || true")
 
 	result.addLog("Starting agent container")
-	output, err := s.sshExec(client, "cd /opt/usulnet-agent && sudo docker compose up -d")
+	output, err := s.sshExec(client, "cd /opt/dockerscout-agent && sudo docker compose up -d")
 	if err != nil {
 		result.setError(fmt.Errorf("failed to start agent: %w", err))
 		result.addLog("ERROR: " + err.Error())
@@ -339,13 +339,13 @@ func (s *Service) runDeploy(ctx context.Context, req DeployRequest, result *Depl
 
 	// Check that the container is actually running
 	time.Sleep(3 * time.Second)
-	containerStatus, err := s.sshExec(client, "cd /opt/usulnet-agent && sudo docker compose ps --format '{{.State}}'")
+	containerStatus, err := s.sshExec(client, "cd /opt/dockerscout-agent && sudo docker compose ps --format '{{.State}}'")
 	if err == nil {
 		result.addLog("Container status: " + strings.TrimSpace(containerStatus))
 	}
 
 	// Check container logs for any issues
-	containerLogs, err := s.sshExec(client, "cd /opt/usulnet-agent && sudo docker compose logs --tail=10 2>&1")
+	containerLogs, err := s.sshExec(client, "cd /opt/dockerscout-agent && sudo docker compose logs --tail=10 2>&1")
 	if err == nil && containerLogs != "" {
 		for _, line := range strings.Split(strings.TrimSpace(containerLogs), "\n") {
 			if line != "" {
@@ -501,7 +501,7 @@ func (s *Service) generateComposeFile(req DeployRequest, tlsEnabled bool) (strin
 }
 
 // agentConfigTemplate is the YAML template for agent configuration.
-var agentConfigTemplate = `# usulnet Agent Configuration (auto-generated)
+var agentConfigTemplate = `# dockerscout Agent Configuration (auto-generated)
 gateway_url: "{{.GatewayURL}}"
 token: "{{.Token}}"
 docker_host: "unix:///var/run/docker.sock"
@@ -518,11 +518,11 @@ tls:
 {{end}}`
 
 // composeTemplate is the docker-compose.yml template for the agent.
-var composeTemplate = `# usulnet Agent (auto-generated)
+var composeTemplate = `# dockerscout Agent (auto-generated)
 services:
-  usulnet-agent:
+  dockerscout-agent:
     image: {{.Image}}
-    container_name: usulnet-agent
+    container_name: dockerscout-agent
     restart: unless-stopped
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
@@ -530,8 +530,8 @@ services:
       - ./data:/app/data{{if .TLSEnabled}}
       - ./certs:/app/certs:ro{{end}}
     environment:
-      - USULNET_GATEWAY_URL={{.GatewayURL}}
-      - USULNET_AGENT_TOKEN={{.Token}}
+      - DOCKERSCOUT_GATEWAY_URL={{.GatewayURL}}
+      - DOCKERSCOUT_AGENT_TOKEN={{.Token}}
     logging:
       driver: json-file
       options:

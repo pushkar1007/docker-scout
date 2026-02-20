@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Copyright (c) 2024-2026 usulnet contributors
-// https://github.com/fr4nsys/usulnet
+// Copyright (c) 2024-2026 dockerscout contributors
+// https://github.com/fr4nsys/dockerscout
 
 package web
 
@@ -21,7 +21,7 @@ import (
 	"github.com/google/uuid"
 	"github.com/gorilla/websocket"
 
-	"github.com/fr4nsys/usulnet/internal/web/templates/pages/connections"
+	"github.com/fr4nsys/dockerscout/internal/web/templates/pages/connections"
 )
 
 // rdpUpgrader is a WebSocket upgrader for RDP sessions that negotiates

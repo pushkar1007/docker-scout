@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Copyright (c) 2024-2026 usulnet contributors
-// https://github.com/fr4nsys/usulnet
+// Copyright (c) 2024-2026 dockerscout contributors
+// https://github.com/fr4nsys/dockerscout
 
 package web
 
@@ -115,7 +115,7 @@ func WithUserInfo(ctx context.Context, info *UserInfo) context.Context {
 // on page load without waiting for JS. Prevents flash of wrong theme.
 func setThemeCookie(w http.ResponseWriter, theme Theme) {
 	http.SetCookie(w, &http.Cookie{
-		Name:     "usulnet_theme",
+		Name:     "dockerscout_theme",
 		Value:    string(theme),
 		Path:     "/",
 		MaxAge:   365 * 24 * 3600, // 1 year

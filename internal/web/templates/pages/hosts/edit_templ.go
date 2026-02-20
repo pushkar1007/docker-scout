@@ -8,7 +8,7 @@ package hosts
 import "github.com/a-h/templ"
 import templruntime "github.com/a-h/templ/runtime"
 
-import "github.com/fr4nsys/usulnet/internal/web/templates/layouts"
+import "github.com/fr4nsys/dockerscout/internal/web/templates/layouts"
 
 type EditData struct {
 	PageData   layouts.PageData
@@ -265,7 +265,7 @@ func Edit(data EditData) templ.Component {
 				return templ_7745c5c3_Err
 			}
 			if data.Host.EndpointType == "agent" {
-				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 22, "<div class=\"mt-8 pt-8 border-t border-dark-600\"><div class=\"flex items-center gap-3 mb-4\"><div class=\"w-10 h-10 rounded-lg bg-green-500/10 flex items-center justify-center\"><i class=\"fas fa-rocket text-green-400\"></i></div><div><h3 class=\"text-lg font-semibold text-white\">Deploy Agent</h3><p class=\"text-sm text-gray-400\">Install the usulnet agent on a remote host via SSH</p></div></div><div x-data=\"")
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 22, "<div class=\"mt-8 pt-8 border-t border-dark-600\"><div class=\"flex items-center gap-3 mb-4\"><div class=\"w-10 h-10 rounded-lg bg-green-500/10 flex items-center justify-center\"><i class=\"fas fa-rocket text-green-400\"></i></div><div><h3 class=\"text-lg font-semibold text-white\">Deploy Agent</h3><p class=\"text-sm text-gray-400\">Install the dockerscout agent on a remote host via SSH</p></div></div><div x-data=\"")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}

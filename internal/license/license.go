@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Copyright (c) 2024-2026 usulnet contributors
-// https://github.com/fr4nsys/usulnet
+// Copyright (c) 2024-2026 dockerscout contributors
+// https://github.com/fr4nsys/dockerscout
 
-// Package license defines the usulnet edition system, feature flags,
+// Package license defines the dockerscout edition system, feature flags,
 // resource limits, and JWT license claims.
 //
 // Editions:
@@ -17,7 +17,7 @@ package license
 
 import "time"
 
-// Edition identifies the usulnet product tier.
+// Edition identifies the dockerscout product tier.
 type Edition string
 
 const (

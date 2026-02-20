@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Copyright (c) 2024-2026 usulnet contributors
-// https://github.com/fr4nsys/usulnet
+// Copyright (c) 2024-2026 dockerscout contributors
+// https://github.com/fr4nsys/dockerscout
 
 package benchmarks
 
@@ -15,9 +15,9 @@ import (
 
 	"github.com/golang-jwt/jwt/v5"
 
-	"github.com/fr4nsys/usulnet/internal/api"
-	"github.com/fr4nsys/usulnet/internal/api/handlers"
-	"github.com/fr4nsys/usulnet/internal/api/middleware"
+	"github.com/fr4nsys/dockerscout/internal/api"
+	"github.com/fr4nsys/dockerscout/internal/api/handlers"
+	"github.com/fr4nsys/dockerscout/internal/api/middleware"
 )
 
 const benchJWTSecret = "benchmark-secret-key-for-testing-purposes-only-minimum-32"
@@ -54,7 +54,7 @@ func generateBenchToken(role string) string {
 		RegisteredClaims: jwt.RegisteredClaims{
 			ExpiresAt: jwt.NewNumericDate(time.Now().Add(1 * time.Hour)),
 			IssuedAt:  jwt.NewNumericDate(time.Now()),
-			Issuer:    "usulnet-bench",
+			Issuer:    "dockerscout-bench",
 		},
 	}
 
@@ -126,7 +126,7 @@ func BenchmarkJWTTokenGeneration(b *testing.B) {
 			RegisteredClaims: jwt.RegisteredClaims{
 				ExpiresAt: jwt.NewNumericDate(time.Now().Add(1 * time.Hour)),
 				IssuedAt:  jwt.NewNumericDate(time.Now()),
-				Issuer:    "usulnet",
+				Issuer:    "dockerscout",
 			},
 		}
 		token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)

@@ -2,7 +2,7 @@ package license
 
 import (
 	"fmt"
-	"github.com/fr4nsys/usulnet/internal/web/templates/layouts"
+	"github.com/fr4nsys/dockerscout/internal/web/templates/layouts"
 )
 
 // LicensePageInfo holds the current license state for the template.
@@ -126,7 +126,7 @@ templ LicensePage(data LicensePageData) {
 					<i class="fas fa-id-card mr-2 text-primary-400"></i>
 					License Management
 				</h1>
-				<p class="text-gray-400 mt-1">Manage your usulnet edition and license</p>
+				<p class="text-gray-400 mt-1">Manage your dockerscout edition and license</p>
 			</div>
 
 			<!-- Current Edition Card -->
@@ -173,7 +173,7 @@ templ LicensePage(data LicensePageData) {
 					</div>
 					if data.License.Edition == "ce" {
 						<a
-							href="https://usulnet.com/pricing"
+							href="https://dockerscout.com/pricing"
 							target="_blank"
 							rel="noopener"
 							class="flex items-center gap-2 bg-primary-500 hover:bg-primary-600 text-black font-medium px-4 py-2 rounded-lg transition-colors"
@@ -257,7 +257,7 @@ templ LicensePage(data LicensePageData) {
 						<div class="mt-4 pt-4 border-t border-dark-700">
 							<p class="text-xs text-gray-500 text-center">
 								Don't have a key?
-								<a href="https://usulnet.com/pricing" target="_blank" rel="noopener" class="text-primary-400 hover:text-primary-300">
+								<a href="https://dockerscout.com/pricing" target="_blank" rel="noopener" class="text-primary-400 hover:text-primary-300">
 									Purchase a license →
 								</a>
 							</p>

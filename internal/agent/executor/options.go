@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Copyright (c) 2024-2026 usulnet contributors
-// https://github.com/fr4nsys/usulnet
+// Copyright (c) 2024-2026 dockerscout contributors
+// https://github.com/fr4nsys/dockerscout
 
 // Package executor provides Docker options converters from protocol parameters.
 package executor
@@ -15,7 +15,7 @@ import (
 	"github.com/docker/docker/api/types/network"
 	"github.com/docker/docker/api/types/volume"
 
-	"github.com/fr4nsys/usulnet/internal/gateway/protocol"
+	"github.com/fr4nsys/dockerscout/internal/gateway/protocol"
 )
 
 // ============================================================================

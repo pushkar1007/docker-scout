@@ -8,7 +8,7 @@ package pages
 import "github.com/a-h/templ"
 import templruntime "github.com/a-h/templ/runtime"
 
-import "github.com/fr4nsys/usulnet/internal/web/templates/layouts"
+import "github.com/fr4nsys/dockerscout/internal/web/templates/layouts"
 
 type LoginData struct {
 	Error         string
@@ -54,7 +54,7 @@ func Login(data LoginData) templ.Component {
 				}()
 			}
 			ctx = templ.InitializeContext(ctx)
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<div class=\"min-h-screen flex items-center justify-center bg-dark-900 px-4\"><div class=\"w-full max-w-md\"><!-- Logo and Title --><div class=\"text-center mb-8\"><div class=\"inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-primary-500 to-primary-600 mb-4 shadow-lg shadow-primary-500/25\"><span class=\"text-black font-bold text-2xl font-display\">U</span></div><h1 class=\"text-2xl font-bold font-display text-white\">usulnet</h1><p class=\"text-sm text-gray-400 mt-1\">Docker Management Platform</p></div><!-- Login Card --><div class=\"bg-dark-800 rounded-xl border border-dark-600 shadow-xl p-8\"><!-- Error Message -->")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<div class=\"min-h-screen flex items-center justify-center bg-dark-900 px-4\"><div class=\"w-full max-w-md\"><!-- Logo and Title --><div class=\"text-center mb-8\"><div class=\"inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-primary-500 to-primary-600 mb-4 shadow-lg shadow-primary-500/25\"><span class=\"text-black font-bold text-2xl font-display\">U</span></div><h1 class=\"text-2xl font-bold font-display text-white\">dockerscout</h1><p class=\"text-sm text-gray-400 mt-1\">Docker Management Platform</p></div><!-- Login Card --><div class=\"bg-dark-800 rounded-xl border border-dark-600 shadow-xl p-8\"><!-- Error Message -->")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -165,7 +165,7 @@ func Login(data LoginData) templ.Component {
 					return templ_7745c5c3_Err
 				}
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 15, "</div><!-- Footer --><div class=\"mt-8 text-center space-y-1\"><p class=\"text-sm text-gray-500\">usulnet ")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 15, "</div><!-- Footer --><div class=\"mt-8 text-center space-y-1\"><p class=\"text-sm text-gray-500\">dockerscout ")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -178,7 +178,7 @@ func Login(data LoginData) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 16, " · Community Edition</p><p class=\"text-xs text-gray-400\"><a href=\"https://github.com/fr4nsys/usulnet\" target=\"_blank\" rel=\"noopener\" class=\"hover:text-primary-400 transition-colors\"><i class=\"fab fa-github mr-1\"></i>GitHub</a> <span class=\"mx-1\">·</span> <a href=\"https://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\" rel=\"noopener\" class=\"hover:text-primary-400 transition-colors\">AGPLv3</a></p></div></div></div>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 16, " · Community Edition</p><p class=\"text-xs text-gray-400\"><a href=\"https://github.com/fr4nsys/dockerscout\" target=\"_blank\" rel=\"noopener\" class=\"hover:text-primary-400 transition-colors\"><i class=\"fab fa-github mr-1\"></i>GitHub</a> <span class=\"mx-1\">·</span> <a href=\"https://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\" rel=\"noopener\" class=\"hover:text-primary-400 transition-colors\">AGPLv3</a></p></div></div></div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

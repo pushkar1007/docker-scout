@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Copyright (c) 2024-2026 usulnet contributors
-// https://github.com/fr4nsys/usulnet
+// Copyright (c) 2024-2026 dockerscout contributors
+// https://github.com/fr4nsys/dockerscout
 
 package web
 
@@ -14,7 +14,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/fr4nsys/usulnet/internal/web/templates/pages/hosts"
+	"github.com/fr4nsys/dockerscout/internal/web/templates/pages/hosts"
 	"github.com/go-chi/chi/v5"
 )
 
@@ -35,7 +35,7 @@ func (h *Handler) HostFilesTempl(w http.ResponseWriter, r *http.Request) {
 	if !cfg.Enabled {
 		h.RenderErrorTempl(w, r, http.StatusForbidden,
 			"Host Files Browser Disabled",
-			"Set HOST_TERMINAL_ENABLED=true in usulnet environment to enable this feature.",
+			"Set HOST_TERMINAL_ENABLED=true in dockerscout environment to enable this feature.",
 		)
 		return
 	}

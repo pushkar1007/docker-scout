@@ -1,4 +1,4 @@
-# usulnet Agent Configuration
+# dockerscout Agent Configuration
 # This file is deployed to remote hosts during agent auto-deploy.
 # Values are populated by the master during deployment.
 

@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Copyright (c) 2024-2026 usulnet contributors
-// https://github.com/fr4nsys/usulnet
+// Copyright (c) 2024-2026 dockerscout contributors
+// https://github.com/fr4nsys/dockerscout
 
 // Package gateway provides command dispatching to remote agents.
 package gateway
@@ -15,8 +15,8 @@ import (
 	"github.com/google/uuid"
 	"github.com/nats-io/nats.go"
 
-	"github.com/fr4nsys/usulnet/internal/gateway/protocol"
-	"github.com/fr4nsys/usulnet/internal/pkg/logger"
+	"github.com/fr4nsys/dockerscout/internal/gateway/protocol"
+	"github.com/fr4nsys/dockerscout/internal/pkg/logger"
 )
 
 // CommandDispatcher sends commands to agents and tracks responses.

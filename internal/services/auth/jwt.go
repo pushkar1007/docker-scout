@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Copyright (c) 2024-2026 usulnet contributors
-// https://github.com/fr4nsys/usulnet
+// Copyright (c) 2024-2026 dockerscout contributors
+// https://github.com/fr4nsys/dockerscout
 
 // Package auth provides authentication services for the application.
 package auth
@@ -15,7 +15,7 @@ import (
 	"github.com/golang-jwt/jwt/v5"
 	"github.com/google/uuid"
 
-	"github.com/fr4nsys/usulnet/internal/models"
+	"github.com/fr4nsys/dockerscout/internal/models"
 )
 
 // JWT errors
@@ -61,7 +61,7 @@ func DefaultJWTConfig(secret string) JWTConfig {
 	return JWTConfig{
 		Secret:          secret,
 		RefreshSecret:   secret,
-		Issuer:          "usulnet",
+		Issuer:          "dockerscout",
 		AccessTokenTTL:  15 * time.Minute,
 		RefreshTokenTTL: 7 * 24 * time.Hour,
 		TokenIDGenerator: func() string {
@@ -105,7 +105,7 @@ func NewJWTService(config JWTConfig) *JWTService {
 	}
 
 	if config.Issuer == "" {
-		config.Issuer = "usulnet"
+		config.Issuer = "dockerscout"
 	}
 
 	if config.AccessTokenTTL == 0 {

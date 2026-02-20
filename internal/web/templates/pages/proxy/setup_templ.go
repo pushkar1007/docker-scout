@@ -8,7 +8,7 @@ package proxy
 import "github.com/a-h/templ"
 import templruntime "github.com/a-h/templ/runtime"
 
-import "github.com/fr4nsys/usulnet/internal/web/templates/layouts"
+import "github.com/fr4nsys/dockerscout/internal/web/templates/layouts"
 
 type SetupData struct {
 	PageData   layouts.PageData
@@ -106,7 +106,7 @@ func Setup(data SetupData) templ.Component {
 				}
 			}
 			if data.ProxyMode == "caddy" {
-				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 7, "<!-- Caddy Mode --> <h2 class=\"text-xl font-display font-bold text-white mb-2\">Caddy Reverse Proxy</h2><p class=\"text-gray-400 mb-6\">Caddy is the built-in reverse proxy. Proxy hosts are managed directly through usulnet.</p><div class=\"bg-dark-800 border border-dark-700 rounded-lg p-6 mb-6\"><div class=\"flex items-center gap-3 mb-4\">")
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 7, "<!-- Caddy Mode --> <h2 class=\"text-xl font-display font-bold text-white mb-2\">Caddy Reverse Proxy</h2><p class=\"text-gray-400 mb-6\">Caddy is the built-in reverse proxy. Proxy hosts are managed directly through dockerscout.</p><div class=\"bg-dark-800 border border-dark-700 rounded-lg p-6 mb-6\"><div class=\"flex items-center gap-3 mb-4\">")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
@@ -171,7 +171,7 @@ func Setup(data SetupData) templ.Component {
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 16, "\"> <button type=\"submit\" class=\"btn btn-sm btn-secondary\"><i class=\"fas fa-heartbeat mr-1\"></i> Health Check</button></form></div></div><div class=\"bg-dark-800/50 border border-dark-700 rounded-lg p-4\"><p class=\"text-sm text-gray-400\"><i class=\"fas fa-info-circle text-primary-400 mr-2\"></i> Caddy proxy is automatically configured. Manage proxy hosts from the <a href=\"/proxy\" class=\"text-primary-400 hover:text-primary-300\">Proxy Hosts</a> page. To switch to Nginx Proxy Manager (NPM), configure NPM in your docker-compose and restart usulnet.</p></div>")
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 16, "\"> <button type=\"submit\" class=\"btn btn-sm btn-secondary\"><i class=\"fas fa-heartbeat mr-1\"></i> Health Check</button></form></div></div><div class=\"bg-dark-800/50 border border-dark-700 rounded-lg p-4\"><p class=\"text-sm text-gray-400\"><i class=\"fas fa-info-circle text-primary-400 mr-2\"></i> Caddy proxy is automatically configured. Manage proxy hosts from the <a href=\"/proxy\" class=\"text-primary-400 hover:text-primary-300\">Proxy Hosts</a> page. To switch to Nginx Proxy Manager (NPM), configure NPM in your docker-compose and restart dockerscout.</p></div>")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}

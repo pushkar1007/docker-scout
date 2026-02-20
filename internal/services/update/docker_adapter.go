@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Copyright (c) 2024-2026 usulnet contributors
-// https://github.com/fr4nsys/usulnet
+// Copyright (c) 2024-2026 dockerscout contributors
+// https://github.com/fr4nsys/dockerscout
 
 package update
 
@@ -12,8 +12,8 @@ import (
 	"github.com/docker/docker/api/types/container"
 	"github.com/google/uuid"
 
-	dockerpkg "github.com/fr4nsys/usulnet/internal/docker"
-	"github.com/fr4nsys/usulnet/internal/pkg/errors"
+	dockerpkg "github.com/fr4nsys/dockerscout/internal/docker"
+	"github.com/fr4nsys/dockerscout/internal/pkg/errors"
 )
 
 // HostClientProvider provides Docker clients for a given host.

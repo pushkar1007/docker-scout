@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Copyright (c) 2024-2026 usulnet contributors
-// https://github.com/fr4nsys/usulnet
+// Copyright (c) 2024-2026 dockerscout contributors
+// https://github.com/fr4nsys/dockerscout
 
 package app
 
@@ -11,20 +11,20 @@ import (
 
 	"github.com/google/uuid"
 
-	dockerpkg "github.com/fr4nsys/usulnet/internal/docker"
-	"github.com/fr4nsys/usulnet/internal/models"
-	"github.com/fr4nsys/usulnet/internal/repository/postgres"
-	"github.com/fr4nsys/usulnet/internal/scheduler/workers"
-	backupsvc "github.com/fr4nsys/usulnet/internal/services/backup"
-	containersvc "github.com/fr4nsys/usulnet/internal/services/container"
-	hostsvc "github.com/fr4nsys/usulnet/internal/services/host"
-	imagesvc "github.com/fr4nsys/usulnet/internal/services/image"
-	networksvc "github.com/fr4nsys/usulnet/internal/services/network"
-	notificationsvc "github.com/fr4nsys/usulnet/internal/services/notification"
-	"github.com/fr4nsys/usulnet/internal/services/notification/channels"
-	securitysvc "github.com/fr4nsys/usulnet/internal/services/security"
-	updatesvc "github.com/fr4nsys/usulnet/internal/services/update"
-	volumesvc "github.com/fr4nsys/usulnet/internal/services/volume"
+	dockerpkg "github.com/fr4nsys/dockerscout/internal/docker"
+	"github.com/fr4nsys/dockerscout/internal/models"
+	"github.com/fr4nsys/dockerscout/internal/repository/postgres"
+	"github.com/fr4nsys/dockerscout/internal/scheduler/workers"
+	backupsvc "github.com/fr4nsys/dockerscout/internal/services/backup"
+	containersvc "github.com/fr4nsys/dockerscout/internal/services/container"
+	hostsvc "github.com/fr4nsys/dockerscout/internal/services/host"
+	imagesvc "github.com/fr4nsys/dockerscout/internal/services/image"
+	networksvc "github.com/fr4nsys/dockerscout/internal/services/network"
+	notificationsvc "github.com/fr4nsys/dockerscout/internal/services/notification"
+	"github.com/fr4nsys/dockerscout/internal/services/notification/channels"
+	securitysvc "github.com/fr4nsys/dockerscout/internal/services/security"
+	updatesvc "github.com/fr4nsys/dockerscout/internal/services/update"
+	volumesvc "github.com/fr4nsys/dockerscout/internal/services/volume"
 )
 
 // ============================================================================

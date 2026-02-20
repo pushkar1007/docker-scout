@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Copyright (c) 2024-2026 usulnet contributors
-// https://github.com/fr4nsys/usulnet
+// Copyright (c) 2024-2026 dockerscout contributors
+// https://github.com/fr4nsys/dockerscout
 
 package metrics
 
@@ -10,7 +10,7 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/fr4nsys/usulnet/internal/scheduler/workers"
+	"github.com/fr4nsys/dockerscout/internal/scheduler/workers"
 )
 
 // FormatPrometheus renders all cached metrics in Prometheus text exposition format.
@@ -26,37 +26,37 @@ func FormatPrometheus(
 	for _, h := range hosts {
 		hostLabel := sanitizeLabel(h.HostID.String())
 
-		writeGauge(&b, "usulnet_host_cpu_percent", "Current CPU usage percentage",
+		writeGauge(&b, "dockerscout_host_cpu_percent", "Current CPU usage percentage",
 			h.CPUUsagePercent, "host", hostLabel)
 
-		writeGaugeI64(&b, "usulnet_host_memory_used_bytes", "Memory used in bytes",
+		writeGaugeI64(&b, "dockerscout_host_memory_used_bytes", "Memory used in bytes",
 			h.MemoryUsed, "host", hostLabel)
-		writeGaugeI64(&b, "usulnet_host_memory_total_bytes", "Total memory in bytes",
+		writeGaugeI64(&b, "dockerscout_host_memory_total_bytes", "Total memory in bytes",
 			h.MemoryTotal, "host", hostLabel)
-		writeGauge(&b, "usulnet_host_memory_percent", "Memory usage percentage",
+		writeGauge(&b, "dockerscout_host_memory_percent", "Memory usage percentage",
 			h.MemoryPercent, "host", hostLabel)
 
-		writeGaugeI64(&b, "usulnet_host_disk_used_bytes", "Disk used in bytes",
+		writeGaugeI64(&b, "dockerscout_host_disk_used_bytes", "Disk used in bytes",
 			h.DiskUsed, "host", hostLabel)
-		writeGaugeI64(&b, "usulnet_host_disk_total_bytes", "Total disk in bytes",
+		writeGaugeI64(&b, "dockerscout_host_disk_total_bytes", "Total disk in bytes",
 			h.DiskTotal, "host", hostLabel)
-		writeGauge(&b, "usulnet_host_disk_percent", "Disk usage percentage",
+		writeGauge(&b, "dockerscout_host_disk_percent", "Disk usage percentage",
 			h.DiskPercent, "host", hostLabel)
 
-		writeGaugeI64(&b, "usulnet_host_network_rx_bytes", "Network received bytes",
+		writeGaugeI64(&b, "dockerscout_host_network_rx_bytes", "Network received bytes",
 			h.NetworkRxBytes, "host", hostLabel)
-		writeGaugeI64(&b, "usulnet_host_network_tx_bytes", "Network transmitted bytes",
+		writeGaugeI64(&b, "dockerscout_host_network_tx_bytes", "Network transmitted bytes",
 			h.NetworkTxBytes, "host", hostLabel)
 
-		writeGaugeInt(&b, "usulnet_host_containers_total", "Total containers",
+		writeGaugeInt(&b, "dockerscout_host_containers_total", "Total containers",
 			h.ContainersTotal, "host", hostLabel)
-		writeGaugeInt(&b, "usulnet_host_containers_running", "Running containers",
+		writeGaugeInt(&b, "dockerscout_host_containers_running", "Running containers",
 			h.ContainersRunning, "host", hostLabel)
-		writeGaugeInt(&b, "usulnet_host_containers_stopped", "Stopped containers",
+		writeGaugeInt(&b, "dockerscout_host_containers_stopped", "Stopped containers",
 			h.ContainersStopped, "host", hostLabel)
-		writeGaugeInt(&b, "usulnet_host_images_total", "Total images",
+		writeGaugeInt(&b, "dockerscout_host_images_total", "Total images",
 			h.ImagesTotal, "host", hostLabel)
-		writeGaugeInt(&b, "usulnet_host_volumes_total", "Total volumes",
+		writeGaugeInt(&b, "dockerscout_host_volumes_total", "Total volumes",
 			h.VolumesTotal, "host", hostLabel)
 	}
 
@@ -71,23 +71,23 @@ func FormatPrometheus(
 
 			labels := fmt.Sprintf(`name="%s",id="%s"`, name, id)
 
-			writeGaugeLabels(&b, "usulnet_container_cpu_percent", "Container CPU usage",
+			writeGaugeLabels(&b, "dockerscout_container_cpu_percent", "Container CPU usage",
 				cm.CPUUsagePercent, labels)
-			writeGaugeI64Labels(&b, "usulnet_container_memory_used_bytes", "Container memory used",
+			writeGaugeI64Labels(&b, "dockerscout_container_memory_used_bytes", "Container memory used",
 				cm.MemoryUsed, labels)
-			writeGaugeI64Labels(&b, "usulnet_container_memory_limit_bytes", "Container memory limit",
+			writeGaugeI64Labels(&b, "dockerscout_container_memory_limit_bytes", "Container memory limit",
 				cm.MemoryLimit, labels)
-			writeGaugeLabels(&b, "usulnet_container_memory_percent", "Container memory percentage",
+			writeGaugeLabels(&b, "dockerscout_container_memory_percent", "Container memory percentage",
 				cm.MemoryPercent, labels)
-			writeGaugeI64Labels(&b, "usulnet_container_network_rx_bytes", "Container network received",
+			writeGaugeI64Labels(&b, "dockerscout_container_network_rx_bytes", "Container network received",
 				cm.NetworkRxBytes, labels)
-			writeGaugeI64Labels(&b, "usulnet_container_network_tx_bytes", "Container network transmitted",
+			writeGaugeI64Labels(&b, "dockerscout_container_network_tx_bytes", "Container network transmitted",
 				cm.NetworkTxBytes, labels)
-			writeGaugeI64Labels(&b, "usulnet_container_block_read_bytes", "Container block read",
+			writeGaugeI64Labels(&b, "dockerscout_container_block_read_bytes", "Container block read",
 				cm.BlockRead, labels)
-			writeGaugeI64Labels(&b, "usulnet_container_block_write_bytes", "Container block write",
+			writeGaugeI64Labels(&b, "dockerscout_container_block_write_bytes", "Container block write",
 				cm.BlockWrite, labels)
-			writeGaugeIntLabels(&b, "usulnet_container_pids", "Container PIDs",
+			writeGaugeIntLabels(&b, "dockerscout_container_pids", "Container PIDs",
 				cm.PIDs, labels)
 
 			// State as gauge (1=running, 0=other)
@@ -95,7 +95,7 @@ func FormatPrometheus(
 			if cm.State == "running" {
 				stateVal = 1.0
 			}
-			writeGaugeLabels(&b, "usulnet_container_running", "Container running state (1=running)",
+			writeGaugeLabels(&b, "dockerscout_container_running", "Container running state (1=running)",
 				stateVal, labels)
 		}
 	}

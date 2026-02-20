@@ -1,19 +1,19 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Copyright (c) 2024-2026 usulnet contributors
-// https://github.com/fr4nsys/usulnet
+// Copyright (c) 2024-2026 dockerscout contributors
+// https://github.com/fr4nsys/dockerscout
 
 //go:build e2e
 
-// Package e2e contains end-to-end tests for the usulnet platform.
+// Package e2e contains end-to-end tests for the dockerscout platform.
 // These tests require a running environment with PostgreSQL, Redis, and NATS.
 //
 // Run with: go test -tags=e2e -v ./tests/e2e/...
 //
 // Environment variables:
-//   - USULNET_TEST_DATABASE_URL: PostgreSQL connection string (default: postgres://usulnet_test:test_password_e2e@localhost:15432/usulnet_test?sslmode=disable)
-//   - USULNET_TEST_REDIS_URL: Redis connection string (default: redis://localhost:16379)
-//   - USULNET_TEST_NATS_URL: NATS connection string (default: nats://localhost:14222)
-//   - USULNET_TEST_API_URL: API base URL if testing against running server (default: empty, tests run embedded)
+//   - DOCKERSCOUT_TEST_DATABASE_URL: PostgreSQL connection string (default: postgres://dockerscout_test:test_password_e2e@localhost:15432/dockerscout_test?sslmode=disable)
+//   - DOCKERSCOUT_TEST_REDIS_URL: Redis connection string (default: redis://localhost:16379)
+//   - DOCKERSCOUT_TEST_NATS_URL: NATS connection string (default: nats://localhost:14222)
+//   - DOCKERSCOUT_TEST_API_URL: API base URL if testing against running server (default: empty, tests run embedded)
 package e2e
 
 import (
@@ -37,21 +37,21 @@ type testConfig struct {
 
 func getTestConfig() testConfig {
 	cfg := testConfig{
-		DatabaseURL: "postgres://usulnet_test:test_password_e2e@localhost:15432/usulnet_test?sslmode=disable",
+		DatabaseURL: "postgres://dockerscout_test:test_password_e2e@localhost:15432/dockerscout_test?sslmode=disable",
 		RedisURL:    "redis://localhost:16379",
 		NATSURL:     "nats://localhost:14222",
 	}
 
-	if v := os.Getenv("USULNET_TEST_DATABASE_URL"); v != "" {
+	if v := os.Getenv("DOCKERSCOUT_TEST_DATABASE_URL"); v != "" {
 		cfg.DatabaseURL = v
 	}
-	if v := os.Getenv("USULNET_TEST_REDIS_URL"); v != "" {
+	if v := os.Getenv("DOCKERSCOUT_TEST_REDIS_URL"); v != "" {
 		cfg.RedisURL = v
 	}
-	if v := os.Getenv("USULNET_TEST_NATS_URL"); v != "" {
+	if v := os.Getenv("DOCKERSCOUT_TEST_NATS_URL"); v != "" {
 		cfg.NATSURL = v
 	}
-	if v := os.Getenv("USULNET_TEST_API_URL"); v != "" {
+	if v := os.Getenv("DOCKERSCOUT_TEST_API_URL"); v != "" {
 		cfg.APIURL = v
 	}
 
@@ -134,7 +134,7 @@ func (c *apiClient) parseJSON(resp *http.Response) (map[string]any, error) {
 func TestE2E_HealthEndpoints(t *testing.T) {
 	cfg := getTestConfig()
 	if cfg.APIURL == "" {
-		t.Skip("USULNET_TEST_API_URL not set, skipping E2E health tests")
+		t.Skip("DOCKERSCOUT_TEST_API_URL not set, skipping E2E health tests")
 	}
 
 	client := newAPIClient(cfg.APIURL)
@@ -187,7 +187,7 @@ func TestE2E_HealthEndpoints(t *testing.T) {
 func TestE2E_AuthFlow(t *testing.T) {
 	cfg := getTestConfig()
 	if cfg.APIURL == "" {
-		t.Skip("USULNET_TEST_API_URL not set, skipping E2E auth tests")
+		t.Skip("DOCKERSCOUT_TEST_API_URL not set, skipping E2E auth tests")
 	}
 
 	client := newAPIClient(cfg.APIURL)
@@ -236,7 +236,7 @@ func TestE2E_AuthFlow(t *testing.T) {
 func TestE2E_ContainerOperations(t *testing.T) {
 	cfg := getTestConfig()
 	if cfg.APIURL == "" {
-		t.Skip("USULNET_TEST_API_URL not set, skipping E2E container tests")
+		t.Skip("DOCKERSCOUT_TEST_API_URL not set, skipping E2E container tests")
 	}
 
 	client := newAPIClient(cfg.APIURL)
@@ -258,7 +258,7 @@ func TestE2E_ContainerOperations(t *testing.T) {
 func TestE2E_SecurityScan(t *testing.T) {
 	cfg := getTestConfig()
 	if cfg.APIURL == "" {
-		t.Skip("USULNET_TEST_API_URL not set, skipping E2E security tests")
+		t.Skip("DOCKERSCOUT_TEST_API_URL not set, skipping E2E security tests")
 	}
 
 	client := newAPIClient(cfg.APIURL)
@@ -280,7 +280,7 @@ func TestE2E_SecurityScan(t *testing.T) {
 func TestE2E_BackupOperations(t *testing.T) {
 	cfg := getTestConfig()
 	if cfg.APIURL == "" {
-		t.Skip("USULNET_TEST_API_URL not set, skipping E2E backup tests")
+		t.Skip("DOCKERSCOUT_TEST_API_URL not set, skipping E2E backup tests")
 	}
 
 	client := newAPIClient(cfg.APIURL)

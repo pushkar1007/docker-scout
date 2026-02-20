@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Copyright (c) 2024-2026 usulnet contributors
-// https://github.com/fr4nsys/usulnet
+// Copyright (c) 2024-2026 dockerscout contributors
+// https://github.com/fr4nsys/dockerscout
 
 package web
 
@@ -15,9 +15,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/fr4nsys/usulnet/internal/models"
-	sshsvc "github.com/fr4nsys/usulnet/internal/services/ssh"
-	"github.com/fr4nsys/usulnet/internal/web/templates/pages/connections"
+	"github.com/fr4nsys/dockerscout/internal/models"
+	sshsvc "github.com/fr4nsys/dockerscout/internal/services/ssh"
+	"github.com/fr4nsys/dockerscout/internal/web/templates/pages/connections"
 	"github.com/go-chi/chi/v5"
 	"github.com/google/uuid"
 )

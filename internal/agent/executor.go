@@ -1,17 +1,17 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Copyright (c) 2024-2026 usulnet contributors
-// https://github.com/fr4nsys/usulnet
+// Copyright (c) 2024-2026 dockerscout contributors
+// https://github.com/fr4nsys/dockerscout
 
-// Package agent provides the executor wrapper for the usulnet agent.
+// Package agent provides the executor wrapper for the dockerscout agent.
 package agent
 
 import (
 	"context"
 
-	"github.com/fr4nsys/usulnet/internal/agent/executor"
-	"github.com/fr4nsys/usulnet/internal/docker"
-	"github.com/fr4nsys/usulnet/internal/gateway/protocol"
-	"github.com/fr4nsys/usulnet/internal/pkg/logger"
+	"github.com/fr4nsys/dockerscout/internal/agent/executor"
+	"github.com/fr4nsys/dockerscout/internal/docker"
+	"github.com/fr4nsys/dockerscout/internal/gateway/protocol"
+	"github.com/fr4nsys/dockerscout/internal/pkg/logger"
 )
 
 // Executor wraps the command executor for the agent.

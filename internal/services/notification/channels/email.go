@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Copyright (c) 2024-2026 usulnet contributors
-// https://github.com/fr4nsys/usulnet
+// Copyright (c) 2024-2026 dockerscout contributors
+// https://github.com/fr4nsys/dockerscout
 
 // Package channels provides notification channel implementations.
 // Department L: Notifications
@@ -50,7 +50,7 @@ type EmailConfig struct {
 	BCCAddresses []string `json:"bcc_addresses,omitempty"`
 
 	// Content settings
-	SubjectPrefix string `json:"subject_prefix,omitempty"` // e.g., "[USULNET]"
+	SubjectPrefix string `json:"subject_prefix,omitempty"` // e.g., "[DOCKERSCOUT]"
 	SendHTML      *bool  `json:"send_html,omitempty"`      // Send HTML emails
 
 	// Timeout in seconds
@@ -81,10 +81,10 @@ func NewEmailChannel(config EmailConfig) (*EmailChannel, error) {
 
 	// Set defaults
 	if config.FromName == "" {
-		config.FromName = "USULNET"
+		config.FromName = "DOCKERSCOUT"
 	}
 	if config.SubjectPrefix == "" {
-		config.SubjectPrefix = "[USULNET]"
+		config.SubjectPrefix = "[DOCKERSCOUT]"
 	}
 	if config.SendHTML == nil {
 		sendHTML := true
@@ -139,9 +139,9 @@ func (e *EmailChannel) Send(ctx context.Context, msg RenderedMessage) error {
 // Test sends a test email to verify configuration.
 func (e *EmailChannel) Test(ctx context.Context) error {
 	testMsg := RenderedMessage{
-		Title:     "USULNET Test Notification",
-		Body:      "This is a test notification from USULNET to verify email configuration.",
-		BodyPlain: "This is a test notification from USULNET to verify email configuration.",
+		Title:     "DOCKERSCOUT Test Notification",
+		Body:      "This is a test notification from DOCKERSCOUT to verify email configuration.",
+		BodyPlain: "This is a test notification from DOCKERSCOUT to verify email configuration.",
 		Priority:  PriorityNormal,
 		Timestamp: time.Now(),
 		Type:      TypeTestMessage,
@@ -214,7 +214,7 @@ func (e *EmailChannel) buildMessage(subject, body, contentType string) []byte {
 	buf.WriteString(fmt.Sprintf("Content-Type: %s\r\n", contentType))
 	buf.WriteString("Content-Transfer-Encoding: base64\r\n")
 	buf.WriteString(fmt.Sprintf("Date: %s\r\n", time.Now().Format(time.RFC1123Z)))
-	buf.WriteString("X-Mailer: USULNET\r\n")
+	buf.WriteString("X-Mailer: DOCKERSCOUT\r\n")
 	buf.WriteString("\r\n")
 
 	// Base64 encoded body
@@ -400,7 +400,7 @@ func (e *EmailChannel) initTemplates() error {
             <span>{{.Timestamp}}</span>
         </div>
         <div class="footer">
-            Sent by USULNET Docker Management Platform
+            Sent by DOCKERSCOUT Docker Management Platform
         </div>
     </div>
 </body>

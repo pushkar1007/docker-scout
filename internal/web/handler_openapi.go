@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Copyright (c) 2024-2026 usulnet contributors
-// https://github.com/fr4nsys/usulnet
+// Copyright (c) 2024-2026 dockerscout contributors
+// https://github.com/fr4nsys/dockerscout
 
 package web
 
@@ -16,7 +16,7 @@ func (h *Handler) OpenAPIDocsTempl(w http.ResponseWriter, r *http.Request) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>usulnet API Documentation</title>
+    <title>dockerscout API Documentation</title>
     <link rel="stylesheet" href="/static/vendor/swagger-ui/swagger-ui.css">
     <style>
         body { margin: 0; padding: 0; }

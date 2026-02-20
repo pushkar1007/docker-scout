@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Copyright (c) 2024-2026 usulnet contributors
-// https://github.com/fr4nsys/usulnet
+// Copyright (c) 2024-2026 dockerscout contributors
+// https://github.com/fr4nsys/dockerscout
 
 // Package postgres provides PostgreSQL repository implementations.
 package postgres
@@ -15,8 +15,8 @@ import (
 	"github.com/google/uuid"
 	"github.com/jackc/pgx/v5"
 
-	apperrors "github.com/fr4nsys/usulnet/internal/pkg/errors"
-	"github.com/fr4nsys/usulnet/internal/models"
+	apperrors "github.com/fr4nsys/dockerscout/internal/pkg/errors"
+	"github.com/fr4nsys/dockerscout/internal/models"
 )
 
 // UserRepository handles user database operations.

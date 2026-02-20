@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Copyright (c) 2024-2026 usulnet contributors
-// https://github.com/fr4nsys/usulnet
+// Copyright (c) 2024-2026 dockerscout contributors
+// https://github.com/fr4nsys/dockerscout
 
 // Package channels provides notification channel implementations.
 // Department L: Notifications
@@ -119,7 +119,7 @@ func NewDiscordChannel(config DiscordConfig) (*DiscordChannel, error) {
 
 	// Set defaults
 	if config.Username == "" {
-		config.Username = "USULNET"
+		config.Username = "DOCKERSCOUT"
 	}
 	if config.Timeout == 0 {
 		config.Timeout = 30
@@ -182,9 +182,9 @@ func (d *DiscordChannel) Send(ctx context.Context, msg RenderedMessage) error {
 // Test sends a test notification to verify configuration.
 func (d *DiscordChannel) Test(ctx context.Context) error {
 	testMsg := RenderedMessage{
-		Title:     "USULNET Test Notification",
-		Body:      "This is a test notification from USULNET to verify Discord integration.",
-		BodyPlain: "This is a test notification from USULNET to verify Discord integration.",
+		Title:     "DOCKERSCOUT Test Notification",
+		Body:      "This is a test notification from DOCKERSCOUT to verify Discord integration.",
+		BodyPlain: "This is a test notification from DOCKERSCOUT to verify Discord integration.",
 		Priority:  PriorityNormal,
 		Timestamp: time.Now(),
 		Type:      TypeTestMessage,
@@ -221,10 +221,10 @@ func (d *DiscordChannel) buildEmbed(msg RenderedMessage) DiscordEmbed {
 		Color:       d.hexToInt(msg.Color),
 		Timestamp:   msg.Timestamp.Format(time.RFC3339),
 		Footer: &DiscordEmbedFooter{
-			Text: fmt.Sprintf("USULNET • %s • %s", msg.Type.Category(), msg.Priority.String()),
+			Text: fmt.Sprintf("DOCKERSCOUT • %s • %s", msg.Type.Category(), msg.Priority.String()),
 		},
 		Author: &DiscordEmbedAuthor{
-			Name:    "USULNET",
+			Name:    "DOCKERSCOUT",
 			IconURL: d.config.AvatarURL,
 		},
 	}

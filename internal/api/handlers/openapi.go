@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Copyright (c) 2024-2026 usulnet contributors
-// https://github.com/fr4nsys/usulnet
+// Copyright (c) 2024-2026 dockerscout contributors
+// https://github.com/fr4nsys/dockerscout
 
 package handlers
 
@@ -31,7 +31,7 @@ func (h *OpenAPIHandler) buildSpec() map[string]any {
 	return map[string]any{
 		"openapi": "3.0.3",
 		"info": map[string]any{
-			"title":       "usulnet API",
+			"title":       "dockerscout API",
 			"description": "Docker Management Platform REST API. Provides endpoints for managing containers, images, volumes, networks, stacks, hosts, backups, security scanning, and more.",
 			"version":     h.version,
 			"license": map[string]any{
@@ -39,8 +39,8 @@ func (h *OpenAPIHandler) buildSpec() map[string]any {
 				"url":  "https://www.gnu.org/licenses/agpl-3.0.html",
 			},
 			"contact": map[string]any{
-				"name": "usulnet",
-				"url":  "https://github.com/fr4nsys/usulnet",
+				"name": "dockerscout",
+				"url":  "https://github.com/fr4nsys/dockerscout",
 			},
 		},
 		"servers": []map[string]any{

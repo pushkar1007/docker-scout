@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Copyright (c) 2024-2026 usulnet contributors
-// https://github.com/fr4nsys/usulnet
+// Copyright (c) 2024-2026 dockerscout contributors
+// https://github.com/fr4nsys/dockerscout
 
 package capture
 
@@ -19,9 +19,9 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/fr4nsys/usulnet/internal/models"
-	"github.com/fr4nsys/usulnet/internal/pkg/errors"
-	"github.com/fr4nsys/usulnet/internal/pkg/logger"
+	"github.com/fr4nsys/dockerscout/internal/models"
+	"github.com/fr4nsys/dockerscout/internal/pkg/errors"
+	"github.com/fr4nsys/dockerscout/internal/pkg/logger"
 )
 
 // CaptureRepository defines the interface for capture storage.
@@ -66,7 +66,7 @@ func NewService(repo CaptureRepository, log *logger.Logger) *Service {
 	}
 
 	// Create capture directory
-	captureDir := "/tmp/usulnet/captures"
+	captureDir := "/tmp/dockerscout/captures"
 	os.MkdirAll(captureDir, 0750)
 
 	return &Service{

@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Copyright (c) 2024-2026 usulnet contributors
-// https://github.com/fr4nsys/usulnet
+// Copyright (c) 2024-2026 dockerscout contributors
+// https://github.com/fr4nsys/dockerscout
 
 package storage
 
@@ -19,8 +19,8 @@ import (
 	"github.com/pkg/sftp"
 	"golang.org/x/crypto/ssh"
 
-	"github.com/fr4nsys/usulnet/internal/pkg/errors"
-	"github.com/fr4nsys/usulnet/internal/services/backup"
+	"github.com/fr4nsys/dockerscout/internal/pkg/errors"
+	"github.com/fr4nsys/dockerscout/internal/services/backup"
 )
 
 // SFTPStorage implements backup.Storage for SFTP storage.

@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Copyright (c) 2024-2026 usulnet contributors
-// https://github.com/fr4nsys/usulnet
+// Copyright (c) 2024-2026 dockerscout contributors
+// https://github.com/fr4nsys/dockerscout
 
 package crypto
 
@@ -44,8 +44,8 @@ func TestGenerateCA(t *testing.T) {
 	if !cert.IsCA {
 		t.Error("CA cert IsCA should be true")
 	}
-	if cert.Subject.CommonName != "usulnet Internal CA" {
-		t.Errorf("CA CN = %q, want %q", cert.Subject.CommonName, "usulnet Internal CA")
+	if cert.Subject.CommonName != "dockerscout Internal CA" {
+		t.Errorf("CA CN = %q, want %q", cert.Subject.CommonName, "dockerscout Internal CA")
 	}
 	if cert.MaxPathLen != 0 || !cert.MaxPathLenZero {
 		t.Error("CA MaxPathLen should be 0 with MaxPathLenZero=true")
@@ -144,7 +144,7 @@ func TestLoadCAFromFiles(t *testing.T) {
 		t.Fatalf("LoadCAFromFiles() error: %v", err)
 	}
 
-	if ca.cert.Subject.CommonName != "usulnet Internal CA" {
+	if ca.cert.Subject.CommonName != "dockerscout Internal CA" {
 		t.Errorf("wrong CN: %s", ca.cert.Subject.CommonName)
 	}
 }
@@ -225,8 +225,8 @@ func TestIssueNATSServerCert(t *testing.T) {
 	block, _ := pem.Decode(pair.CertPEM)
 	cert, _ := x509.ParseCertificate(block.Bytes)
 
-	if cert.Subject.CommonName != "usulnet-nats" {
-		t.Errorf("CN = %q, want %q", cert.Subject.CommonName, "usulnet-nats")
+	if cert.Subject.CommonName != "dockerscout-nats" {
+		t.Errorf("CN = %q, want %q", cert.Subject.CommonName, "dockerscout-nats")
 	}
 
 	// Should include localhost + provided hostname
@@ -277,8 +277,8 @@ func TestIssueAgentCert(t *testing.T) {
 	block, _ := pem.Decode(pair.CertPEM)
 	cert, _ := x509.ParseCertificate(block.Bytes)
 
-	if cert.Subject.CommonName != "usulnet-agent-abc123" {
-		t.Errorf("CN = %q, want %q", cert.Subject.CommonName, "usulnet-agent-abc123")
+	if cert.Subject.CommonName != "dockerscout-agent-abc123" {
+		t.Errorf("CN = %q, want %q", cert.Subject.CommonName, "dockerscout-agent-abc123")
 	}
 
 	// Should have ClientAuth EKU only
@@ -311,7 +311,7 @@ func TestIssueHTTPSCert(t *testing.T) {
 	bundle, _ := GenerateCA()
 	ca, _ := LoadCA(bundle.CertPEM, bundle.KeyPEM)
 
-	pair, err := ca.IssueHTTPSCert("usulnet.local", "10.0.0.5")
+	pair, err := ca.IssueHTTPSCert("dockerscout.local", "10.0.0.5")
 	if err != nil {
 		t.Fatalf("IssueHTTPSCert() error: %v", err)
 	}
@@ -319,8 +319,8 @@ func TestIssueHTTPSCert(t *testing.T) {
 	block, _ := pem.Decode(pair.CertPEM)
 	cert, _ := x509.ParseCertificate(block.Bytes)
 
-	if cert.Subject.CommonName != "usulnet-https" {
-		t.Errorf("CN = %q, want %q", cert.Subject.CommonName, "usulnet-https")
+	if cert.Subject.CommonName != "dockerscout-https" {
+		t.Errorf("CN = %q, want %q", cert.Subject.CommonName, "dockerscout-https")
 	}
 
 	// Validity: should be ~10 years (same as CA)

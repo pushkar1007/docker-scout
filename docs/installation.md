@@ -1,7 +1,7 @@
 # Installation & Deployment Guide
 
-> **usulnet** - Docker Management Platform
-> This guide covers all methods to install and run usulnet in production.
+> **dockerscout** - Docker Management Platform
+> This guide covers all methods to install and run dockerscout in production.
 
 ---
 
@@ -60,13 +60,13 @@ This is the recommended method for production deployments.
 
 ```bash
 # Option A: Clone the repository
-git clone https://github.com/fr4nsys/usulnet.git
-cd usulnet
+git clone https://github.com/fr4nsys/dockerscout.git
+cd dockerscout
 
 # Option B: Download only the compose file
-mkdir usulnet && cd usulnet
-curl -LO https://raw.githubusercontent.com/fr4nsys/usulnet/main/docker-compose.yml
-curl -LO https://raw.githubusercontent.com/fr4nsys/usulnet/main/deploy/.env.example
+mkdir dockerscout && cd dockerscout
+curl -LO https://raw.githubusercontent.com/fr4nsys/dockerscout/main/docker-compose.yml
+curl -LO https://raw.githubusercontent.com/fr4nsys/dockerscout/main/deploy/.env.example
 ```
 
 ### Step 2: Configure Environment Variables
@@ -82,13 +82,13 @@ Edit `.env` and change the following values:
 DB_PASSWORD=$(openssl rand -base64 24 | tr -dc 'a-zA-Z0-9' | head -c 32)
 
 # Optional: Customize ports
-USULNET_HTTP_PORT=8080
-USULNET_HTTPS_PORT=7443
+DOCKERSCOUT_HTTP_PORT=8080
+DOCKERSCOUT_HTTPS_PORT=7443
 
 # Optional: Set operation mode
 # standalone = single host (default)
 # master     = multi-host control plane
-USULNET_MODE=standalone
+DOCKERSCOUT_MODE=standalone
 ```
 
 **Environment Variable Reference:**
@@ -96,12 +96,12 @@ USULNET_MODE=standalone
 | Variable | Default | Description |
 |----------|---------|-------------|
 | `DB_PASSWORD` | *none* | **Required.** PostgreSQL password |
-| `DB_USER` | `usulnet` | PostgreSQL username |
-| `DB_NAME` | `usulnet` | PostgreSQL database name |
-| `USULNET_VERSION` | `latest` | Docker image tag |
-| `USULNET_HTTP_PORT` | `8080` | HTTP port on host |
-| `USULNET_HTTPS_PORT` | `7443` | HTTPS port on host |
-| `USULNET_MODE` | `standalone` | Operation mode: `standalone` or `master` |
+| `DB_USER` | `dockerscout` | PostgreSQL username |
+| `DB_NAME` | `dockerscout` | PostgreSQL database name |
+| `DOCKERSCOUT_VERSION` | `latest` | Docker image tag |
+| `DOCKERSCOUT_HTTP_PORT` | `8080` | HTTP port on host |
+| `DOCKERSCOUT_HTTPS_PORT` | `7443` | HTTPS port on host |
+| `DOCKERSCOUT_MODE` | `standalone` | Operation mode: `standalone` or `master` |
 | `HOST_TERMINAL_ENABLED` | `true` | Allow web terminal to Docker host |
 | `HOST_TERMINAL_USER` | `nobody` | User for host terminal sessions |
 | `AGENT_TOKEN` | `change-me` | Token for agent authentication (multi-host only) |
@@ -113,7 +113,7 @@ docker compose up -d
 ```
 
 This starts the following services:
-- **usulnet** - Main application server
+- **dockerscout** - Main application server
 - **postgres** - PostgreSQL 16 database
 - **redis** - Redis 8 cache and session store
 - **nats** - NATS 2.12 message broker (JetStream)
@@ -156,7 +156,7 @@ Default credentials:
 
 ```
 Username: admin
-Password: usulnet
+Password: dockerscout
 ```
 
 > **Important:** Change the default password immediately after first login.
@@ -165,7 +165,7 @@ Password: usulnet
 
 ## Installation with Standalone Binary
 
-For environments where Docker Compose is not desired, you can run usulnet as a standalone binary. You must provide PostgreSQL, Redis, and NATS separately.
+For environments where Docker Compose is not desired, you can run dockerscout as a standalone binary. You must provide PostgreSQL, Redis, and NATS separately.
 
 ### Step 1: Install Prerequisites
 
@@ -177,18 +177,18 @@ Ensure the following services are running and accessible:
 
 ### Step 2: Download the Binary
 
-Download the latest release from the [GitHub Releases](https://github.com/fr4nsys/usulnet/releases) page:
+Download the latest release from the [GitHub Releases](https://github.com/fr4nsys/dockerscout/releases) page:
 
 ```bash
 # Linux amd64
-curl -LO https://github.com/fr4nsys/usulnet/releases/latest/download/usulnet-linux-amd64
-chmod +x usulnet-linux-amd64
-sudo mv usulnet-linux-amd64 /usr/local/bin/usulnet
+curl -LO https://github.com/fr4nsys/dockerscout/releases/latest/download/dockerscout-linux-amd64
+chmod +x dockerscout-linux-amd64
+sudo mv dockerscout-linux-amd64 /usr/local/bin/dockerscout
 
 # Linux arm64
-curl -LO https://github.com/fr4nsys/usulnet/releases/latest/download/usulnet-linux-arm64
-chmod +x usulnet-linux-arm64
-sudo mv usulnet-linux-arm64 /usr/local/bin/usulnet
+curl -LO https://github.com/fr4nsys/dockerscout/releases/latest/download/dockerscout-linux-arm64
+chmod +x dockerscout-linux-arm64
+sudo mv dockerscout-linux-arm64 /usr/local/bin/dockerscout
 ```
 
 ### Step 3: Create Configuration File
@@ -207,7 +207,7 @@ server:
     auto_tls: true
 
 database:
-  url: "postgres://usulnet:YOUR_PASSWORD@localhost:5432/usulnet?sslmode=disable"
+  url: "postgres://dockerscout:YOUR_PASSWORD@localhost:5432/dockerscout?sslmode=disable"
   max_open_conns: 25
   max_idle_conns: 10
 
@@ -226,11 +226,11 @@ security:
 
 storage:
   type: "local"
-  path: "/var/lib/usulnet/data"
+  path: "/var/lib/dockerscout/data"
 
 trivy:
   enabled: true
-  cache_dir: "/var/lib/usulnet/trivy"
+  cache_dir: "/var/lib/dockerscout/trivy"
   severity: "CRITICAL,HIGH,MEDIUM"
 
 logging:
@@ -252,32 +252,32 @@ openssl rand -hex 32
 
 ```bash
 # Connect to PostgreSQL and create the database
-psql -U postgres -c "CREATE USER usulnet WITH PASSWORD 'YOUR_PASSWORD';"
-psql -U postgres -c "CREATE DATABASE usulnet OWNER usulnet;"
+psql -U postgres -c "CREATE USER dockerscout WITH PASSWORD 'YOUR_PASSWORD';"
+psql -U postgres -c "CREATE DATABASE dockerscout OWNER dockerscout;"
 ```
 
 ### Step 5: Run Database Migrations
 
 ```bash
-usulnet migrate up
+dockerscout migrate up
 ```
 
 ### Step 6: Start the Server
 
 ```bash
 # Run in foreground
-usulnet serve --config config.yaml
+dockerscout serve --config config.yaml
 
 # Or run as a systemd service (see below)
 ```
 
 ### Optional: Systemd Service
 
-Create `/etc/systemd/system/usulnet.service`:
+Create `/etc/systemd/system/dockerscout.service`:
 
 ```ini
 [Unit]
-Description=usulnet Docker Management Platform
+Description=dockerscout Docker Management Platform
 After=network.target postgresql.service redis.service nats.service
 Requires=docker.service
 
@@ -285,7 +285,7 @@ Requires=docker.service
 Type=simple
 User=root
 Group=root
-ExecStart=/usr/local/bin/usulnet serve --config /etc/usulnet/config.yaml
+ExecStart=/usr/local/bin/dockerscout serve --config /etc/dockerscout/config.yaml
 Restart=on-failure
 RestartSec=5
 LimitNOFILE=65536
@@ -296,8 +296,8 @@ WantedBy=multi-user.target
 
 ```bash
 sudo systemctl daemon-reload
-sudo systemctl enable --now usulnet
-sudo systemctl status usulnet
+sudo systemctl enable --now dockerscout
+sudo systemctl status dockerscout
 ```
 
 ---
@@ -305,7 +305,7 @@ sudo systemctl status usulnet
 ## First Access & Initial Setup
 
 1. Open the web interface at `http://localhost:8080` (or your configured URL)
-2. Log in with the default credentials: `admin` / `usulnet`
+2. Log in with the default credentials: `admin` / `dockerscout`
 3. **Change the admin password immediately** via the profile page
 4. Configure system settings in **Admin > Settings**:
    - Set the platform name and base URL
@@ -319,11 +319,11 @@ sudo systemctl status usulnet
 
 ### Auto-Generated Self-Signed Certificate (Default)
 
-usulnet automatically generates a self-signed TLS certificate when `auto_tls: true` is set. Access the platform via `https://localhost:7443`. Browsers will show a certificate warning.
+dockerscout automatically generates a self-signed TLS certificate when `auto_tls: true` is set. Access the platform via `https://localhost:7443`. Browsers will show a certificate warning.
 
 ### Let's Encrypt (Recommended for Production)
 
-For production, place usulnet behind a reverse proxy (Caddy, Nginx, Traefik) with Let's Encrypt:
+For production, place dockerscout behind a reverse proxy (Caddy, Nginx, Traefik) with Let's Encrypt:
 
 ```yaml
 # Example with Caddy as reverse proxy
@@ -359,7 +359,7 @@ volumes:
 
 ## Multi-Host Setup (Master + Agents)
 
-usulnet supports managing multiple Docker hosts through a master-agent architecture using NATS JetStream.
+dockerscout supports managing multiple Docker hosts through a master-agent architecture using NATS JetStream.
 
 ### Configure the Master
 
@@ -367,7 +367,7 @@ Set the mode to `master` on the control plane host:
 
 ```bash
 # .env
-USULNET_MODE=master
+DOCKERSCOUT_MODE=master
 AGENT_TOKEN=your-secure-agent-token
 ```
 
@@ -381,10 +381,10 @@ On each remote host you want to manage:
 
 ```bash
 docker run -d \
-  --name usulnet-agent \
+  --name dockerscout-agent \
   --restart unless-stopped \
   -v /var/run/docker.sock:/var/run/docker.sock \
-  usulnet/usulnet-agent:latest \
+  dockerscout/dockerscout-agent:latest \
   --gateway nats://MASTER_IP:4222 \
   --token your-secure-agent-token
 ```
@@ -419,20 +419,20 @@ curl -sf http://localhost:8080/health
 
 ```bash
 # Download new binary
-curl -LO https://github.com/fr4nsys/usulnet/releases/latest/download/usulnet-linux-amd64
+curl -LO https://github.com/fr4nsys/dockerscout/releases/latest/download/dockerscout-linux-amd64
 
 # Stop the service
-sudo systemctl stop usulnet
+sudo systemctl stop dockerscout
 
 # Replace binary
-sudo mv usulnet-linux-amd64 /usr/local/bin/usulnet
-sudo chmod +x /usr/local/bin/usulnet
+sudo mv dockerscout-linux-amd64 /usr/local/bin/dockerscout
+sudo chmod +x /usr/local/bin/dockerscout
 
 # Run migrations
-usulnet migrate up --config /etc/usulnet/config.yaml
+dockerscout migrate up --config /etc/dockerscout/config.yaml
 
 # Start the service
-sudo systemctl start usulnet
+sudo systemctl start dockerscout
 ```
 
 ---
@@ -452,12 +452,12 @@ docker compose down -v
 ### Standalone Binary
 
 ```bash
-sudo systemctl stop usulnet
-sudo systemctl disable usulnet
-sudo rm /etc/systemd/system/usulnet.service
+sudo systemctl stop dockerscout
+sudo systemctl disable dockerscout
+sudo rm /etc/systemd/system/dockerscout.service
 sudo systemctl daemon-reload
-sudo rm /usr/local/bin/usulnet
-sudo rm -rf /etc/usulnet /var/lib/usulnet
+sudo rm /usr/local/bin/dockerscout
+sudo rm -rf /etc/dockerscout /var/lib/dockerscout
 ```
 
 ---
@@ -470,14 +470,14 @@ sudo rm -rf /etc/usulnet /var/lib/usulnet
 Error: permission denied while trying to connect to the Docker daemon socket
 ```
 
-**Solution:** Ensure the usulnet container has access to the Docker socket. The container runs an entrypoint script that adjusts the Docker socket group. If you still see errors:
+**Solution:** Ensure the dockerscout container has access to the Docker socket. The container runs an entrypoint script that adjusts the Docker socket group. If you still see errors:
 
 ```bash
 # Check Docker socket permissions on the host
 ls -la /var/run/docker.sock
 
 # Ensure the docker group exists and the container uses it
-docker compose restart usulnet
+docker compose restart dockerscout
 ```
 
 ### Database Connection Failed
@@ -490,7 +490,7 @@ Error: connection refused (PostgreSQL)
 - Verify PostgreSQL is running: `docker compose ps postgres`
 - Check database password matches in `.env`
 - Check logs: `docker compose logs postgres`
-- Verify the database was created: `docker exec -it usulnet-postgres psql -U usulnet -c '\l'`
+- Verify the database was created: `docker exec -it dockerscout-postgres psql -U dockerscout -c '\l'`
 
 ### Port Already in Use
 
@@ -501,8 +501,8 @@ Error: bind: address already in use
 **Solution:** Change the port in `.env`:
 
 ```bash
-USULNET_HTTP_PORT=9090
-USULNET_HTTPS_PORT=9443
+DOCKERSCOUT_HTTP_PORT=9090
+DOCKERSCOUT_HTTPS_PORT=9443
 ```
 
 ### NATS Connection Issues
@@ -526,7 +526,7 @@ Error: dial tcp: connection refused (Redis)
 **Solutions:**
 - Verify Redis is running: `docker compose ps redis`
 - Check logs: `docker compose logs redis`
-- Verify Redis responds: `docker exec usulnet-redis redis-cli ping`
+- Verify Redis responds: `docker exec dockerscout-redis redis-cli ping`
 
 ### Migrations Failed
 
@@ -535,23 +535,23 @@ Error: migration failed
 ```
 
 **Solutions:**
-- Check migration status: `usulnet migrate status` (standalone) or check container logs
+- Check migration status: `dockerscout migrate status` (standalone) or check container logs
 - Verify database connectivity
 - Check for advisory lock conflicts if running multiple instances:
   ```bash
-  docker exec -it usulnet-postgres psql -U usulnet -c "SELECT * FROM pg_locks WHERE locktype = 'advisory';"
+  docker exec -it dockerscout-postgres psql -U dockerscout -c "SELECT * FROM pg_locks WHERE locktype = 'advisory';"
   ```
 
 ### Container Logs Show "Unhealthy" Dependencies
 
-If usulnet reports unhealthy dependencies at startup:
+If dockerscout reports unhealthy dependencies at startup:
 
 ```bash
 # Check all service health
 docker compose ps
 
 # View detailed logs
-docker compose logs -f usulnet
+docker compose logs -f dockerscout
 
 # Restart problematic service
 docker compose restart <service-name>

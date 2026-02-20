@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Copyright (c) 2024-2026 usulnet contributors
-// https://github.com/fr4nsys/usulnet
+// Copyright (c) 2024-2026 dockerscout contributors
+// https://github.com/fr4nsys/dockerscout
 
 package app
 
@@ -20,64 +20,64 @@ import (
 	"github.com/jackc/pgx/v5/stdlib"
 	"github.com/jmoiron/sqlx"
 
-	agentpkg "github.com/fr4nsys/usulnet/internal/agent"
-	"github.com/fr4nsys/usulnet/internal/api"
-	"github.com/fr4nsys/usulnet/internal/api/handlers"
-	apimiddleware "github.com/fr4nsys/usulnet/internal/api/middleware"
-	dockerpkg "github.com/fr4nsys/usulnet/internal/docker"
-	"github.com/fr4nsys/usulnet/internal/gateway"
-	giteapkg "github.com/fr4nsys/usulnet/internal/integrations/gitea"
-	"github.com/fr4nsys/usulnet/internal/integrations/npm"
-	licensepkg "github.com/fr4nsys/usulnet/internal/license"
-	"github.com/fr4nsys/usulnet/internal/models"
-	"github.com/fr4nsys/usulnet/internal/nats"
-	"github.com/fr4nsys/usulnet/internal/pkg/crypto"
-	"github.com/fr4nsys/usulnet/internal/pkg/logger"
-	"github.com/fr4nsys/usulnet/internal/repository/postgres"
-	"github.com/fr4nsys/usulnet/internal/repository/redis"
-	"github.com/fr4nsys/usulnet/internal/scheduler"
-	"github.com/fr4nsys/usulnet/internal/scheduler/workers"
-	authsvc "github.com/fr4nsys/usulnet/internal/services/auth"
-	backupsvc "github.com/fr4nsys/usulnet/internal/services/backup"
-	backupstorage "github.com/fr4nsys/usulnet/internal/services/backup/storage"
-	capturesvc "github.com/fr4nsys/usulnet/internal/services/capture"
-	configsvc "github.com/fr4nsys/usulnet/internal/services/config"
-	containersvc "github.com/fr4nsys/usulnet/internal/services/container"
-	databasesvc "github.com/fr4nsys/usulnet/internal/services/database"
-	deploysvc "github.com/fr4nsys/usulnet/internal/services/deploy"
-	gitsvc "github.com/fr4nsys/usulnet/internal/services/git"
-	hostsvc "github.com/fr4nsys/usulnet/internal/services/host"
-	imagesvc "github.com/fr4nsys/usulnet/internal/services/image"
-	ldapbrowsersvc "github.com/fr4nsys/usulnet/internal/services/ldapbrowser"
-	metricssvc "github.com/fr4nsys/usulnet/internal/services/metrics"
-	monitoringsvc "github.com/fr4nsys/usulnet/internal/services/monitoring"
-	networksvc "github.com/fr4nsys/usulnet/internal/services/network"
-	notificationsvc "github.com/fr4nsys/usulnet/internal/services/notification"
-	proxysvc "github.com/fr4nsys/usulnet/internal/services/proxy"
-	rdpsvc "github.com/fr4nsys/usulnet/internal/services/rdp"
-	securitysvc "github.com/fr4nsys/usulnet/internal/services/security"
-	securityanalyzer "github.com/fr4nsys/usulnet/internal/services/security/analyzer"
-	trivypkg "github.com/fr4nsys/usulnet/internal/services/security/trivy"
-	shortcutssvc "github.com/fr4nsys/usulnet/internal/services/shortcuts"
-	sshsvc "github.com/fr4nsys/usulnet/internal/services/ssh"
-	stacksvc "github.com/fr4nsys/usulnet/internal/services/stack"
-	storagesvc "github.com/fr4nsys/usulnet/internal/services/storage"
-	swarmsvc "github.com/fr4nsys/usulnet/internal/services/swarm"
-	teamsvc "github.com/fr4nsys/usulnet/internal/services/team"
+	agentpkg "github.com/fr4nsys/dockerscout/internal/agent"
+	"github.com/fr4nsys/dockerscout/internal/api"
+	"github.com/fr4nsys/dockerscout/internal/api/handlers"
+	apimiddleware "github.com/fr4nsys/dockerscout/internal/api/middleware"
+	dockerpkg "github.com/fr4nsys/dockerscout/internal/docker"
+	"github.com/fr4nsys/dockerscout/internal/gateway"
+	giteapkg "github.com/fr4nsys/dockerscout/internal/integrations/gitea"
+	"github.com/fr4nsys/dockerscout/internal/integrations/npm"
+	licensepkg "github.com/fr4nsys/dockerscout/internal/license"
+	"github.com/fr4nsys/dockerscout/internal/models"
+	"github.com/fr4nsys/dockerscout/internal/nats"
+	"github.com/fr4nsys/dockerscout/internal/pkg/crypto"
+	"github.com/fr4nsys/dockerscout/internal/pkg/logger"
+	"github.com/fr4nsys/dockerscout/internal/repository/postgres"
+	"github.com/fr4nsys/dockerscout/internal/repository/redis"
+	"github.com/fr4nsys/dockerscout/internal/scheduler"
+	"github.com/fr4nsys/dockerscout/internal/scheduler/workers"
+	authsvc "github.com/fr4nsys/dockerscout/internal/services/auth"
+	backupsvc "github.com/fr4nsys/dockerscout/internal/services/backup"
+	backupstorage "github.com/fr4nsys/dockerscout/internal/services/backup/storage"
+	capturesvc "github.com/fr4nsys/dockerscout/internal/services/capture"
+	configsvc "github.com/fr4nsys/dockerscout/internal/services/config"
+	containersvc "github.com/fr4nsys/dockerscout/internal/services/container"
+	databasesvc "github.com/fr4nsys/dockerscout/internal/services/database"
+	deploysvc "github.com/fr4nsys/dockerscout/internal/services/deploy"
+	gitsvc "github.com/fr4nsys/dockerscout/internal/services/git"
+	hostsvc "github.com/fr4nsys/dockerscout/internal/services/host"
+	imagesvc "github.com/fr4nsys/dockerscout/internal/services/image"
+	ldapbrowsersvc "github.com/fr4nsys/dockerscout/internal/services/ldapbrowser"
+	metricssvc "github.com/fr4nsys/dockerscout/internal/services/metrics"
+	monitoringsvc "github.com/fr4nsys/dockerscout/internal/services/monitoring"
+	networksvc "github.com/fr4nsys/dockerscout/internal/services/network"
+	notificationsvc "github.com/fr4nsys/dockerscout/internal/services/notification"
+	proxysvc "github.com/fr4nsys/dockerscout/internal/services/proxy"
+	rdpsvc "github.com/fr4nsys/dockerscout/internal/services/rdp"
+	securitysvc "github.com/fr4nsys/dockerscout/internal/services/security"
+	securityanalyzer "github.com/fr4nsys/dockerscout/internal/services/security/analyzer"
+	trivypkg "github.com/fr4nsys/dockerscout/internal/services/security/trivy"
+	shortcutssvc "github.com/fr4nsys/dockerscout/internal/services/shortcuts"
+	sshsvc "github.com/fr4nsys/dockerscout/internal/services/ssh"
+	stacksvc "github.com/fr4nsys/dockerscout/internal/services/stack"
+	storagesvc "github.com/fr4nsys/dockerscout/internal/services/storage"
+	swarmsvc "github.com/fr4nsys/dockerscout/internal/services/swarm"
+	teamsvc "github.com/fr4nsys/dockerscout/internal/services/team"
 	// Enterprise Phase 2 services
-	compliancesvc "github.com/fr4nsys/usulnet/internal/services/compliance"
-	imagesignsvc "github.com/fr4nsys/usulnet/internal/services/imagesign"
-	logaggsvc "github.com/fr4nsys/usulnet/internal/services/logagg"
+	compliancesvc "github.com/fr4nsys/dockerscout/internal/services/compliance"
+	imagesignsvc "github.com/fr4nsys/dockerscout/internal/services/imagesign"
+	logaggsvc "github.com/fr4nsys/dockerscout/internal/services/logagg"
 	// Phase 3: Market Expansion - GitOps
-	ephemeralsvc "github.com/fr4nsys/usulnet/internal/services/ephemeral"
-	gitsyncsvc "github.com/fr4nsys/usulnet/internal/services/gitsync"
-	manifestsvc "github.com/fr4nsys/usulnet/internal/services/manifest"
-	opasvc "github.com/fr4nsys/usulnet/internal/services/opa"
-	runtimesvc "github.com/fr4nsys/usulnet/internal/services/runtime"
-	updatesvc "github.com/fr4nsys/usulnet/internal/services/update"
-	usersvc "github.com/fr4nsys/usulnet/internal/services/user"
-	volumesvc "github.com/fr4nsys/usulnet/internal/services/volume"
-	"github.com/fr4nsys/usulnet/internal/web"
+	ephemeralsvc "github.com/fr4nsys/dockerscout/internal/services/ephemeral"
+	gitsyncsvc "github.com/fr4nsys/dockerscout/internal/services/gitsync"
+	manifestsvc "github.com/fr4nsys/dockerscout/internal/services/manifest"
+	opasvc "github.com/fr4nsys/dockerscout/internal/services/opa"
+	runtimesvc "github.com/fr4nsys/dockerscout/internal/services/runtime"
+	updatesvc "github.com/fr4nsys/dockerscout/internal/services/update"
+	usersvc "github.com/fr4nsys/dockerscout/internal/services/user"
+	volumesvc "github.com/fr4nsys/dockerscout/internal/services/volume"
+	"github.com/fr4nsys/dockerscout/internal/web"
 
 	"go.uber.org/zap"
 )
@@ -192,7 +192,7 @@ func Run(cfgFile, mode string) error {
 	}
 	defer log.Sync()
 
-	log.Info("Starting usulnet",
+	log.Info("Starting dockerscout",
 		"version", Version,
 		"commit", Commit,
 		"mode", cfg.Mode,
@@ -336,7 +336,7 @@ func Run(cfgFile, mode string) error {
 		return fmt.Errorf("failed to start components: %w", err)
 	}
 
-	log.Info("usulnet started successfully",
+	log.Info("dockerscout started successfully",
 		"host", cfg.Server.Host,
 		"port", cfg.Server.Port,
 	)
@@ -357,7 +357,7 @@ func Run(cfgFile, mode string) error {
 		return err
 	}
 
-	log.Info("usulnet stopped gracefully")
+	log.Info("dockerscout stopped gracefully")
 	return nil
 }
 
@@ -406,11 +406,11 @@ func (app *Application) startStandalone(ctx context.Context) error {
 	// Increase request timeout - stack deploys (docker compose pull+up) need more than 30s
 	serverCfg.RouterConfig.RequestTimeout = 5 * time.Minute
 
-	// Override CORS if USULNET_CORS_ORIGINS is set (comma-separated origins).
+	// Override CORS if DOCKERSCOUT_CORS_ORIGINS is set (comma-separated origins).
 	// CookieSecure from config is respected for CORS AllowCredentials.
-	if corsOrigins := os.Getenv("USULNET_CORS_ORIGINS"); corsOrigins != "" {
+	if corsOrigins := os.Getenv("DOCKERSCOUT_CORS_ORIGINS"); corsOrigins != "" {
 		serverCfg.RouterConfig.CORSConfig = apimiddleware.CORSFromEnv(corsOrigins, app.Config.Security.CookieSecure)
-		app.Logger.Info("CORS configured from USULNET_CORS_ORIGINS",
+		app.Logger.Info("CORS configured from DOCKERSCOUT_CORS_ORIGINS",
 			"origins", corsOrigins,
 			"cookie_secure", app.Config.Security.CookieSecure,
 		)
@@ -463,7 +463,7 @@ func (app *Application) startStandalone(ctx context.Context) error {
 	if jwtSecret == "" {
 		// This should never happen — Config.Validate() requires jwt_secret.
 		// Fail hard rather than silently running with an insecure default.
-		return fmt.Errorf("security.jwt_secret is required — set USULNET_JWT_SECRET")
+		return fmt.Errorf("security.jwt_secret is required — set DOCKERSCOUT_JWT_SECRET")
 	}
 	// Wire JWT/refresh expiry from config (defaults: 24h / 168h)
 	accessTTL := app.Config.Security.JWTExpiry
@@ -476,7 +476,7 @@ func (app *Application) startStandalone(ctx context.Context) error {
 	}
 	jwtService := authsvc.NewJWTService(authsvc.JWTConfig{
 		Secret:          jwtSecret,
-		Issuer:          "usulnet",
+		Issuer:          "dockerscout",
 		AccessTokenTTL:  accessTTL,
 		RefreshTokenTTL: refreshTTL,
 	})
@@ -735,10 +735,10 @@ func (app *Application) startStandalone(ctx context.Context) error {
 			// Derive a 32-byte hex key from JWT secret via SHA-256.
 			// WARNING: changing jwt_secret will invalidate all encrypted data
 			// (TOTP secrets, NPM credentials, config values). Set
-			// USULNET_ENCRYPTION_KEY explicitly for independent key rotation.
+			// DOCKERSCOUT_ENCRYPTION_KEY explicitly for independent key rotation.
 			h := crypto.SHA256String(jwtSecret)
 			encKey = h[:64] // 64 hex chars = 32 bytes
-			app.Logger.Warn("encryption_key not set — deriving from jwt_secret (set USULNET_ENCRYPTION_KEY for independent rotation)")
+			app.Logger.Warn("encryption_key not set — deriving from jwt_secret (set DOCKERSCOUT_ENCRYPTION_KEY for independent rotation)")
 		}
 		var encErr error
 		encryptor, encErr = crypto.NewAESEncryptor(encKey)
@@ -1583,7 +1583,7 @@ func (app *Application) startStandalone(ctx context.Context) error {
 		serviceRegistry.Auth(),
 		serviceRegistry.Stats(),
 		web.MiddlewareConfig{
-			SessionName: "usulnet_session",
+			SessionName: "dockerscout_session",
 			LoginPath:   "/login",
 			ExcludePaths: []string{
 				"/static/",
@@ -1683,7 +1683,7 @@ func (app *Application) startAgent(ctx context.Context) error {
 
 	// Validate agent configuration
 	if app.Config.Agent.Token == "" {
-		return fmt.Errorf("agent token required - configure agent.token in config or set USULNET_AGENT_TOKEN")
+		return fmt.Errorf("agent token required - configure agent.token in config or set DOCKERSCOUT_AGENT_TOKEN")
 	}
 
 	// Determine NATS gateway URL
@@ -1703,7 +1703,7 @@ func (app *Application) startAgent(ctx context.Context) error {
 		DockerHost:  "unix://" + dockerpkg.LocalSocketPath(),
 		Hostname:    app.Config.Agent.Name,
 		LogLevel:    app.Config.Logging.Level,
-		DataDir:     "/var/lib/usulnet-agent",
+		DataDir:     "/var/lib/dockerscout-agent",
 		TLSEnabled:  app.Config.Agent.TLSEnabled,
 		TLSCertFile: app.Config.Agent.TLSCertFile,
 		TLSKeyFile:  app.Config.Agent.TLSKeyFile,
@@ -1941,7 +1941,7 @@ func (app *Application) bootstrapAdminUser(ctx context.Context, userRepo *postgr
 	}
 
 	// No users exist - create default admin
-	defaultPassword := "usulnet"
+	defaultPassword := "dockerscout"
 	hash, err := crypto.HashPassword(defaultPassword)
 	if err != nil {
 		return fmt.Errorf("hash admin password: %w", err)

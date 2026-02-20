@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Copyright (c) 2024-2026 usulnet contributors
-// https://github.com/fr4nsys/usulnet
+// Copyright (c) 2024-2026 dockerscout contributors
+// https://github.com/fr4nsys/dockerscout
 
 package channels
 
@@ -139,9 +139,9 @@ func (n *NtfyChannel) Send(ctx context.Context, msg RenderedMessage) error {
 // Test sends a test notification.
 func (n *NtfyChannel) Test(ctx context.Context) error {
 	return n.Send(ctx, RenderedMessage{
-		Title:     "USULNET Test Notification",
-		Body:      "This is a test notification from USULNET to verify ntfy integration.",
-		BodyPlain: "This is a test notification from USULNET to verify ntfy integration.",
+		Title:     "DOCKERSCOUT Test Notification",
+		Body:      "This is a test notification from DOCKERSCOUT to verify ntfy integration.",
+		BodyPlain: "This is a test notification from DOCKERSCOUT to verify ntfy integration.",
 		Priority:  PriorityNormal,
 		Timestamp: time.Now(),
 		Type:      TypeTestMessage,

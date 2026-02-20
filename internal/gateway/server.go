@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Copyright (c) 2024-2026 usulnet contributors
-// https://github.com/fr4nsys/usulnet
+// Copyright (c) 2024-2026 dockerscout contributors
+// https://github.com/fr4nsys/dockerscout
 
 // Package gateway provides the central server for managing agent connections
-// and routing commands/events between the usulnet platform and remote agents.
+// and routing commands/events between the dockerscout platform and remote agents.
 package gateway
 
 import (
@@ -17,11 +17,11 @@ import (
 	"github.com/google/uuid"
 	"github.com/nats-io/nats.go"
 
-	inats "github.com/fr4nsys/usulnet/internal/nats"
-	"github.com/fr4nsys/usulnet/internal/gateway/protocol"
-	"github.com/fr4nsys/usulnet/internal/models"
-	"github.com/fr4nsys/usulnet/internal/pkg/logger"
-	containersvc "github.com/fr4nsys/usulnet/internal/services/container"
+	inats "github.com/fr4nsys/dockerscout/internal/nats"
+	"github.com/fr4nsys/dockerscout/internal/gateway/protocol"
+	"github.com/fr4nsys/dockerscout/internal/models"
+	"github.com/fr4nsys/dockerscout/internal/pkg/logger"
+	containersvc "github.com/fr4nsys/dockerscout/internal/services/container"
 )
 
 
@@ -162,21 +162,21 @@ func (s *Server) setupStreams() error {
 		{
 			Name:        protocol.StreamCommands,
 			Description: "Agent command queue",
-			Subjects:    []string{"usulnet.commands.>"},
+			Subjects:    []string{"dockerscout.commands.>"},
 			MaxAge:      24 * time.Hour,
 			Storage:     nats.FileStorage,
 		},
 		{
 			Name:        protocol.StreamEvents,
 			Description: "Agent events",
-			Subjects:    []string{"usulnet.agent.events.>"},
+			Subjects:    []string{"dockerscout.agent.events.>"},
 			MaxAge:      24 * time.Hour,
 			Storage:     nats.FileStorage,
 		},
 		{
 			Name:        protocol.StreamInventory,
 			Description: "Agent inventory snapshots",
-			Subjects:    []string{"usulnet.agent.inventory.>"},
+			Subjects:    []string{"dockerscout.agent.inventory.>"},
 			MaxAge:      1 * time.Hour,
 			Storage:     nats.FileStorage,
 		},

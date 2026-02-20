@@ -3,7 +3,7 @@ package partials
 import (
 	"fmt"
 
-	"github.com/fr4nsys/usulnet/internal/web/templates/types"
+	"github.com/fr4nsys/dockerscout/internal/web/templates/types"
 )
 
 // NavItem represents a navigation item
@@ -248,9 +248,9 @@ templ Sidebar(active string, user *types.UserData, stats *types.StatsData, editi
 			window._sidebarToggleSection = function(section, collapsed) {
 				// Save to localStorage for immediate cross-page consistency
 				try {
-					var state = JSON.parse(localStorage.getItem('usulnet-sidebar-collapsed') || '{}');
+					var state = JSON.parse(localStorage.getItem('dockerscout-sidebar-collapsed') || '{}');
 					state[section] = collapsed;
-					localStorage.setItem('usulnet-sidebar-collapsed', JSON.stringify(state));
+					localStorage.setItem('dockerscout-sidebar-collapsed', JSON.stringify(state));
 				} catch(e) {}
 
 				// Debounced save to backend
@@ -260,7 +260,7 @@ templ Sidebar(active string, user *types.UserData, stats *types.StatsData, editi
 					var headers = { 'Content-Type': 'application/json' };
 					if (csrfMeta) headers['X-CSRF-Token'] = csrfMeta.content;
 					try {
-						var allState = JSON.parse(localStorage.getItem('usulnet-sidebar-collapsed') || '{}');
+						var allState = JSON.parse(localStorage.getItem('dockerscout-sidebar-collapsed') || '{}');
 						fetch('/profile/sidebar-prefs', {
 							method: 'PUT',
 							headers: headers,
@@ -277,7 +277,7 @@ templ Sidebar(active string, user *types.UserData, stats *types.StatsData, editi
 // the initial collapse state from server-side preferences, with localStorage
 // as the immediate toggle store for responsiveness.
 templ sidebarSection(key string, label string, prefs *types.SidebarPreferences) {
-	<div x-data={ fmt.Sprintf("{ open: !%t }", prefs.IsCollapsed(key)) } x-init={ fmt.Sprintf("try { var s = JSON.parse(localStorage.getItem('usulnet-sidebar-collapsed') || '{}'); if ('%s' in s) open = !s['%s']; } catch(e) {}", key, key) }>
+	<div x-data={ fmt.Sprintf("{ open: !%t }", prefs.IsCollapsed(key)) } x-init={ fmt.Sprintf("try { var s = JSON.parse(localStorage.getItem('dockerscout-sidebar-collapsed') || '{}'); if ('%s' in s) open = !s['%s']; } catch(e) {}", key, key) }>
 		<button
 			@click={ fmt.Sprintf("open = !open; window._sidebarToggleSection('%s', !open)", key) }
 			class="flex items-center justify-between w-full px-3 mb-2 group"

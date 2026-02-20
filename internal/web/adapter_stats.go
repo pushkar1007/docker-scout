@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Copyright (c) 2024-2026 usulnet contributors
-// https://github.com/fr4nsys/usulnet
+// Copyright (c) 2024-2026 dockerscout contributors
+// https://github.com/fr4nsys/dockerscout
 
 package web
 
@@ -9,15 +9,15 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/fr4nsys/usulnet/internal/models"
-	"github.com/fr4nsys/usulnet/internal/repository/postgres"
-	containersvc "github.com/fr4nsys/usulnet/internal/services/container"
-	hostsvc "github.com/fr4nsys/usulnet/internal/services/host"
-	imagesvc "github.com/fr4nsys/usulnet/internal/services/image"
-	networksvc "github.com/fr4nsys/usulnet/internal/services/network"
-	securitysvc "github.com/fr4nsys/usulnet/internal/services/security"
-	stacksvc "github.com/fr4nsys/usulnet/internal/services/stack"
-	volumesvc "github.com/fr4nsys/usulnet/internal/services/volume"
+	"github.com/fr4nsys/dockerscout/internal/models"
+	"github.com/fr4nsys/dockerscout/internal/repository/postgres"
+	containersvc "github.com/fr4nsys/dockerscout/internal/services/container"
+	hostsvc "github.com/fr4nsys/dockerscout/internal/services/host"
+	imagesvc "github.com/fr4nsys/dockerscout/internal/services/image"
+	networksvc "github.com/fr4nsys/dockerscout/internal/services/network"
+	securitysvc "github.com/fr4nsys/dockerscout/internal/services/security"
+	stacksvc "github.com/fr4nsys/dockerscout/internal/services/stack"
+	volumesvc "github.com/fr4nsys/dockerscout/internal/services/volume"
 )
 
 type statsAdapter struct {

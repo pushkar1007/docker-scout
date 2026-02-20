@@ -1,5 +1,5 @@
 # =============================================================================
-# usulnet - Production Docker Compose (Deploy Script Version)
+# dockerscout - Production Docker Compose (Deploy Script Version)
 # =============================================================================
 #
 # NOTE: The canonical docker-compose.yml lives at the repository root.
@@ -20,20 +20,20 @@
 
 services:
   # --------------------------------------------------------------------------
-  # usulnet Application
+  # dockerscout Application
   # --------------------------------------------------------------------------
-  usulnet:
-    image: usulnet/usulnet:${USULNET_VERSION:-latest}
-    container_name: usulnet
+  dockerscout:
+    image: dockerscout/dockerscout:${DOCKERSCOUT_VERSION:-latest}
+    container_name: dockerscout
     restart: unless-stopped
     ports:
-      - "${USULNET_HTTP_PORT:-8080}:8080"
-      - "${USULNET_HTTPS_PORT:-7443}:7443"
+      - "${DOCKERSCOUT_HTTP_PORT:-8080}:8080"
+      - "${DOCKERSCOUT_HTTPS_PORT:-7443}:7443"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./config.yaml:/app/config/config.yaml:ro
-      - usulnet_data:/app/data
-      - trivy_cache:/var/lib/usulnet/trivy
+      - dockerscout_data:/app/data
+      - trivy_cache:/var/lib/dockerscout/trivy
     pid: "host"
     cap_add:
       - SYS_PTRACE
@@ -71,15 +71,15 @@ services:
         max-size: "50m"
         max-file: "5"
     networks:
-      - usulnet-frontend
-      - usulnet-backend
+      - dockerscout-frontend
+      - dockerscout-backend
 
   # --------------------------------------------------------------------------
   # Apache Guacamole Daemon — RDP/VNC Web Gateway
   # --------------------------------------------------------------------------
   guacd:
     image: guacamole/guacd:1.5.5
-    container_name: usulnet-guacd
+    container_name: dockerscout-guacd
     restart: unless-stopped
     healthcheck:
       test: ["CMD-SHELL", "nc -z localhost 4822 || exit 1"]
@@ -96,19 +96,19 @@ services:
         max-size: "20m"
         max-file: "3"
     networks:
-      - usulnet-frontend
+      - dockerscout-frontend
 
   # --------------------------------------------------------------------------
   # PostgreSQL Database
   # --------------------------------------------------------------------------
   postgres:
     image: postgres:16-alpine
-    container_name: usulnet-postgres
+    container_name: dockerscout-postgres
     restart: unless-stopped
     environment:
-      POSTGRES_USER: ${DB_USER:-usulnet}
+      POSTGRES_USER: ${DB_USER:-dockerscout}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
-      POSTGRES_DB: ${DB_NAME:-usulnet}
+      POSTGRES_DB: ${DB_NAME:-dockerscout}
       POSTGRES_INITDB_ARGS: "--data-checksums"
     command:
       - "postgres"
@@ -127,7 +127,7 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-usulnet} -d ${DB_NAME:-usulnet}"]
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-dockerscout} -d ${DB_NAME:-dockerscout}"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -144,14 +144,14 @@ services:
         max-size: "30m"
         max-file: "3"
     networks:
-      - usulnet-backend
+      - dockerscout-backend
 
   # --------------------------------------------------------------------------
   # Redis (sessions and cache)
   # --------------------------------------------------------------------------
   redis:
     image: redis:8-alpine
-    container_name: usulnet-redis
+    container_name: dockerscout-redis
     restart: unless-stopped
     command:
       - "redis-server"
@@ -184,14 +184,14 @@ services:
         max-size: "10m"
         max-file: "3"
     networks:
-      - usulnet-backend
+      - dockerscout-backend
 
   # --------------------------------------------------------------------------
   # NATS (messaging, required for agent communication)
   # --------------------------------------------------------------------------
   nats:
     image: nats:2.12-alpine
-    container_name: usulnet-nats
+    container_name: dockerscout-nats
     restart: unless-stopped
     command:
       - "-c"
@@ -217,18 +217,18 @@ services:
         max-size: "10m"
         max-file: "3"
     networks:
-      - usulnet-backend
+      - dockerscout-backend
 
 volumes:
-  usulnet_data:
+  dockerscout_data:
   trivy_cache:
   postgres_data:
   redis_data:
   nats_data:
 
 networks:
-  usulnet-backend:
+  dockerscout-backend:
     driver: bridge
     internal: true
-  usulnet-frontend:
+  dockerscout-frontend:
     driver: bridge

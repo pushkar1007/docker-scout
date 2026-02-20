@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Copyright (c) 2024-2026 usulnet contributors
-// https://github.com/fr4nsys/usulnet
+// Copyright (c) 2024-2026 dockerscout contributors
+// https://github.com/fr4nsys/dockerscout
 
 package app
 
@@ -279,37 +279,37 @@ func LoadConfig(cfgFile string) (*Config, error) {
 	} else {
 		v.SetConfigName("config")
 		v.SetConfigType("yaml")
-		v.AddConfigPath("/etc/usulnet")
-		v.AddConfigPath("$HOME/.usulnet")
+		v.AddConfigPath("/etc/dockerscout")
+		v.AddConfigPath("$HOME/.dockerscout")
 		v.AddConfigPath(".")
 	}
 
 	// Environment variables
-	v.SetEnvPrefix("USULNET")
+	v.SetEnvPrefix("DOCKERSCOUT")
 	v.SetEnvKeyReplacer(strings.NewReplacer(".", "_"))
 	v.AutomaticEnv()
 
-	// Dual-binding: USULNET_ prefixed (canonical) + unprefixed (Docker Compose compat).
-	// BindEnv picks the first set: USULNET_DATABASE_URL takes priority over DATABASE_URL.
-	_ = v.BindEnv("database.url", "USULNET_DATABASE_URL", "DATABASE_URL")
-	_ = v.BindEnv("redis.url", "USULNET_REDIS_URL", "REDIS_URL")
-	_ = v.BindEnv("nats.url", "USULNET_NATS_URL", "NATS_URL")
-	_ = v.BindEnv("security.jwt_secret", "USULNET_JWT_SECRET", "JWT_SECRET")
-	_ = v.BindEnv("security.config_encryption_key", "USULNET_ENCRYPTION_KEY", "CONFIG_ENCRYPTION_KEY")
-	_ = v.BindEnv("storage.s3.access_key", "USULNET_S3_ACCESS_KEY", "S3_ACCESS_KEY")
-	_ = v.BindEnv("storage.s3.secret_key", "USULNET_S3_SECRET_KEY", "S3_SECRET_KEY")
-	_ = v.BindEnv("caddy.admin_url", "USULNET_CADDY_ADMIN_URL")
-	_ = v.BindEnv("caddy.acme_email", "USULNET_CADDY_ACME_EMAIL")
+	// Dual-binding: DOCKERSCOUT_ prefixed (canonical) + unprefixed (Docker Compose compat).
+	// BindEnv picks the first set: DOCKERSCOUT_DATABASE_URL takes priority over DATABASE_URL.
+	_ = v.BindEnv("database.url", "DOCKERSCOUT_DATABASE_URL", "DATABASE_URL")
+	_ = v.BindEnv("redis.url", "DOCKERSCOUT_REDIS_URL", "REDIS_URL")
+	_ = v.BindEnv("nats.url", "DOCKERSCOUT_NATS_URL", "NATS_URL")
+	_ = v.BindEnv("security.jwt_secret", "DOCKERSCOUT_JWT_SECRET", "JWT_SECRET")
+	_ = v.BindEnv("security.config_encryption_key", "DOCKERSCOUT_ENCRYPTION_KEY", "CONFIG_ENCRYPTION_KEY")
+	_ = v.BindEnv("storage.s3.access_key", "DOCKERSCOUT_S3_ACCESS_KEY", "S3_ACCESS_KEY")
+	_ = v.BindEnv("storage.s3.secret_key", "DOCKERSCOUT_S3_SECRET_KEY", "S3_SECRET_KEY")
+	_ = v.BindEnv("caddy.admin_url", "DOCKERSCOUT_CADDY_ADMIN_URL")
+	_ = v.BindEnv("caddy.acme_email", "DOCKERSCOUT_CADDY_ACME_EMAIL")
 	// Backwards-compatible bindings for legacy HOST_TERMINAL_* env vars
-	_ = v.BindEnv("terminal.enabled", "USULNET_TERMINAL_ENABLED", "HOST_TERMINAL_ENABLED")
-	_ = v.BindEnv("terminal.user", "USULNET_TERMINAL_USER", "HOST_TERMINAL_USER")
-	_ = v.BindEnv("terminal.shell", "USULNET_TERMINAL_SHELL", "HOST_TERMINAL_SHELL")
+	_ = v.BindEnv("terminal.enabled", "DOCKERSCOUT_TERMINAL_ENABLED", "HOST_TERMINAL_ENABLED")
+	_ = v.BindEnv("terminal.user", "DOCKERSCOUT_TERMINAL_USER", "HOST_TERMINAL_USER")
+	_ = v.BindEnv("terminal.shell", "DOCKERSCOUT_TERMINAL_SHELL", "HOST_TERMINAL_SHELL")
 	// Guacd (Apache Guacamole daemon) for web-based RDP
-	_ = v.BindEnv("guacd.enabled", "USULNET_GUACD_ENABLED", "GUACD_ENABLED")
-	_ = v.BindEnv("guacd.host", "USULNET_GUACD_HOST", "GUACD_HOST")
-	_ = v.BindEnv("guacd.port", "USULNET_GUACD_PORT", "GUACD_PORT")
+	_ = v.BindEnv("guacd.enabled", "DOCKERSCOUT_GUACD_ENABLED", "GUACD_ENABLED")
+	_ = v.BindEnv("guacd.host", "DOCKERSCOUT_GUACD_HOST", "GUACD_HOST")
+	_ = v.BindEnv("guacd.port", "DOCKERSCOUT_GUACD_PORT", "GUACD_PORT")
 	// Docker socket path (for rootless Docker or custom socket locations)
-	_ = v.BindEnv("docker.socket", "USULNET_DOCKER_SOCKET", "DOCKER_SOCKET")
+	_ = v.BindEnv("docker.socket", "DOCKERSCOUT_DOCKER_SOCKET", "DOCKER_SOCKET")
 
 	// Set defaults
 	setDefaults(v)
@@ -365,7 +365,7 @@ func setDefaults(v *viper.Viper) {
 	v.SetDefault("redis.write_timeout", "3s")
 
 	// NATS
-	v.SetDefault("nats.name", "usulnet")
+	v.SetDefault("nats.name", "dockerscout")
 	v.SetDefault("nats.max_reconnects", -1)
 	v.SetDefault("nats.reconnect_wait", "2s")
 	v.SetDefault("nats.jetstream.enabled", true)
@@ -385,7 +385,7 @@ func setDefaults(v *viper.Viper) {
 
 	// Storage
 	v.SetDefault("storage.type", "local")
-	v.SetDefault("storage.path", "/var/lib/usulnet")
+	v.SetDefault("storage.path", "/var/lib/dockerscout")
 	v.SetDefault("storage.backup.compression", "zstd")
 	v.SetDefault("storage.backup.compression_level", 3)
 	v.SetDefault("storage.backup.default_retention_days", 30)
@@ -399,7 +399,7 @@ func setDefaults(v *viper.Viper) {
 
 	// Trivy
 	v.SetDefault("trivy.enabled", true)
-	v.SetDefault("trivy.cache_dir", "/var/lib/usulnet/trivy")
+	v.SetDefault("trivy.cache_dir", "/var/lib/dockerscout/trivy")
 	v.SetDefault("trivy.timeout", "5m")
 	v.SetDefault("trivy.severity", "CRITICAL,HIGH,MEDIUM")
 	v.SetDefault("trivy.ignore_unfixed", false)
@@ -435,7 +435,7 @@ func setDefaults(v *viper.Viper) {
 
 	// Host Terminal (migrated from HOST_TERMINAL_* env vars)
 	v.SetDefault("terminal.enabled", true)
-	v.SetDefault("terminal.user", "nobody_usulnet")
+	v.SetDefault("terminal.user", "nobody_dockerscout")
 	v.SetDefault("terminal.shell", "/bin/bash")
 
 	// Docker socket path (empty = auto-detect at startup)

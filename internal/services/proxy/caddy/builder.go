@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Copyright (c) 2024-2026 usulnet contributors
-// https://github.com/fr4nsys/usulnet
+// Copyright (c) 2024-2026 dockerscout contributors
+// https://github.com/fr4nsys/dockerscout
 
 package caddy
 
@@ -9,7 +9,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/fr4nsys/usulnet/internal/models"
+	"github.com/fr4nsys/dockerscout/internal/models"
 )
 
 // BuildConfig generates a complete Caddy JSON configuration from proxy hosts.
@@ -118,7 +118,7 @@ func BuildConfig(hosts []*models.ProxyHost, dnsProviders map[string]*models.Prox
 		Apps: &Apps{
 			HTTP: &HTTPApp{
 				Servers: map[string]*Server{
-					"usulnet": srv,
+					"dockerscout": srv,
 				},
 			},
 			TLS: tlsApp,
@@ -221,7 +221,7 @@ func buildRoute(h *models.ProxyHost) Route {
 	handlers = append(handlers, mustMarshal(rp))
 
 	return Route{
-		ID: "usulnet-" + h.ID.String(),
+		ID: "dockerscout-" + h.ID.String(),
 		Match: []MatchConfig{
 			{Host: h.Domains},
 		},

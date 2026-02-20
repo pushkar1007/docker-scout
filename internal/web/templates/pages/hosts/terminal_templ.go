@@ -9,7 +9,7 @@ import "github.com/a-h/templ"
 import templruntime "github.com/a-h/templ/runtime"
 
 import (
-	"github.com/fr4nsys/usulnet/internal/web/templates/layouts"
+	"github.com/fr4nsys/dockerscout/internal/web/templates/layouts"
 )
 
 type HostTerminalData struct {
@@ -124,7 +124,7 @@ func HostTerminal(data HostTerminalData) templ.Component {
 				return templ_7745c5c3_Err
 			}
 			if !data.Ready {
-				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 7, "<div class=\"bg-yellow-500/10 border border-yellow-500/20 rounded-xl p-6 text-center\"><i class=\"fas fa-exclamation-triangle text-4xl text-yellow-400 mb-4\"></i><h2 class=\"text-lg font-semibold text-white mb-2\">Host PID Namespace Not Available</h2><p class=\"text-gray-400 mb-4\">The usulnet container needs <span class=\"text-primary-400 font-mono\">pid: host</span> in docker-compose.yml to access the host terminal.</p><p class=\"text-gray-400 mb-2\">Add the following to your docker-compose.yml service:</p><div class=\"bg-dark-900 rounded-lg p-4 text-left max-w-lg mx-auto mb-4 font-mono text-sm text-gray-300\"><p>pid: host</p><p>cap_add:</p><p class=\"pl-4\">- SYS_PTRACE</p><p class=\"pl-4\">- SYS_ADMIN</p></div><p class=\"text-gray-500 text-sm\">After updating docker-compose, recreate the container.</p></div>")
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 7, "<div class=\"bg-yellow-500/10 border border-yellow-500/20 rounded-xl p-6 text-center\"><i class=\"fas fa-exclamation-triangle text-4xl text-yellow-400 mb-4\"></i><h2 class=\"text-lg font-semibold text-white mb-2\">Host PID Namespace Not Available</h2><p class=\"text-gray-400 mb-4\">The dockerscout container needs <span class=\"text-primary-400 font-mono\">pid: host</span> in docker-compose.yml to access the host terminal.</p><p class=\"text-gray-400 mb-2\">Add the following to your docker-compose.yml service:</p><div class=\"bg-dark-900 rounded-lg p-4 text-left max-w-lg mx-auto mb-4 font-mono text-sm text-gray-300\"><p>pid: host</p><p>cap_add:</p><p class=\"pl-4\">- SYS_PTRACE</p><p class=\"pl-4\">- SYS_ADMIN</p></div><p class=\"text-gray-500 text-sm\">After updating docker-compose, recreate the container.</p></div>")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}

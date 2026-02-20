@@ -3,7 +3,7 @@ package editor
 import (
 	"fmt"
 	"path/filepath"
-	"github.com/fr4nsys/usulnet/internal/web/templates/layouts"
+	"github.com/fr4nsys/dockerscout/internal/web/templates/layouts"
 )
 
 // ============================================================================
@@ -144,7 +144,7 @@ templ Monaco(data MonacoData) {
 		<script src="/static/vendor/monaco-editor/min/vs/loader.js"></script>
 		<script>
 		// ====================================================================
-		// usulnet Monaco Theme + Init
+		// dockerscout Monaco Theme + Init
 		// ====================================================================
 		var monacoEditor = null;
 		var isDirty = false;
@@ -165,8 +165,8 @@ templ Monaco(data MonacoData) {
 
 		require(['vs/editor/editor.main'], function() {
 			console.log('[Monaco] Editor module loaded');
-			// Define usulnet theme
-			monaco.editor.defineTheme('usulnet-dark', {
+			// Define dockerscout theme
+			monaco.editor.defineTheme('dockerscout-dark', {
 				base: 'vs-dark',
 				inherit: true,
 				rules: [
@@ -232,7 +232,7 @@ templ Monaco(data MonacoData) {
 			monacoEditor = monaco.editor.create(monacoContainer, {
 				value: content,
 				language: lang,
-				theme: 'usulnet-dark',
+				theme: 'dockerscout-dark',
 				readOnly: readOnly,
 				fontSize: 14,
 				fontFamily: "'IBM Plex Mono', 'JetBrains Mono', 'Fira Code', monospace",
@@ -284,7 +284,7 @@ templ Monaco(data MonacoData) {
 			document.getElementById('commit-modal').classList.remove('hidden');
 			var msgInput = document.getElementById('commit-message');
 			if (msgInput.value === '') {
-				msgInput.value = 'Update ' + filePath.split('/').pop() + ' via usulnet editor';
+				msgInput.value = 'Update ' + filePath.split('/').pop() + ' via dockerscout editor';
 			}
 			msgInput.focus();
 			msgInput.select();
@@ -297,7 +297,7 @@ templ Monaco(data MonacoData) {
 		function doCommit() {
 			var message = document.getElementById('commit-message').value.trim();
 			if (!message) {
-				message = 'Update ' + filePath.split('/').pop() + ' via usulnet editor';
+				message = 'Update ' + filePath.split('/').pop() + ' via dockerscout editor';
 			}
 
 			var btn = document.querySelector('#commit-modal .btn-primary');

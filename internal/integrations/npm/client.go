@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Copyright (c) 2024-2026 usulnet contributors
-// https://github.com/fr4nsys/usulnet
+// Copyright (c) 2024-2026 dockerscout contributors
+// https://github.com/fr4nsys/dockerscout
 
 // Package npm provides a client for Nginx Proxy Manager API integration.
 package npm
@@ -17,7 +17,7 @@ import (
 
 	"go.uber.org/zap"
 
-	"github.com/fr4nsys/usulnet/internal/pkg/errors"
+	"github.com/fr4nsys/dockerscout/internal/pkg/errors"
 )
 
 // Client is a client for the Nginx Proxy Manager API.

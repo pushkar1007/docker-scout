@@ -1,4 +1,4 @@
-module github.com/fr4nsys/usulnet
+module github.com/fr4nsys/dockerscout
 
 go 1.25.7
 

@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Copyright (c) 2024-2026 usulnet contributors
-// https://github.com/fr4nsys/usulnet
+// Copyright (c) 2024-2026 dockerscout contributors
+// https://github.com/fr4nsys/dockerscout
 
 package metrics
 
@@ -14,10 +14,10 @@ import (
 
 	"github.com/google/uuid"
 
-	dockerpkg "github.com/fr4nsys/usulnet/internal/docker"
-	"github.com/fr4nsys/usulnet/internal/pkg/errors"
-	"github.com/fr4nsys/usulnet/internal/pkg/logger"
-	"github.com/fr4nsys/usulnet/internal/scheduler/workers"
+	dockerpkg "github.com/fr4nsys/dockerscout/internal/docker"
+	"github.com/fr4nsys/dockerscout/internal/pkg/errors"
+	"github.com/fr4nsys/dockerscout/internal/pkg/logger"
+	"github.com/fr4nsys/dockerscout/internal/scheduler/workers"
 )
 
 // DockerClientProvider returns a Docker client for a given host.

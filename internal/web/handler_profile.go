@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Copyright (c) 2024-2026 usulnet contributors
-// https://github.com/fr4nsys/usulnet
+// Copyright (c) 2024-2026 dockerscout contributors
+// https://github.com/fr4nsys/dockerscout
 
 package web
 
@@ -17,9 +17,9 @@ import (
 
 	"github.com/go-chi/chi/v5"
 
-	"github.com/fr4nsys/usulnet/internal/pkg/crypto"
-	"github.com/fr4nsys/usulnet/internal/web/templates/pages/profile"
-	"github.com/fr4nsys/usulnet/internal/web/templates/types"
+	"github.com/fr4nsys/dockerscout/internal/pkg/crypto"
+	"github.com/fr4nsys/dockerscout/internal/web/templates/pages/profile"
+	"github.com/fr4nsys/dockerscout/internal/web/templates/types"
 )
 
 // ============================================================================
@@ -418,7 +418,7 @@ func (h *Handler) ExportUserData(w http.ResponseWriter, r *http.Request) {
 }`, user.ID, user.Username, user.Email, user.Role, prefsJSON)
 
 	w.Header().Set("Content-Type", "application/json")
-	w.Header().Set("Content-Disposition", fmt.Sprintf(`attachment; filename="usulnet-export-%s.json"`, user.Username))
+	w.Header().Set("Content-Disposition", fmt.Sprintf(`attachment; filename="dockerscout-export-%s.json"`, user.Username))
 	w.Write([]byte(export))
 }
 
@@ -454,7 +454,7 @@ func (h *Handler) DeleteAccount(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Clear session and redirect to login
-	_ = h.sessionStore.Delete(r, w, "usulnet_session")
+	_ = h.sessionStore.Delete(r, w, "dockerscout_session")
 	h.redirect(w, r, "/login")
 }
 

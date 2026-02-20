@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Copyright (c) 2024-2026 usulnet contributors
-// https://github.com/fr4nsys/usulnet
+// Copyright (c) 2024-2026 dockerscout contributors
+// https://github.com/fr4nsys/dockerscout
 
 package web
 
@@ -12,9 +12,9 @@ import (
 	"github.com/google/uuid"
 	"gopkg.in/yaml.v3"
 
-	"github.com/fr4nsys/usulnet/internal/models"
-	"github.com/fr4nsys/usulnet/internal/repository/postgres"
-	stacksvc "github.com/fr4nsys/usulnet/internal/services/stack"
+	"github.com/fr4nsys/dockerscout/internal/models"
+	"github.com/fr4nsys/dockerscout/internal/repository/postgres"
+	stacksvc "github.com/fr4nsys/dockerscout/internal/services/stack"
 )
 
 type stackAdapter struct {
@@ -70,11 +70,11 @@ func (a *stackAdapter) List(ctx context.Context) ([]StackView, error) {
 		views = append(views, view)
 	}
 
-	// Discover external Docker Compose projects (not managed by usulnet)
+	// Discover external Docker Compose projects (not managed by dockerscout)
 	discovered, err := a.svc.DiscoverComposeProjects(ctx, resolveHostID(ctx, a.hostID))
 	if err == nil && len(discovered) > 0 {
 		for _, d := range discovered {
-			// Skip if already managed by usulnet
+			// Skip if already managed by dockerscout
 			if managedNames[d.Name] {
 				continue
 			}

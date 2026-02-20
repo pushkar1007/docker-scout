@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Copyright (c) 2024-2026 usulnet contributors
-// https://github.com/fr4nsys/usulnet
+// Copyright (c) 2024-2026 dockerscout contributors
+// https://github.com/fr4nsys/dockerscout
 
 package app
 
@@ -11,15 +11,15 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/fr4nsys/usulnet/internal/models"
-	"github.com/fr4nsys/usulnet/internal/repository/postgres"
-	redisrepo "github.com/fr4nsys/usulnet/internal/repository/redis"
-	metricssvc "github.com/fr4nsys/usulnet/internal/services/metrics"
-	"github.com/fr4nsys/usulnet/internal/services/notification"
-	"github.com/fr4nsys/usulnet/internal/services/notification/channels"
-	"github.com/fr4nsys/usulnet/internal/scheduler/workers"
-	"github.com/fr4nsys/usulnet/internal/web"
-	"github.com/fr4nsys/usulnet/internal/web/templates/pages/profile"
+	"github.com/fr4nsys/dockerscout/internal/models"
+	"github.com/fr4nsys/dockerscout/internal/repository/postgres"
+	redisrepo "github.com/fr4nsys/dockerscout/internal/repository/redis"
+	metricssvc "github.com/fr4nsys/dockerscout/internal/services/metrics"
+	"github.com/fr4nsys/dockerscout/internal/services/notification"
+	"github.com/fr4nsys/dockerscout/internal/services/notification/channels"
+	"github.com/fr4nsys/dockerscout/internal/scheduler/workers"
+	"github.com/fr4nsys/dockerscout/internal/web"
+	"github.com/fr4nsys/dockerscout/internal/web/templates/pages/profile"
 )
 
 // ============================================================================
@@ -134,7 +134,7 @@ func (a *webSessionRepoAdapter) DeleteAllSessionsExcept(userID string, currentSe
 }
 
 func (a *webSessionRepoAdapter) GetCurrentSessionID(r *http.Request) string {
-	cookie, err := r.Cookie("usulnet_session")
+	cookie, err := r.Cookie("dockerscout_session")
 	if err != nil {
 		return ""
 	}

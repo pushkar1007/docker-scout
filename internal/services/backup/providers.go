@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Copyright (c) 2024-2026 usulnet contributors
-// https://github.com/fr4nsys/usulnet
+// Copyright (c) 2024-2026 dockerscout contributors
+// https://github.com/fr4nsys/dockerscout
 
 // Package backup provides backup and restore services.
 // This file contains providers that integrate with Department E services.
@@ -17,12 +17,12 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/fr4nsys/usulnet/internal/docker"
-	"github.com/fr4nsys/usulnet/internal/models"
-	containerservice "github.com/fr4nsys/usulnet/internal/services/container"
-	hostservice "github.com/fr4nsys/usulnet/internal/services/host"
-	stackservice "github.com/fr4nsys/usulnet/internal/services/stack"
-	volumeservice "github.com/fr4nsys/usulnet/internal/services/volume"
+	"github.com/fr4nsys/dockerscout/internal/docker"
+	"github.com/fr4nsys/dockerscout/internal/models"
+	containerservice "github.com/fr4nsys/dockerscout/internal/services/container"
+	hostservice "github.com/fr4nsys/dockerscout/internal/services/host"
+	stackservice "github.com/fr4nsys/dockerscout/internal/services/stack"
+	volumeservice "github.com/fr4nsys/dockerscout/internal/services/volume"
 )
 
 // ============================================================================
@@ -140,13 +140,13 @@ func (p *DockerVolumeProvider) CopyVolumeData(ctx context.Context, hostID uuid.U
 	}
 
 	// Create a temporary helper container that mounts the volume
-	helperName := fmt.Sprintf("usulnet-backup-helper-%s", volumeName)
+	helperName := fmt.Sprintf("dockerscout-backup-helper-%s", volumeName)
 	containerID, err := client.ContainerCreate(ctx, docker.ContainerCreateOptions{
 		Name:   helperName,
 		Image:  "busybox:latest",
 		Cmd:    []string{"true"},
 		Binds:  []string{volumeName + ":/backup-data:ro"},
-		Labels: map[string]string{"usulnet.backup-helper": "true"},
+		Labels: map[string]string{"dockerscout.backup-helper": "true"},
 	})
 	if err != nil {
 		return fmt.Errorf("create helper container: %w", err)

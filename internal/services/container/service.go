@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Copyright (c) 2024-2026 usulnet contributors
-// https://github.com/fr4nsys/usulnet
+// Copyright (c) 2024-2026 dockerscout contributors
+// https://github.com/fr4nsys/dockerscout
 
 // Package container provides container management services.
 package container
@@ -18,12 +18,12 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/fr4nsys/usulnet/internal/docker"
-	"github.com/fr4nsys/usulnet/internal/models"
-	"github.com/fr4nsys/usulnet/internal/pkg/logger"
-	"github.com/fr4nsys/usulnet/internal/repository/postgres"
-	configservice "github.com/fr4nsys/usulnet/internal/services/config"
-	hostservice "github.com/fr4nsys/usulnet/internal/services/host"
+	"github.com/fr4nsys/dockerscout/internal/docker"
+	"github.com/fr4nsys/dockerscout/internal/models"
+	"github.com/fr4nsys/dockerscout/internal/pkg/logger"
+	"github.com/fr4nsys/dockerscout/internal/repository/postgres"
+	configservice "github.com/fr4nsys/dockerscout/internal/services/config"
+	hostservice "github.com/fr4nsys/dockerscout/internal/services/host"
 )
 
 // ServiceConfig contains container service configuration.

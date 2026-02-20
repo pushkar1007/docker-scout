@@ -1,4 +1,4 @@
-// k6 load test for usulnet API
+// k6 load test for dockerscout API
 // Run with: k6 run tests/load/k6_api_test.js
 // Or with options: k6 run --vus 50 --duration 60s tests/load/k6_api_test.js
 

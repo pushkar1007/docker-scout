@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Copyright (c) 2024-2026 usulnet contributors
-// https://github.com/fr4nsys/usulnet
+// Copyright (c) 2024-2026 dockerscout contributors
+// https://github.com/fr4nsys/dockerscout
 
 package auth
 
@@ -8,16 +8,19 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"net/mail"
+	"regexp"
+	"strings"
 	"sync"
 	"time"
 
 	"github.com/google/uuid"
 
-	"github.com/fr4nsys/usulnet/internal/models"
-	"github.com/fr4nsys/usulnet/internal/pkg/crypto"
-	apperrors "github.com/fr4nsys/usulnet/internal/pkg/errors"
-	"github.com/fr4nsys/usulnet/internal/pkg/logger"
-	"github.com/fr4nsys/usulnet/internal/repository/postgres"
+	"github.com/fr4nsys/dockerscout/internal/models"
+	"github.com/fr4nsys/dockerscout/internal/pkg/crypto"
+	apperrors "github.com/fr4nsys/dockerscout/internal/pkg/errors"
+	"github.com/fr4nsys/dockerscout/internal/pkg/logger"
+	"github.com/fr4nsys/dockerscout/internal/repository/postgres"
 )
 
 // Auth errors
@@ -28,6 +31,8 @@ var (
 	ErrPasswordMismatch   = errors.New("passwords do not match")
 	ErrWeakPassword       = errors.New("password does not meet requirements")
 )
+
+var usernamePattern = regexp.MustCompile(`^[a-zA-Z0-9._-]+$`)
 
 // AuthConfig contains configuration for the auth service.
 type AuthConfig struct {
@@ -334,6 +339,95 @@ type LoginResult struct {
 	RefreshToken string
 	ExpiresAt    time.Time
 	SessionID    uuid.UUID
+}
+
+// SignupInput contains input for user self-registration.
+type SignupInput struct {
+	Username  string
+	Email     string
+	Password  string
+	UserAgent string
+	IPAddress string
+}
+
+// Signup creates a local user account and starts a session.
+func (s *Service) Signup(ctx context.Context, input SignupInput) (*LoginResult, error) {
+	username := strings.TrimSpace(input.Username)
+	if username == "" {
+		return nil, apperrors.InvalidInput("username is required")
+	}
+	if len(username) < 3 {
+		return nil, apperrors.InvalidInput("username must be at least 3 characters")
+	}
+	if len(username) > 50 {
+		return nil, apperrors.InvalidInput("username must not exceed 50 characters")
+	}
+	if !usernamePattern.MatchString(username) {
+		return nil, apperrors.InvalidInput("username contains invalid characters")
+	}
+
+	if input.Password == "" {
+		return nil, apperrors.InvalidInput("password is required")
+	}
+	if err := s.validatePasswordForUser(input.Password, username); err != nil {
+		return nil, err
+	}
+
+	email := strings.TrimSpace(strings.ToLower(input.Email))
+	if email != "" {
+		if _, err := mail.ParseAddress(email); err != nil {
+			return nil, apperrors.InvalidInput("invalid email format")
+		}
+	}
+
+	usernameExists, err := s.userRepo.ExistsByUsername(ctx, username)
+	if err != nil {
+		return nil, fmt.Errorf("check username: %w", err)
+	}
+	if usernameExists {
+		return nil, apperrors.AlreadyExists("username")
+	}
+
+	if email != "" {
+		emailExists, err := s.userRepo.ExistsByEmail(ctx, email)
+		if err != nil {
+			return nil, fmt.Errorf("check email: %w", err)
+		}
+		if emailExists {
+			return nil, apperrors.AlreadyExists("email")
+		}
+	}
+
+	passwordHash, err := crypto.HashPassword(input.Password)
+	if err != nil {
+		return nil, fmt.Errorf("hash password: %w", err)
+	}
+
+	user := &models.User{
+		ID:           uuid.New(),
+		Username:     username,
+		PasswordHash: passwordHash,
+		Role:         models.RoleViewer,
+		IsActive:     true,
+		IsLDAP:       false,
+	}
+
+	if email != "" {
+		user.Email = &email
+	}
+
+	if err := s.userRepo.Create(ctx, user); err != nil {
+		return nil, fmt.Errorf("create user: %w", err)
+	}
+
+	s.logger.Info("user signed up", "user_id", user.ID, "username", user.Username)
+
+	return s.createLoginSession(ctx, user, LoginInput{
+		Username:  user.Username,
+		Password:  input.Password,
+		UserAgent: input.UserAgent,
+		IPAddress: input.IPAddress,
+	})
 }
 
 // Login authenticates a user with username and password.

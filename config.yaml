@@ -1,4 +1,4 @@
-# usulnet Configuration
+# dockerscout Configuration
 # Structure must match Go Config struct in internal/app/config.go
 
 # Operation mode: standalone | master | agent
@@ -24,7 +24,7 @@ server:
 
 # Database (PostgreSQL)
 database:
-  url: "postgres://usulnet:usulnet_dev@postgres:5432/usulnet?sslmode=disable"
+  url: "postgres://dockerscout:dockerscout_dev@postgres:5432/dockerscout?sslmode=disable"
   max_open_conns: 25
   max_idle_conns: 10
   conn_max_lifetime: "30m"
@@ -39,7 +39,7 @@ redis:
 # NATS (messaging)
 nats:
   url: "nats://nats:4222"
-  name: "usulnet"
+  name: "dockerscout"
   # token: ""              # NATS auth token (if server requires it)
   # username: ""           # NATS username (alternative to token)
   # password: ""           # NATS password
@@ -76,7 +76,7 @@ storage:
 # Trivy (security scanning)
 trivy:
   enabled: true
-  cache_dir: "/var/lib/usulnet/trivy"
+  cache_dir: "/var/lib/dockerscout/trivy"
   timeout: "5m"
   severity: "CRITICAL,HIGH,MEDIUM"
   ignore_unfixed: false
@@ -88,9 +88,9 @@ npm:
 
 # Caddy reverse proxy integration (connect via Settings UI)
 caddy:
-  enabled: false                    # Enable Caddy reverse proxy integration (or env USULNET_CADDY_ENABLED)
-  admin_url: ""                     # Caddy admin API (or env USULNET_CADDY_ADMIN_URL)
-  acme_email: ""                    # ACME email for Let's Encrypt (or env USULNET_CADDY_ACME_EMAIL)
+  enabled: false                    # Enable Caddy reverse proxy integration (or env DOCKERSCOUT_CADDY_ENABLED)
+  admin_url: ""                     # Caddy admin API (or env DOCKERSCOUT_CADDY_ADMIN_URL)
+  acme_email: ""                    # ACME email for Let's Encrypt (or env DOCKERSCOUT_CADDY_ACME_EMAIL)
   listen_http: ":80"
   listen_https: ":443"
 
@@ -99,13 +99,13 @@ minio:
   enabled: false
 
 # Docker settings
-# When socket is not set, usulnet auto-detects the Docker socket by checking:
+# When socket is not set, dockerscout auto-detects the Docker socket by checking:
 #   1. DOCKER_HOST env var
 #   2. /var/run/docker.sock (standard)
 #   3. $XDG_RUNTIME_DIR/docker.sock and /run/user/<UID>/docker.sock (rootless)
 #   4. docker context inspect (active context)
 # Set explicitly only if auto-detection doesn't work for your setup.
-# Can also be set via USULNET_DOCKER_SOCKET or DOCKER_SOCKET env vars.
+# Can also be set via DOCKERSCOUT_DOCKER_SOCKET or DOCKER_SOCKET env vars.
 # docker:
 #   socket: "/run/user/1000/docker.sock"
 

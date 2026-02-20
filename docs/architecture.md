@@ -1,6 +1,6 @@
 # Architecture Documentation
 
-> **usulnet** - Docker Management Platform
+> **dockerscout** - Docker Management Platform
 > System architecture, design decisions, and component overview.
 
 ---
@@ -22,7 +22,7 @@
 
 ## System Overview
 
-usulnet is a self-hosted Docker management platform written in Go. It provides a web-based interface for managing Docker containers, images, volumes, networks, stacks, and multi-host environments. The platform supports security scanning, backup/restore, reverse proxy management, monitoring, and enterprise features like LDAP/OAuth authentication and RBAC.
+dockerscout is a self-hosted Docker management platform written in Go. It provides a web-based interface for managing Docker containers, images, volumes, networks, stacks, and multi-host environments. The platform supports security scanning, backup/restore, reverse proxy management, monitoring, and enterprise features like LDAP/OAuth authentication and RBAC.
 
 ### Key Characteristics
 
@@ -78,7 +78,7 @@ usulnet is a self-hosted Docker management platform written in Go. It provides a
                                                     |
                                            +--------v--------+
                                            |  Remote Agents   |
-                                           | (usulnet-agent)  |
+                                           | (dockerscout-agent)  |
                                            +-----------------+
 ```
 
@@ -202,7 +202,7 @@ Client WS /api/v1/ws/containers/{id}/logs
 
 ## Master-Agent Architecture
 
-usulnet supports managing multiple Docker hosts through a master-agent model using NATS JetStream for reliable, persistent messaging.
+dockerscout supports managing multiple Docker hosts through a master-agent model using NATS JetStream for reliable, persistent messaging.
 
 ### Operation Modes
 
@@ -217,7 +217,7 @@ usulnet supports managing multiple Docker hosts through a master-agent model usi
 ```
 +-------------------+          NATS JetStream          +-------------------+
 |                   |  <============================>  |                   |
-|   Master (usulnet)|         Commands & Results        |  Agent (usulnet-  |
+|   Master (dockerscout)|         Commands & Results        |  Agent (dockerscout-  |
 |                   |                                   |   agent)          |
 |  +-------------+  |    1. Master publishes command    |  +-------------+  |
 |  | Gateway     |------> (e.g., list containers)  --->|  | Agent Core  |  |
@@ -446,10 +446,10 @@ jobs ──> scheduled_jobs
 ## Directory Structure
 
 ```
-usulnet/
+dockerscout/
 +-- cmd/
-|   +-- usulnet/              # Main server entry point (Cobra CLI)
-|   +-- usulnet-agent/        # Agent entry point
+|   +-- dockerscout/              # Main server entry point (Cobra CLI)
+|   +-- dockerscout-agent/        # Agent entry point
 +-- internal/
 |   +-- api/                  # REST API layer
 |   |   +-- handlers/         # 31 API handler files

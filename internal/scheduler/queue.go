@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Copyright (c) 2024-2026 usulnet contributors
-// https://github.com/fr4nsys/usulnet
+// Copyright (c) 2024-2026 dockerscout contributors
+// https://github.com/fr4nsys/dockerscout
 
 package scheduler
 
@@ -13,19 +13,19 @@ import (
 	"github.com/google/uuid"
 	"github.com/redis/go-redis/v9"
 
-	"github.com/fr4nsys/usulnet/internal/models"
-	"github.com/fr4nsys/usulnet/internal/pkg/errors"
-	"github.com/fr4nsys/usulnet/internal/pkg/logger"
-	redisclient "github.com/fr4nsys/usulnet/internal/repository/redis"
+	"github.com/fr4nsys/dockerscout/internal/models"
+	"github.com/fr4nsys/dockerscout/internal/pkg/errors"
+	"github.com/fr4nsys/dockerscout/internal/pkg/logger"
+	redisclient "github.com/fr4nsys/dockerscout/internal/repository/redis"
 )
 
 const (
 	// Redis key prefixes
-	keyPrefixJobQueue    = "usulnet:jobs:queue"
-	keyPrefixJobData     = "usulnet:jobs:data"
-	keyPrefixJobRunning  = "usulnet:jobs:running"
-	keyPrefixJobDead     = "usulnet:jobs:dead"
-	keyPrefixJobSchedule = "usulnet:jobs:schedule"
+	keyPrefixJobQueue    = "dockerscout:jobs:queue"
+	keyPrefixJobData     = "dockerscout:jobs:data"
+	keyPrefixJobRunning  = "dockerscout:jobs:running"
+	keyPrefixJobDead     = "dockerscout:jobs:dead"
+	keyPrefixJobSchedule = "dockerscout:jobs:schedule"
 
 	// Queue names by priority
 	queueCritical = "critical"

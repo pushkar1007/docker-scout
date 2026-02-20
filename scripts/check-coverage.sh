@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # =============================================================================
-# usulnet - Test Coverage Threshold Checker
+# dockerscout - Test Coverage Threshold Checker
 # =============================================================================
 # Usage: ./scripts/check-coverage.sh [threshold]
 # Default threshold: 40%
@@ -11,7 +11,7 @@ set -euo pipefail
 THRESHOLD="${1:-40}"
 COVERAGE_FILE="coverage.out"
 
-echo "=== usulnet Test Coverage Check ==="
+echo "=== dockerscout Test Coverage Check ==="
 echo "Minimum threshold: ${THRESHOLD}%"
 echo ""
 

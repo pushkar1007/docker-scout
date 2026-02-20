@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Copyright (c) 2024-2026 usulnet contributors
-// https://github.com/fr4nsys/usulnet
+// Copyright (c) 2024-2026 dockerscout contributors
+// https://github.com/fr4nsys/dockerscout
 
 package web
 
@@ -13,7 +13,7 @@ import (
 
 	dockertypes "github.com/docker/docker/api/types"
 
-	hdtmpl "github.com/fr4nsys/usulnet/internal/web/templates/pages/healthdash"
+	hdtmpl "github.com/fr4nsys/dockerscout/internal/web/templates/pages/healthdash"
 )
 
 // HealthDashTempl renders the container health check dashboard.

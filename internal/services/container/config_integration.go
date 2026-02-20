@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Copyright (c) 2024-2026 usulnet contributors
-// https://github.com/fr4nsys/usulnet
+// Copyright (c) 2024-2026 dockerscout contributors
+// https://github.com/fr4nsys/dockerscout
 
 // Package container provides container management services.
 // This file adds Config Manager integration for environment variable synchronization.
@@ -14,9 +14,9 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/fr4nsys/usulnet/internal/docker"
-	"github.com/fr4nsys/usulnet/internal/models"
-	configservice "github.com/fr4nsys/usulnet/internal/services/config"
+	"github.com/fr4nsys/dockerscout/internal/docker"
+	"github.com/fr4nsys/dockerscout/internal/models"
+	configservice "github.com/fr4nsys/dockerscout/internal/services/config"
 )
 
 // ============================================================================

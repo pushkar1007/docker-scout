@@ -1,6 +1,6 @@
 # Development & Contribution Guide
 
-> **usulnet** - Docker Management Platform
+> **dockerscout** - Docker Management Platform
 > Guide for setting up the development environment and contributing to the project.
 
 ---
@@ -50,8 +50,8 @@
 ### Step 1: Clone the Repository
 
 ```bash
-git clone https://github.com/fr4nsys/usulnet.git
-cd usulnet
+git clone https://github.com/fr4nsys/dockerscout.git
+cd dockerscout
 ```
 
 ### Step 2: Start Infrastructure Services
@@ -96,7 +96,7 @@ make migrate
 make run
 ```
 
-The application starts on `http://localhost:8080`. Default credentials: `admin` / `usulnet`.
+The application starts on `http://localhost:8080`. Default credentials: `admin` / `dockerscout`.
 
 ### Development with Hot Reload
 
@@ -132,10 +132,10 @@ make dev-down
 ## Project Structure
 
 ```
-usulnet/
+dockerscout/
 +-- cmd/                      # Application entry points
-|   +-- usulnet/              # Main server (cobra CLI: serve, migrate)
-|   +-- usulnet-agent/        # Remote agent binary
+|   +-- dockerscout/              # Main server (cobra CLI: serve, migrate)
+|   +-- dockerscout-agent/        # Remote agent binary
 +-- internal/                 # Private application code
 |   +-- api/                  # REST API (handlers, middleware, DTOs, router)
 |   +-- web/                  # Web UI (page handlers, adapters, templates)
@@ -271,7 +271,7 @@ Create a pull request on GitHub following the [PR Process](#pull-request-process
 
 ```go
 // Use the internal errors package
-import "github.com/fr4nsys/usulnet/internal/pkg/errors"
+import "github.com/fr4nsys/dockerscout/internal/pkg/errors"
 
 // Wrap errors with context
 if err != nil {
@@ -594,10 +594,10 @@ Brief description of the changes.
 make run 2>&1 | jq .  # If JSON logging
 
 # Connect to database
-docker exec -it usulnet-postgres psql -U usulnet
+docker exec -it dockerscout-postgres psql -U dockerscout
 
 # Connect to Redis
-docker exec -it usulnet-redis redis-cli
+docker exec -it dockerscout-redis redis-cli
 
 # Check NATS monitoring
 curl http://localhost:8222/varz

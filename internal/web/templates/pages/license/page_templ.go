@@ -10,7 +10,7 @@ import templruntime "github.com/a-h/templ/runtime"
 
 import (
 	"fmt"
-	"github.com/fr4nsys/usulnet/internal/web/templates/layouts"
+	"github.com/fr4nsys/dockerscout/internal/web/templates/layouts"
 )
 
 // LicensePageInfo holds the current license state for the template.
@@ -158,7 +158,7 @@ func LicensePage(data LicensePageData) templ.Component {
 				}()
 			}
 			ctx = templ.InitializeContext(ctx)
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<div class=\"space-y-6 max-w-6xl mx-auto\"><!-- Header --><div><h1 class=\"text-2xl font-bold text-white\"><i class=\"fas fa-id-card mr-2 text-primary-400\"></i> License Management</h1><p class=\"text-gray-400 mt-1\">Manage your usulnet edition and license</p></div><!-- Current Edition Card --><div class=\"bg-dark-800 border border-dark-700 rounded-xl p-6\"><div class=\"flex items-start justify-between flex-wrap gap-4\"><div class=\"flex items-center gap-4\">")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<div class=\"space-y-6 max-w-6xl mx-auto\"><!-- Header --><div><h1 class=\"text-2xl font-bold text-white\"><i class=\"fas fa-id-card mr-2 text-primary-400\"></i> License Management</h1><p class=\"text-gray-400 mt-1\">Manage your dockerscout edition and license</p></div><!-- Current Edition Card --><div class=\"bg-dark-800 border border-dark-700 rounded-xl p-6\"><div class=\"flex items-start justify-between flex-wrap gap-4\"><div class=\"flex items-center gap-4\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -332,7 +332,7 @@ func LicensePage(data LicensePageData) templ.Component {
 				return templ_7745c5c3_Err
 			}
 			if data.License.Edition == "ce" {
-				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 20, "<a href=\"https://usulnet.com/pricing\" target=\"_blank\" rel=\"noopener\" class=\"flex items-center gap-2 bg-primary-500 hover:bg-primary-600 text-black font-medium px-4 py-2 rounded-lg transition-colors\"><i class=\"fas fa-arrow-up\"></i> Upgrade</a>")
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 20, "<a href=\"https://dockerscout.com/pricing\" target=\"_blank\" rel=\"noopener\" class=\"flex items-center gap-2 bg-primary-500 hover:bg-primary-600 text-black font-medium px-4 py-2 rounded-lg transition-colors\"><i class=\"fas fa-arrow-up\"></i> Upgrade</a>")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
@@ -456,7 +456,7 @@ func LicensePage(data LicensePageData) templ.Component {
 					return templ_7745c5c3_Err
 				}
 			} else {
-				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 35, "<div class=\"mt-4 pt-4 border-t border-dark-700\"><p class=\"text-xs text-gray-500 text-center\">Don't have a key? <a href=\"https://usulnet.com/pricing\" target=\"_blank\" rel=\"noopener\" class=\"text-primary-400 hover:text-primary-300\">Purchase a license →</a></p></div>")
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 35, "<div class=\"mt-4 pt-4 border-t border-dark-700\"><p class=\"text-xs text-gray-500 text-center\">Don't have a key? <a href=\"https://dockerscout.com/pricing\" target=\"_blank\" rel=\"noopener\" class=\"text-primary-400 hover:text-primary-300\">Purchase a license →</a></p></div>")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}

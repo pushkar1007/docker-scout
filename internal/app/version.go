@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Copyright (c) 2024-2026 usulnet contributors
-// https://github.com/fr4nsys/usulnet
+// Copyright (c) 2024-2026 dockerscout contributors
+// https://github.com/fr4nsys/dockerscout
 
 package app
 
@@ -18,7 +18,7 @@ var (
 
 // PrintVersion prints version information to stdout
 func PrintVersion() {
-	fmt.Printf("usulnet %s\n", Version)
+	fmt.Printf("dockerscout %s\n", Version)
 	fmt.Printf("  Commit:     %s\n", Commit)
 	fmt.Printf("  Built:      %s\n", BuildTime)
 	fmt.Printf("  Go version: %s\n", runtime.Version())

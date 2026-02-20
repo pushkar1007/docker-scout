@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Copyright (c) 2024-2026 usulnet contributors
-// https://github.com/fr4nsys/usulnet
+// Copyright (c) 2024-2026 dockerscout contributors
+// https://github.com/fr4nsys/dockerscout
 
 package web
 
@@ -10,7 +10,7 @@ import (
 	"net/http"
 	"time"
 
-	redisrepo "github.com/fr4nsys/usulnet/internal/repository/redis"
+	redisrepo "github.com/fr4nsys/dockerscout/internal/repository/redis"
 )
 
 // CookieConfig holds session cookie settings wired from app config.
@@ -121,7 +121,7 @@ func (s *WebSessionStore) Save(r *http.Request, w http.ResponseWriter, session *
 
 	// Set cookie (Secure flag from config, falls back to TLS auto-detection)
 	http.SetCookie(w, &http.Cookie{
-		Name:     "usulnet_session",
+		Name:     "dockerscout_session",
 		Value:    session.ID,
 		Path:     "/",
 		Domain:   s.cookie.Domain,

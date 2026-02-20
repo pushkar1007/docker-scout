@@ -1,10 +1,10 @@
 .PHONY: all build build-agent run test test-coverage test-check-coverage test-benchmark test-e2e clean dev-up dev-down migrate lint lint-fix fmt vet templ css install-hooks
 
 # Variables
-BINARY_NAME=usulnet
-AGENT_BINARY_NAME=usulnet-agent
-MAIN_PATH=./cmd/usulnet
-AGENT_PATH=./cmd/usulnet-agent
+BINARY_NAME=dockerscout
+AGENT_BINARY_NAME=dockerscout-agent
+MAIN_PATH=./cmd/dockerscout
+AGENT_PATH=./cmd/dockerscout-agent
 BUILD_DIR=./bin
 
 # Go commands
@@ -142,13 +142,13 @@ deps:
 
 # Docker
 docker-build:
-	docker build -t usulnet:latest .
+	docker build -t dockerscout:latest .
 
 docker-build-agent:
-	docker build -f Dockerfile.agent -t usulnet-agent:latest .
+	docker build -f Dockerfile.agent -t dockerscout-agent:latest .
 
 docker-run:
-	docker run --rm -p 8080:8080 usulnet:latest
+	docker run --rm -p 8080:8080 dockerscout:latest
 
 # Development with agent profile
 dev-up-agent:

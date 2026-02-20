@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Copyright (c) 2024-2026 usulnet contributors
-// https://github.com/fr4nsys/usulnet
+// Copyright (c) 2024-2026 dockerscout contributors
+// https://github.com/fr4nsys/dockerscout
 
 package web
 
@@ -10,8 +10,8 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/fr4nsys/usulnet/internal/models"
-	proxysvc "github.com/fr4nsys/usulnet/internal/services/proxy"
+	"github.com/fr4nsys/dockerscout/internal/models"
+	proxysvc "github.com/fr4nsys/dockerscout/internal/services/proxy"
 )
 
 // caddyProxyAdapter implements ProxyService using the Caddy-based proxy service.

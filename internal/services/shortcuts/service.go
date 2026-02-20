@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Copyright (c) 2024-2026 usulnet contributors
-// https://github.com/fr4nsys/usulnet
+// Copyright (c) 2024-2026 dockerscout contributors
+// https://github.com/fr4nsys/dockerscout
 
 package shortcuts
 
@@ -14,10 +14,10 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/fr4nsys/usulnet/internal/models"
-	"github.com/fr4nsys/usulnet/internal/pkg/errors"
-	"github.com/fr4nsys/usulnet/internal/pkg/logger"
-	"github.com/fr4nsys/usulnet/internal/repository/postgres"
+	"github.com/fr4nsys/dockerscout/internal/models"
+	"github.com/fr4nsys/dockerscout/internal/pkg/errors"
+	"github.com/fr4nsys/dockerscout/internal/pkg/logger"
+	"github.com/fr4nsys/dockerscout/internal/repository/postgres"
 )
 
 // Service manages web shortcuts.
@@ -217,7 +217,7 @@ func (s *Service) downloadFavicon(ctx context.Context, faviconURL string) ([]byt
 		return nil, err
 	}
 
-	req.Header.Set("User-Agent", "Mozilla/5.0 (compatible; usulnet/1.0)")
+	req.Header.Set("User-Agent", "Mozilla/5.0 (compatible; dockerscout/1.0)")
 
 	resp, err := s.httpClient.Do(req)
 	if err != nil {

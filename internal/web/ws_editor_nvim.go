@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Copyright (c) 2024-2026 usulnet contributors
-// https://github.com/fr4nsys/usulnet
+// Copyright (c) 2024-2026 dockerscout contributors
+// https://github.com/fr4nsys/dockerscout
 
 package web
 
@@ -139,7 +139,7 @@ func (h *Handler) WSEditorNvim(w http.ResponseWriter, r *http.Request) {
 
 	// ── Setup workspace ──────────────────────────────────────────────
 	sessionID := uuid.New().String()[:8]
-	workDir, err := os.MkdirTemp("", "usulnet-nvim-"+sessionID+"-")
+	workDir, err := os.MkdirTemp("", "dockerscout-nvim-"+sessionID+"-")
 	if err != nil {
 		editorWSSendError(conn, "Failed to create workspace: "+err.Error())
 		return
@@ -165,8 +165,8 @@ func (h *Handler) WSEditorNvim(w http.ResponseWriter, r *http.Request) {
 		}
 
 		// ── Write autocmd init for :w → commit ───────────────────────────
-		initPath = filepath.Join(workDir, ".usulnet-init.lua")
-		initLua := fmt.Sprintf(`-- usulnet: auto-commit on :w
+		initPath = filepath.Join(workDir, ".dockerscout-init.lua")
+		initLua := fmt.Sprintf(`-- dockerscout: auto-commit on :w
 local fifo = %q
 local fname = %q
 local branch = %q
@@ -312,11 +312,11 @@ vim.api.nvim_create_autocmd("BufWritePost", {
 
 					// Build commit message
 					user := GetUserFromContext(ctx)
-					author := "usulnet"
+					author := "dockerscout"
 					if user != nil {
 						author = user.Username
 					}
-					commitMsg := fmt.Sprintf("Update %s via usulnet nvim (%s)",
+					commitMsg := fmt.Sprintf("Update %s via dockerscout nvim (%s)",
 						filepath.Base(filePath), author)
 
 					if err := svc.UpdateFile(ctx, repoID, filePath, ref, string(saved), commitMsg); err != nil {
@@ -420,12 +420,12 @@ func buildNvimEnv(workDir string) []string {
 }
 
 // copyNvimUserConfig copies the platform nvim config into the session workspace.
-// Looks for config at /opt/usulnet/nvim-config/ (shipped with the Docker image).
-// Also copies pre-installed plugin data from /opt/usulnet/nvim-data/ if available.
+// Looks for config at /opt/dockerscout/nvim-config/ (shipped with the Docker image).
+// Also copies pre-installed plugin data from /opt/dockerscout/nvim-data/ if available.
 func copyNvimUserConfig(destDir string) {
 	sources := []string{
-		"/opt/usulnet/nvim-config",
-		"/etc/usulnet/nvim",
+		"/opt/dockerscout/nvim-config",
+		"/etc/dockerscout/nvim",
 	}
 	for _, src := range sources {
 		if info, err := os.Stat(src); err == nil && info.IsDir() {
@@ -442,7 +442,7 @@ func copyNvimUserConfig(destDir string) {
 
 	// Copy pre-installed plugin data (lazy.nvim + plugins)
 	// This avoids downloading plugins on every nvim session start.
-	nvimDataSrc := "/opt/usulnet/nvim-data"
+	nvimDataSrc := "/opt/dockerscout/nvim-data"
 	if info, err := os.Stat(nvimDataSrc); err == nil && info.IsDir() {
 		workDir := filepath.Dir(filepath.Dir(destDir)) // workDir/.config/nvim → workDir
 		nvimDataDest := filepath.Join(workDir, ".local", "share", "nvim")

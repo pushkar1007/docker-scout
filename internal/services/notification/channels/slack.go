@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Copyright (c) 2024-2026 usulnet contributors
-// https://github.com/fr4nsys/usulnet
+// Copyright (c) 2024-2026 dockerscout contributors
+// https://github.com/fr4nsys/dockerscout
 
 // Package channels provides notification channel implementations.
 // Department L: Notifications
@@ -32,7 +32,7 @@ type SlackConfig struct {
 	// Channel overrides the default channel (optional, requires app scope).
 	Channel string `json:"channel,omitempty"`
 
-	// Username sets the bot username. Defaults to "USULNET".
+	// Username sets the bot username. Defaults to "DOCKERSCOUT".
 	Username string `json:"username,omitempty"`
 
 	// IconEmoji sets the bot icon. Defaults to ":whale:".
@@ -117,7 +117,7 @@ func NewSlackChannel(config SlackConfig) (*SlackChannel, error) {
 
 	// Set defaults
 	if config.Username == "" {
-		config.Username = "USULNET"
+		config.Username = "DOCKERSCOUT"
 	}
 	if config.IconEmoji == "" && config.IconURL == "" {
 		config.IconEmoji = ":whale:"
@@ -181,9 +181,9 @@ func (s *SlackChannel) Send(ctx context.Context, msg RenderedMessage) error {
 // Test sends a test notification to verify configuration.
 func (s *SlackChannel) Test(ctx context.Context) error {
 	testMsg := RenderedMessage{
-		Title:     "USULNET Test Notification",
-		Body:      "This is a test notification from USULNET to verify Slack integration.",
-		BodyPlain: "This is a test notification from USULNET to verify Slack integration.",
+		Title:     "DOCKERSCOUT Test Notification",
+		Body:      "This is a test notification from DOCKERSCOUT to verify Slack integration.",
+		BodyPlain: "This is a test notification from DOCKERSCOUT to verify Slack integration.",
 		Priority:  PriorityNormal,
 		Timestamp: time.Now(),
 		Type:      TypeTestMessage,
@@ -292,7 +292,7 @@ func (s *SlackChannel) buildAttachments(msg RenderedMessage) []SlackAttachment {
 		Color:     msg.Color,
 		Title:     msg.Title,
 		Text:      msg.Body,
-		Footer:    fmt.Sprintf("USULNET | %s | %s", msg.Type.Category(), msg.Priority.String()),
+		Footer:    fmt.Sprintf("DOCKERSCOUT | %s | %s", msg.Type.Category(), msg.Priority.String()),
 		Timestamp: msg.Timestamp.Unix(),
 	}
 

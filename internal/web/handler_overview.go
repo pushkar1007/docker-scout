@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Copyright (c) 2024-2026 usulnet contributors
-// https://github.com/fr4nsys/usulnet
+// Copyright (c) 2024-2026 dockerscout contributors
+// https://github.com/fr4nsys/dockerscout
 
 package web
 
@@ -9,8 +9,8 @@ import (
 	"net/http"
 	"sort"
 
-	"github.com/fr4nsys/usulnet/internal/models"
-	overviewtmpl "github.com/fr4nsys/usulnet/internal/web/templates/pages/overview"
+	"github.com/fr4nsys/dockerscout/internal/models"
+	overviewtmpl "github.com/fr4nsys/dockerscout/internal/web/templates/pages/overview"
 )
 
 // OverviewTempl renders the multi-node aggregate dashboard.

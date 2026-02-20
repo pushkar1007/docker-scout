@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Copyright (c) 2024-2026 usulnet contributors
-// https://github.com/fr4nsys/usulnet
+// Copyright (c) 2024-2026 dockerscout contributors
+// https://github.com/fr4nsys/dockerscout
 
 package web
 
@@ -17,8 +17,8 @@ import (
 	"sync"
 	"time"
 
-	"github.com/fr4nsys/usulnet/internal/docker"
-	"github.com/fr4nsys/usulnet/internal/web/templates/pages/hosts"
+	"github.com/fr4nsys/dockerscout/internal/docker"
+	"github.com/fr4nsys/dockerscout/internal/web/templates/pages/hosts"
 	"github.com/go-chi/chi/v5"
 	"github.com/google/uuid"
 	"github.com/gorilla/websocket"
@@ -31,7 +31,7 @@ import (
 // HostTerminalConfig holds host terminal settings from environment variables.
 type HostTerminalConfig struct {
 	Enabled bool   // HOST_TERMINAL_ENABLED (default: true)
-	User    string // HOST_TERMINAL_USER (default: nobody_usulnet)
+	User    string // HOST_TERMINAL_USER (default: nobody_dockerscout)
 	Shell   string // HOST_TERMINAL_SHELL (default: /bin/bash)
 }
 
@@ -43,7 +43,7 @@ var ensureHostUserOnce sync.Once
 var ensureHostUserErr error
 
 // ensureHostUser uses docker exec (as root) + nsenter to create the user on the host.
-// The Go process runs as unprivileged usulnet user, so direct nsenter fails.
+// The Go process runs as unprivileged dockerscout user, so direct nsenter fails.
 // docker exec -u 0 elevates to root inside the container, then nsenter works.
 // Tries useradd first (shadow-utils), falls back to adduser (busybox/alpine).
 // Runs once via sync.Once.
@@ -178,8 +178,8 @@ func isHostPIDNamespace() bool {
 		return false
 	}
 	cmdline := string(data)
-	// Our binary is "usulnet" or our entrypoint. If PID 1 is NOT us, we share host PID.
-	return !strings.Contains(cmdline, "usulnet")
+	// Our binary is "dockerscout" or our entrypoint. If PID 1 is NOT us, we share host PID.
+	return !strings.Contains(cmdline, "dockerscout")
 }
 
 // =============================================================================
@@ -198,7 +198,7 @@ func (h *Handler) HostTerminalTempl(w http.ResponseWriter, r *http.Request) {
 	if !cfg.Enabled {
 		h.RenderErrorTempl(w, r, http.StatusForbidden,
 			"Host Terminal Disabled",
-			"Set HOST_TERMINAL_ENABLED=true in usulnet environment to enable this feature.",
+			"Set HOST_TERMINAL_ENABLED=true in dockerscout environment to enable this feature.",
 		)
 		return
 	}
@@ -231,7 +231,7 @@ func (h *Handler) HostTerminalTempl(w http.ResponseWriter, r *http.Request) {
 // WSHostExec opens an interactive terminal on the Docker host via nsenter.
 //
 // How it works:
-//  1. usulnet container must run with pid:"host" + cap_add:[SYS_PTRACE,SYS_ADMIN]
+//  1. dockerscout container must run with pid:"host" + cap_add:[SYS_PTRACE,SYS_ADMIN]
 //  2. We detect our own container ID
 //  3. We docker exec into ourselves with: nsenter --target 1 --mount --uts --ipc --net --pid -- su - <user>
 //  4. nsenter enters the host namespaces, su drops to the unprivileged user
@@ -274,7 +274,7 @@ func (h *Handler) WSHostExec(w http.ResponseWriter, r *http.Request) {
 	if !isHostPIDNamespace() {
 		h.sendWSMessage(conn, WSExecMessage{
 			Type: "error",
-			Data: "Host PID namespace not available. Add pid:\"host\" to usulnet docker-compose.",
+			Data: "Host PID namespace not available. Add pid:\"host\" to dockerscout docker-compose.",
 		})
 		return
 	}

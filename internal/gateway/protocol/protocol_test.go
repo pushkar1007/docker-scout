@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Copyright (c) 2024-2026 usulnet contributors
-// https://github.com/fr4nsys/usulnet
+// Copyright (c) 2024-2026 dockerscout contributors
+// https://github.com/fr4nsys/dockerscout
 
 package protocol
 
@@ -23,7 +23,7 @@ func TestMessage_RoundTrip(t *testing.T) {
 		t.Fatalf("NewMessage() error: %v", err)
 	}
 
-	msg.WithAgent("agent-1", "host-1").WithReply("usulnet.reply.abc")
+	msg.WithAgent("agent-1", "host-1").WithReply("dockerscout.reply.abc")
 
 	// Encode
 	data, err := msg.Encode()
@@ -49,8 +49,8 @@ func TestMessage_RoundTrip(t *testing.T) {
 	if decoded.HostID != "host-1" {
 		t.Errorf("HostID = %q, want %q", decoded.HostID, "host-1")
 	}
-	if decoded.ReplyTo != "usulnet.reply.abc" {
-		t.Errorf("ReplyTo = %q, want %q", decoded.ReplyTo, "usulnet.reply.abc")
+	if decoded.ReplyTo != "dockerscout.reply.abc" {
+		t.Errorf("ReplyTo = %q, want %q", decoded.ReplyTo, "dockerscout.reply.abc")
 	}
 
 	// Decode payload
@@ -206,7 +206,7 @@ func TestCommand_RoundTrip(t *testing.T) {
 		HostID:   uuid.New().String(),
 		Priority: PriorityHigh,
 		Timeout:  30 * time.Second,
-		ReplyTo:  "usulnet.reply.xyz",
+		ReplyTo:  "dockerscout.reply.xyz",
 		CreatedAt: time.Now().UTC(),
 		CreatedBy: "admin",
 		Params: CommandParams{

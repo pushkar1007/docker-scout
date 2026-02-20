@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Copyright (c) 2024-2026 usulnet contributors
-// https://github.com/fr4nsys/usulnet
+// Copyright (c) 2024-2026 dockerscout contributors
+// https://github.com/fr4nsys/dockerscout
 
 package web
 
@@ -17,8 +17,8 @@ import (
 	"github.com/go-chi/chi/v5"
 	"github.com/google/uuid"
 
-	"github.com/fr4nsys/usulnet/internal/models"
-	"github.com/fr4nsys/usulnet/internal/web/templates/pages/runbooks"
+	"github.com/fr4nsys/dockerscout/internal/models"
+	"github.com/fr4nsys/dockerscout/internal/web/templates/pages/runbooks"
 )
 
 // RunbooksTempl renders the runbooks management page.
@@ -520,7 +520,7 @@ func (h *Handler) executeAPICallStep(step models.RunbookStep, result map[string]
 		req.Header.Set("Authorization", authHeader)
 	}
 
-	req.Header.Set("User-Agent", "usulnet-runbook/1.0")
+	req.Header.Set("User-Agent", "dockerscout-runbook/1.0")
 
 	// Execute request
 	resp, err := client.Do(req)

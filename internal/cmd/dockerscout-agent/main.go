@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Copyright (c) 2024-2026 usulnet contributors
-// https://github.com/fr4nsys/usulnet
+// Copyright (c) 2024-2026 dockerscout contributors
+// https://github.com/fr4nsys/dockerscout
 
-// Command usulnet-agent is the remote agent for the usulnet Docker management platform.
+// Command dockerscout-agent is the remote agent for the dockerscout Docker management platform.
 // It runs on each Docker host, connects to the central gateway via NATS, and executes
 // commands received from the control plane.
 package main
@@ -18,8 +18,8 @@ import (
 
 	"gopkg.in/yaml.v3"
 
-	"github.com/fr4nsys/usulnet/internal/agent"
-	"github.com/fr4nsys/usulnet/internal/pkg/logger"
+	"github.com/fr4nsys/dockerscout/internal/agent"
+	"github.com/fr4nsys/dockerscout/internal/pkg/logger"
 )
 
 var (
@@ -35,20 +35,20 @@ func main() {
 	// Parse flags
 	var (
 		configFile  = flag.String("config", "", "Path to config file")
-		gatewayURL  = flag.String("gateway", envOrDefault("USULNET_GATEWAY_URL", "nats://localhost:4222"), "Gateway NATS URL")
-		token       = flag.String("token", envOrDefault("USULNET_AGENT_TOKEN", ""), "Agent authentication token")
+		gatewayURL  = flag.String("gateway", envOrDefault("DOCKERSCOUT_GATEWAY_URL", "nats://localhost:4222"), "Gateway NATS URL")
+		token       = flag.String("token", envOrDefault("DOCKERSCOUT_AGENT_TOKEN", ""), "Agent authentication token")
 		dockerHost  = flag.String("docker", envOrDefault("DOCKER_HOST", "unix:///var/run/docker.sock"), "Docker daemon address")
 		hostname    = flag.String("hostname", "", "Override hostname (auto-detected if empty)")
-		logLevel    = flag.String("log-level", envOrDefault("USULNET_LOG_LEVEL", "info"), "Log level (debug, info, warn, error)")
-		logFormat   = flag.String("log-format", envOrDefault("USULNET_LOG_FORMAT", "json"), "Log format (json, console)")
-		dataDir     = flag.String("data-dir", envOrDefault("USULNET_DATA_DIR", "/var/lib/usulnet-agent"), "Data directory for local state")
+		logLevel    = flag.String("log-level", envOrDefault("DOCKERSCOUT_LOG_LEVEL", "info"), "Log level (debug, info, warn, error)")
+		logFormat   = flag.String("log-format", envOrDefault("DOCKERSCOUT_LOG_FORMAT", "json"), "Log format (json, console)")
+		dataDir     = flag.String("data-dir", envOrDefault("DOCKERSCOUT_DATA_DIR", "/var/lib/dockerscout-agent"), "Data directory for local state")
 		showVersion = flag.Bool("version", false, "Show version and exit")
 	)
 	flag.Parse()
 
 	// Show version
 	if *showVersion {
-		fmt.Printf("usulnet-agent %s (commit: %s, built: %s)\n", Version, Commit, BuildDate)
+		fmt.Printf("dockerscout-agent %s (commit: %s, built: %s)\n", Version, Commit, BuildDate)
 		os.Exit(0)
 	}
 
@@ -63,7 +63,7 @@ func main() {
 	// Set agent version
 	agent.Version = Version
 
-	log.Info("Starting usulnet agent",
+	log.Info("Starting dockerscout agent",
 		"version", Version,
 		"commit", Commit,
 		"built", BuildDate,
@@ -97,7 +97,7 @@ func main() {
 
 	// Validate required config
 	if cfg.Token == "" {
-		log.Fatal("Agent token is required. Set USULNET_AGENT_TOKEN or use --token flag")
+		log.Fatal("Agent token is required. Set DOCKERSCOUT_AGENT_TOKEN or use --token flag")
 	}
 
 	// Create agent

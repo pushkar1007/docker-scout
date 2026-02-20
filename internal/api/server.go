@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Copyright (c) 2024-2026 usulnet contributors
-// https://github.com/fr4nsys/usulnet
+// Copyright (c) 2024-2026 dockerscout contributors
+// https://github.com/fr4nsys/dockerscout
 
-// Package api provides the HTTP API server for usulnet.
+// Package api provides the HTTP API server for dockerscout.
 package api
 
 import (
@@ -17,8 +17,8 @@ import (
 
 	"github.com/go-chi/chi/v5"
 
-	"github.com/fr4nsys/usulnet/internal/api/handlers"
-	"github.com/fr4nsys/usulnet/internal/api/middleware"
+	"github.com/fr4nsys/dockerscout/internal/api/handlers"
+	"github.com/fr4nsys/dockerscout/internal/api/middleware"
 )
 
 // ServerConfig contains configuration for the HTTP server.

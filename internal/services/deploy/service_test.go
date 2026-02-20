@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Copyright (c) 2024-2026 usulnet contributors
-// https://github.com/fr4nsys/usulnet
+// Copyright (c) 2024-2026 dockerscout contributors
+// https://github.com/fr4nsys/dockerscout
 
 package deploy
 
@@ -57,7 +57,7 @@ func TestGenerateComposeFile(t *testing.T) {
 	svc := &Service{}
 
 	req := DeployRequest{
-		AgentImage: "usulnet-agent:v1.0",
+		AgentImage: "dockerscout-agent:v1.0",
 		GatewayURL: "nats://master:4222",
 		AgentToken: "my-token",
 	}
@@ -68,10 +68,10 @@ func TestGenerateComposeFile(t *testing.T) {
 		t.Fatalf("generateComposeFile() error: %v", err)
 	}
 
-	if !strings.Contains(compose, "usulnet-agent:v1.0") {
+	if !strings.Contains(compose, "dockerscout-agent:v1.0") {
 		t.Error("compose should contain agent image")
 	}
-	if !strings.Contains(compose, "USULNET_GATEWAY_URL=nats://master:4222") {
+	if !strings.Contains(compose, "DOCKERSCOUT_GATEWAY_URL=nats://master:4222") {
 		t.Error("compose should contain gateway URL env var")
 	}
 	if !strings.Contains(compose, "/var/run/docker.sock") {

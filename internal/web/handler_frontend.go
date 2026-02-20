@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Copyright (c) 2024-2026 usulnet contributors
-// https://github.com/fr4nsys/usulnet
+// Copyright (c) 2024-2026 dockerscout contributors
+// https://github.com/fr4nsys/dockerscout
 
 package web
 
@@ -16,18 +16,18 @@ import (
 	"github.com/a-h/templ"
 	"github.com/go-chi/chi/v5"
 
-	"github.com/fr4nsys/usulnet/internal/docker"
-	"github.com/fr4nsys/usulnet/internal/models"
-	totppkg "github.com/fr4nsys/usulnet/internal/pkg/totp"
-	"github.com/fr4nsys/usulnet/internal/web/templates/components"
-	"github.com/fr4nsys/usulnet/internal/web/templates/pages"
-	"github.com/fr4nsys/usulnet/internal/web/templates/pages/containers"
-	"github.com/fr4nsys/usulnet/internal/web/templates/pages/images"
-	"github.com/fr4nsys/usulnet/internal/web/templates/pages/networks"
-	securitytmpl "github.com/fr4nsys/usulnet/internal/web/templates/pages/security"
-	updatestmpl "github.com/fr4nsys/usulnet/internal/web/templates/pages/updates"
-	"github.com/fr4nsys/usulnet/internal/web/templates/pages/volumes"
-	"github.com/fr4nsys/usulnet/internal/web/templates/types"
+	"github.com/fr4nsys/dockerscout/internal/docker"
+	"github.com/fr4nsys/dockerscout/internal/models"
+	totppkg "github.com/fr4nsys/dockerscout/internal/pkg/totp"
+	"github.com/fr4nsys/dockerscout/internal/web/templates/components"
+	"github.com/fr4nsys/dockerscout/internal/web/templates/pages"
+	"github.com/fr4nsys/dockerscout/internal/web/templates/pages/containers"
+	"github.com/fr4nsys/dockerscout/internal/web/templates/pages/images"
+	"github.com/fr4nsys/dockerscout/internal/web/templates/pages/networks"
+	securitytmpl "github.com/fr4nsys/dockerscout/internal/web/templates/pages/security"
+	updatestmpl "github.com/fr4nsys/dockerscout/internal/web/templates/pages/updates"
+	"github.com/fr4nsys/dockerscout/internal/web/templates/pages/volumes"
+	"github.com/fr4nsys/dockerscout/internal/web/templates/types"
 )
 
 // ============================================================================
@@ -908,11 +908,11 @@ func (h *Handler) ContainerSettingsUpdate(w http.ResponseWriter, r *http.Request
 			labels[k] = v
 		}
 	}
-	// Set usulnet-specific labels
-	setOrDeleteLabel(labels, "usulnet.webui.protocol", r.FormValue("webui_protocol"))
-	setOrDeleteLabel(labels, "usulnet.webui.host", r.FormValue("webui_host"))
-	setOrDeleteLabel(labels, "usulnet.webui.port", r.FormValue("webui_port"))
-	setOrDeleteLabel(labels, "usulnet.webui.path", r.FormValue("webui_path"))
+	// Set dockerscout-specific labels
+	setOrDeleteLabel(labels, "dockerscout.webui.protocol", r.FormValue("webui_protocol"))
+	setOrDeleteLabel(labels, "dockerscout.webui.host", r.FormValue("webui_host"))
+	setOrDeleteLabel(labels, "dockerscout.webui.port", r.FormValue("webui_port"))
+	setOrDeleteLabel(labels, "dockerscout.webui.path", r.FormValue("webui_path"))
 
 	// Stop the old container
 	if wasRunning {

@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Copyright (c) 2024-2026 usulnet contributors
-// https://github.com/fr4nsys/usulnet
+// Copyright (c) 2024-2026 dockerscout contributors
+// https://github.com/fr4nsys/dockerscout
 
 // Package protocol defines the NATS message types for Gateway-Agent communication.
 package protocol
@@ -44,30 +44,30 @@ const (
 	MessageTypePong     MessageType = "pong"
 )
 
-// NATS subject patterns for usulnet Gateway-Agent communication.
+// NATS subject patterns for dockerscout Gateway-Agent communication.
 const (
 	// Gateway subjects (Gateway listens)
-	SubjectAgentRegister   = "usulnet.agent.register"
-	SubjectAgentHeartbeat  = "usulnet.agent.heartbeat.*"  // wildcard for agent ID
-	SubjectAgentEvents     = "usulnet.agent.events.*"     // wildcard for agent ID
-	SubjectAgentInventory  = "usulnet.agent.inventory.*"  // wildcard for agent ID
-	SubjectAgentDeregister = "usulnet.agent.deregister.*" // wildcard for agent ID
+	SubjectAgentRegister   = "dockerscout.agent.register"
+	SubjectAgentHeartbeat  = "dockerscout.agent.heartbeat.*"  // wildcard for agent ID
+	SubjectAgentEvents     = "dockerscout.agent.events.*"     // wildcard for agent ID
+	SubjectAgentInventory  = "dockerscout.agent.inventory.*"  // wildcard for agent ID
+	SubjectAgentDeregister = "dockerscout.agent.deregister.*" // wildcard for agent ID
 
 	// Agent subjects (Agent listens) - uses agent ID
-	SubjectCommandPrefix = "usulnet.commands." // + agentID
-	SubjectBroadcast     = "usulnet.broadcast" // all agents
+	SubjectCommandPrefix = "dockerscout.commands." // + agentID
+	SubjectBroadcast     = "dockerscout.broadcast" // all agents
 
 	// Reply subjects
-	SubjectReplyPrefix = "usulnet.reply." // + unique ID
+	SubjectReplyPrefix = "dockerscout.reply." // + unique ID
 )
 
 // JetStream stream names.
 const (
-	StreamCommands   = "USULNET_COMMANDS"
-	StreamEvents     = "USULNET_EVENTS"
-	StreamInventory  = "USULNET_INVENTORY"
-	StreamAudit      = "USULNET_AUDIT"
-	StreamDeadLetter = "USULNET_DLQ"
+	StreamCommands   = "DOCKERSCOUT_COMMANDS"
+	StreamEvents     = "DOCKERSCOUT_EVENTS"
+	StreamInventory  = "DOCKERSCOUT_INVENTORY"
+	StreamAudit      = "DOCKERSCOUT_AUDIT"
+	StreamDeadLetter = "DOCKERSCOUT_DLQ"
 )
 
 // Message is the base envelope for all NATS messages.

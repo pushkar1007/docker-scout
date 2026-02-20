@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Copyright (c) 2024-2026 usulnet contributors
-// https://github.com/fr4nsys/usulnet
+// Copyright (c) 2024-2026 dockerscout contributors
+// https://github.com/fr4nsys/dockerscout
 
 package web
 
@@ -12,10 +12,10 @@ import (
 
 	"github.com/go-chi/chi/v5"
 
-	"github.com/fr4nsys/usulnet/internal/web/templates/layouts"
-	"github.com/fr4nsys/usulnet/internal/web/templates/pages/images"
-	"github.com/fr4nsys/usulnet/internal/web/templates/pages/networks"
-	"github.com/fr4nsys/usulnet/internal/web/templates/pages/volumes"
+	"github.com/fr4nsys/dockerscout/internal/web/templates/layouts"
+	"github.com/fr4nsys/dockerscout/internal/web/templates/pages/images"
+	"github.com/fr4nsys/dockerscout/internal/web/templates/pages/networks"
+	"github.com/fr4nsys/dockerscout/internal/web/templates/pages/volumes"
 )
 
 // ============================================================================

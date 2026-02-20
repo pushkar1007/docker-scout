@@ -1,6 +1,6 @@
 # Agent Configuration Guide
 
-> **usulnet** - Docker Management Platform
+> **dockerscout** - Docker Management Platform
 > Guide for deploying and configuring agents for multi-host Docker management.
 
 ---
@@ -22,13 +22,13 @@
 
 ## Overview
 
-The usulnet agent is a lightweight binary that runs on remote Docker hosts and connects to a usulnet master instance via NATS JetStream. The agent enables centralized management of Docker containers, images, volumes, and networks across multiple hosts from a single web interface.
+The dockerscout agent is a lightweight binary that runs on remote Docker hosts and connects to a dockerscout master instance via NATS JetStream. The agent enables centralized management of Docker containers, images, volumes, and networks across multiple hosts from a single web interface.
 
 ### Architecture
 
 ```
 +--------------------+         NATS JetStream          +--------------------+
-|   Master (usulnet) | <=============================> |  Agent (usulnet-   |
+|   Master (dockerscout) | <=============================> |  Agent (dockerscout-   |
 |                    |      Commands & Results          |   agent)           |
 |  - Web UI          |                                  |  - Docker SDK      |
 |  - REST API        |                                  |  - Command executor|
@@ -88,11 +88,11 @@ The simplest way to deploy an agent is as a Docker container:
 
 ```bash
 docker run -d \
-  --name usulnet-agent \
+  --name dockerscout-agent \
   --restart unless-stopped \
   -v /var/run/docker.sock:/var/run/docker.sock \
-  -v usulnet_agent_data:/app/data \
-  usulnet/usulnet-agent:latest \
+  -v dockerscout_agent_data:/app/data \
+  dockerscout/dockerscout-agent:latest \
   --gateway nats://MASTER_HOST:4222 \
   --token YOUR_AGENT_TOKEN
 ```
@@ -110,16 +110,16 @@ Add the agent to your existing Docker Compose setup:
 
 ```yaml
 services:
-  usulnet-agent:
-    image: usulnet/usulnet-agent:latest
-    container_name: usulnet-agent
+  dockerscout-agent:
+    image: dockerscout/dockerscout-agent:latest
+    container_name: dockerscout-agent
     restart: unless-stopped
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - agent_data:/app/data
     environment:
-      - USULNET_GATEWAY_URL=nats://MASTER_HOST:4222
-      - USULNET_AGENT_TOKEN=YOUR_AGENT_TOKEN
+      - DOCKERSCOUT_GATEWAY_URL=nats://MASTER_HOST:4222
+      - DOCKERSCOUT_AGENT_TOKEN=YOUR_AGENT_TOKEN
     deploy:
       resources:
         limits:
@@ -132,24 +132,24 @@ volumes:
 
 ### Method 3: Standalone Binary
 
-Download the agent binary from [GitHub Releases](https://github.com/fr4nsys/usulnet/releases):
+Download the agent binary from [GitHub Releases](https://github.com/fr4nsys/dockerscout/releases):
 
 ```bash
 # Linux amd64
-curl -LO https://github.com/fr4nsys/usulnet/releases/latest/download/usulnet-agent-linux-amd64
-chmod +x usulnet-agent-linux-amd64
-sudo mv usulnet-agent-linux-amd64 /usr/local/bin/usulnet-agent
+curl -LO https://github.com/fr4nsys/dockerscout/releases/latest/download/dockerscout-agent-linux-amd64
+chmod +x dockerscout-agent-linux-amd64
+sudo mv dockerscout-agent-linux-amd64 /usr/local/bin/dockerscout-agent
 
 # Linux arm64
-curl -LO https://github.com/fr4nsys/usulnet/releases/latest/download/usulnet-agent-linux-arm64
-chmod +x usulnet-agent-linux-arm64
-sudo mv usulnet-agent-linux-arm64 /usr/local/bin/usulnet-agent
+curl -LO https://github.com/fr4nsys/dockerscout/releases/latest/download/dockerscout-agent-linux-arm64
+chmod +x dockerscout-agent-linux-arm64
+sudo mv dockerscout-agent-linux-arm64 /usr/local/bin/dockerscout-agent
 ```
 
 Run the agent:
 
 ```bash
-usulnet-agent \
+dockerscout-agent \
   --gateway nats://MASTER_HOST:4222 \
   --token YOUR_AGENT_TOKEN \
   --docker unix:///var/run/docker.sock
@@ -157,11 +157,11 @@ usulnet-agent \
 
 ### Method 4: Systemd Service (Binary)
 
-Create `/etc/systemd/system/usulnet-agent.service`:
+Create `/etc/systemd/system/dockerscout-agent.service`:
 
 ```ini
 [Unit]
-Description=usulnet Remote Agent
+Description=dockerscout Remote Agent
 After=network.target docker.service
 Requires=docker.service
 
@@ -169,7 +169,7 @@ Requires=docker.service
 Type=simple
 User=root
 Group=root
-ExecStart=/usr/local/bin/usulnet-agent \
+ExecStart=/usr/local/bin/dockerscout-agent \
   --gateway nats://MASTER_HOST:4222 \
   --token YOUR_AGENT_TOKEN \
   --docker unix:///var/run/docker.sock \
@@ -184,8 +184,8 @@ WantedBy=multi-user.target
 
 ```bash
 sudo systemctl daemon-reload
-sudo systemctl enable --now usulnet-agent
-sudo systemctl status usulnet-agent
+sudo systemctl enable --now dockerscout-agent
+sudo systemctl status dockerscout-agent
 ```
 
 ---
@@ -196,14 +196,14 @@ sudo systemctl status usulnet-agent
 
 | Flag | Environment Variable | Default | Description |
 |------|---------------------|---------|-------------|
-| `--gateway` | `USULNET_GATEWAY_URL` | `nats://localhost:4222` | NATS server URL of the master |
-| `--token` | `USULNET_AGENT_TOKEN` | *none* | **Required.** Agent authentication token |
-| `--docker` | `USULNET_DOCKER_HOST` | `unix:///var/run/docker.sock` | Docker socket path |
-| `--hostname` | `USULNET_HOSTNAME` | *auto-detected* | Override the reported hostname |
+| `--gateway` | `DOCKERSCOUT_GATEWAY_URL` | `nats://localhost:4222` | NATS server URL of the master |
+| `--token` | `DOCKERSCOUT_AGENT_TOKEN` | *none* | **Required.** Agent authentication token |
+| `--docker` | `DOCKERSCOUT_DOCKER_HOST` | `unix:///var/run/docker.sock` | Docker socket path |
+| `--hostname` | `DOCKERSCOUT_HOSTNAME` | *auto-detected* | Override the reported hostname |
 | `--config` | -- | -- | Path to YAML config file |
-| `--data-dir` | `USULNET_DATA_DIR` | `/app/data` | Local state directory |
-| `--log-level` | `USULNET_LOG_LEVEL` | `info` | Log level: `debug`, `info`, `warn`, `error` |
-| `--log-format` | `USULNET_LOG_FORMAT` | `json` | Log format: `json`, `console` |
+| `--data-dir` | `DOCKERSCOUT_DATA_DIR` | `/app/data` | Local state directory |
+| `--log-level` | `DOCKERSCOUT_LOG_LEVEL` | `info` | Log level: `debug`, `info`, `warn`, `error` |
+| `--log-format` | `DOCKERSCOUT_LOG_FORMAT` | `json` | Log format: `json`, `console` |
 | `--version` | -- | -- | Show version and exit |
 
 ### YAML Configuration File
@@ -233,7 +233,7 @@ labels:
   tier: "web"
 
 # Local data directory
-data_dir: "/var/lib/usulnet-agent"
+data_dir: "/var/lib/dockerscout-agent"
 
 # Logging
 log_level: "info"
@@ -242,9 +242,9 @@ log_format: "json"
 # TLS configuration for NATS (optional)
 tls:
   enabled: false
-  cert_file: "/etc/usulnet-agent/certs/agent.crt"
-  key_file: "/etc/usulnet-agent/certs/agent.key"
-  ca_file: "/etc/usulnet-agent/certs/ca.crt"
+  cert_file: "/etc/dockerscout-agent/certs/agent.crt"
+  key_file: "/etc/dockerscout-agent/certs/agent.key"
+  ca_file: "/etc/dockerscout-agent/certs/ca.crt"
 ```
 
 **Priority order** (highest first):
@@ -263,7 +263,7 @@ On the master, set the operation mode to `master`:
 
 ```bash
 # .env (Docker Compose)
-USULNET_MODE=master
+DOCKERSCOUT_MODE=master
 ```
 
 Or in `config.yaml`:
@@ -289,7 +289,7 @@ AGENT_TOKEN=your-generated-token
 
 **Agent:**
 ```bash
-usulnet-agent --gateway nats://master:4222 --token your-generated-token
+dockerscout-agent --gateway nats://master:4222 --token your-generated-token
 ```
 
 ### Step 3: Expose NATS Port on the Master
@@ -336,9 +336,9 @@ For production deployments, enable TLS to encrypt the NATS connection between ma
 ```yaml
 tls:
   enabled: true
-  cert_file: "/etc/usulnet-agent/certs/agent.crt"
-  key_file: "/etc/usulnet-agent/certs/agent.key"
-  ca_file: "/etc/usulnet-agent/certs/ca.crt"
+  cert_file: "/etc/dockerscout-agent/certs/agent.crt"
+  key_file: "/etc/dockerscout-agent/certs/agent.key"
+  ca_file: "/etc/dockerscout-agent/certs/ca.crt"
 ```
 
 **NATS server configuration (on master):**
@@ -448,34 +448,34 @@ Configure notification channels (Slack, Email, Webhook) on the master to receive
 
 ```bash
 # Pull the new image
-docker pull usulnet/usulnet-agent:latest
+docker pull dockerscout/dockerscout-agent:latest
 
 # Restart the agent
-docker restart usulnet-agent
+docker restart dockerscout-agent
 ```
 
 Or with Docker Compose:
 
 ```bash
-docker compose pull usulnet-agent
-docker compose up -d usulnet-agent
+docker compose pull dockerscout-agent
+docker compose up -d dockerscout-agent
 ```
 
 ### Binary Agent
 
 ```bash
 # Download new binary
-curl -LO https://github.com/fr4nsys/usulnet/releases/latest/download/usulnet-agent-linux-amd64
+curl -LO https://github.com/fr4nsys/dockerscout/releases/latest/download/dockerscout-agent-linux-amd64
 
 # Stop the agent
-sudo systemctl stop usulnet-agent
+sudo systemctl stop dockerscout-agent
 
 # Replace binary
-sudo mv usulnet-agent-linux-amd64 /usr/local/bin/usulnet-agent
-sudo chmod +x /usr/local/bin/usulnet-agent
+sudo mv dockerscout-agent-linux-amd64 /usr/local/bin/dockerscout-agent
+sudo chmod +x /usr/local/bin/dockerscout-agent
 
 # Start the agent
-sudo systemctl start usulnet-agent
+sudo systemctl start dockerscout-agent
 ```
 
 ### Version Compatibility
@@ -502,9 +502,9 @@ Agents should generally run the same version as the master. Minor version differ
 nc -zv master.example.com 4222
 
 # Check agent logs
-docker logs usulnet-agent
+docker logs dockerscout-agent
 # or
-journalctl -u usulnet-agent -f
+journalctl -u dockerscout-agent -f
 ```
 
 ### Agent Connects but Disconnects Frequently
@@ -519,7 +519,7 @@ journalctl -u usulnet-agent -f
 **Solutions:**
 - Check network quality (latency, packet loss)
 - Increase NATS max payload if large operations are failing
-- Check agent resource usage: `docker stats usulnet-agent`
+- Check agent resource usage: `docker stats dockerscout-agent`
 - Review NATS monitoring: `curl http://MASTER_HOST:8222/connz`
 
 ### Agent Connected but No Containers Visible
@@ -527,14 +527,14 @@ journalctl -u usulnet-agent -f
 **Symptoms:** Agent appears connected in the Hosts page but shows 0 containers.
 
 **Checklist:**
-1. Verify Docker socket is mounted: `docker exec usulnet-agent ls -la /var/run/docker.sock`
+1. Verify Docker socket is mounted: `docker exec dockerscout-agent ls -la /var/run/docker.sock`
 2. Verify Docker is running on the agent host: `docker ps`
 3. Check agent logs for Docker connection errors
 4. Verify agent has permission to access the Docker socket
 
 ```bash
 # Test Docker access from inside the agent container
-docker exec usulnet-agent docker ps
+docker exec dockerscout-agent docker ps
 ```
 
 ### Docker Socket Permission Denied
@@ -548,7 +548,7 @@ ls -la /var/run/docker.sock
 
 # If using a binary agent, ensure it runs as root
 # or add the user to the docker group
-sudo usermod -aG docker usulnet-agent
+sudo usermod -aG docker dockerscout-agent
 ```
 
 ### Agent Uses Too Much Memory

@@ -12,7 +12,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/fr4nsys/usulnet/internal/web/templates/layouts"
+	"github.com/fr4nsys/dockerscout/internal/web/templates/layouts"
 )
 
 type ContainerSettingsData struct {

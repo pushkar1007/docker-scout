@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Copyright (c) 2024-2026 usulnet contributors
-// https://github.com/fr4nsys/usulnet
+// Copyright (c) 2024-2026 dockerscout contributors
+// https://github.com/fr4nsys/dockerscout
 
 // Package postgres provides PostgreSQL repository implementations.
 // Department L: Notifications - Log Repository
@@ -15,9 +15,9 @@ import (
 	"github.com/google/uuid"
 	"github.com/jackc/pgx/v5"
 
-	"github.com/fr4nsys/usulnet/internal/pkg/errors"
-	"github.com/fr4nsys/usulnet/internal/services/notification"
-	"github.com/fr4nsys/usulnet/internal/services/notification/channels"
+	"github.com/fr4nsys/dockerscout/internal/pkg/errors"
+	"github.com/fr4nsys/dockerscout/internal/services/notification"
+	"github.com/fr4nsys/dockerscout/internal/services/notification/channels"
 )
 
 // NotificationLogRepository handles notification log persistence.

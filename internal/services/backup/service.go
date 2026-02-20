@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Copyright (c) 2024-2026 usulnet contributors
-// https://github.com/fr4nsys/usulnet
+// Copyright (c) 2024-2026 dockerscout contributors
+// https://github.com/fr4nsys/dockerscout
 
 package backup
 
@@ -14,10 +14,10 @@ import (
 	"github.com/google/uuid"
 	"github.com/robfig/cron/v3"
 
-	"github.com/fr4nsys/usulnet/internal/license"
-	"github.com/fr4nsys/usulnet/internal/models"
-	apperrors "github.com/fr4nsys/usulnet/internal/pkg/errors"
-	"github.com/fr4nsys/usulnet/internal/pkg/logger"
+	"github.com/fr4nsys/dockerscout/internal/license"
+	"github.com/fr4nsys/dockerscout/internal/models"
+	apperrors "github.com/fr4nsys/dockerscout/internal/pkg/errors"
+	"github.com/fr4nsys/dockerscout/internal/pkg/logger"
 )
 
 // Service provides backup and restore operations.

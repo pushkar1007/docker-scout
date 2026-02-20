@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Copyright (c) 2024-2026 usulnet contributors
-// https://github.com/fr4nsys/usulnet
+// Copyright (c) 2024-2026 dockerscout contributors
+// https://github.com/fr4nsys/dockerscout
 
 package web
 
@@ -14,7 +14,7 @@ import (
 
 	"github.com/go-chi/chi/v5"
 
-	storagetmpl "github.com/fr4nsys/usulnet/internal/web/templates/pages/storage"
+	storagetmpl "github.com/fr4nsys/dockerscout/internal/web/templates/pages/storage"
 )
 
 // ============================================================================
@@ -555,7 +555,7 @@ func (h *Handler) getCurrentUsername(r *http.Request) string {
 
 // setFlash stores a flash message in the session for the next request.
 func (h *Handler) setFlash(w http.ResponseWriter, r *http.Request, msgType, message string) {
-	session, _ := h.sessionStore.Get(r, "usulnet_session")
+	session, _ := h.sessionStore.Get(r, "dockerscout_session")
 	if session != nil {
 		session.Values["flash"] = &FlashMessage{
 			Type:    msgType,

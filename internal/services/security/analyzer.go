@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Copyright (c) 2024-2026 usulnet contributors
-// https://github.com/fr4nsys/usulnet
+// Copyright (c) 2024-2026 dockerscout contributors
+// https://github.com/fr4nsys/dockerscout
 
 // Package security provides container security analysis, scoring, and CVE scanning.
 // It analyzes containers for security best practices and vulnerabilities,
@@ -14,7 +14,7 @@ import (
 
 	"github.com/docker/docker/api/types"
 
-	"github.com/fr4nsys/usulnet/internal/models"
+	"github.com/fr4nsys/dockerscout/internal/models"
 )
 
 // Analyzer defines the interface for security analyzers.

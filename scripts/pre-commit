@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # =============================================================================
-# usulnet - Pre-commit Hook
+# dockerscout - Pre-commit Hook
 # =============================================================================
 # Install: cp scripts/pre-commit .git/hooks/pre-commit && chmod +x .git/hooks/pre-commit
 # Or: ln -sf ../../scripts/pre-commit .git/hooks/pre-commit
@@ -8,7 +8,7 @@
 
 set -euo pipefail
 
-echo "=== usulnet pre-commit checks ==="
+echo "=== dockerscout pre-commit checks ==="
 
 # Colors (if terminal supports them)
 RED='\033[0;31m'

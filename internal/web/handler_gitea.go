@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Copyright (c) 2024-2026 usulnet contributors
-// https://github.com/fr4nsys/usulnet
+// Copyright (c) 2024-2026 dockerscout contributors
+// https://github.com/fr4nsys/dockerscout
 
 package web
 
@@ -17,8 +17,8 @@ import (
 	"github.com/go-chi/chi/v5"
 	"github.com/google/uuid"
 
-	"github.com/fr4nsys/usulnet/internal/integrations/gitea"
-	giteapages "github.com/fr4nsys/usulnet/internal/web/templates/pages/gitea"
+	"github.com/fr4nsys/dockerscout/internal/integrations/gitea"
+	giteapages "github.com/fr4nsys/dockerscout/internal/web/templates/pages/gitea"
 )
 
 // ============================================================================
@@ -600,11 +600,11 @@ func (h *Handler) GiteaFileSave(w http.ResponseWriter, r *http.Request) {
 	}
 	if message == "" {
 		user := GetUserFromContext(r.Context())
-		userName := "usulnet"
+		userName := "dockerscout"
 		if user != nil {
 			userName = user.Username
 		}
-		message = "Update " + path + " via usulnet (" + userName + ")"
+		message = "Update " + path + " via dockerscout (" + userName + ")"
 	}
 
 	if err := svc.UpdateFile(r.Context(), repoID, path, ref, content, message); err != nil {

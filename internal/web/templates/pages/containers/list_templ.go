@@ -11,8 +11,8 @@ import templruntime "github.com/a-h/templ/runtime"
 import (
 	"fmt"
 
-	"github.com/fr4nsys/usulnet/internal/web/templates/components"
-	"github.com/fr4nsys/usulnet/internal/web/templates/layouts"
+	"github.com/fr4nsys/dockerscout/internal/web/templates/components"
+	"github.com/fr4nsys/dockerscout/internal/web/templates/layouts"
 )
 
 type ContainersListData struct {

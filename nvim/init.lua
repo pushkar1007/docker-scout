@@ -1,6 +1,6 @@
 -- ==========================================================================
--- usulnet nvim config — /opt/usulnet/nvim-config/init.lua
--- Lazy.nvim + Treesitter + Telescope + usulnet theme
+-- dockerscout nvim config — /opt/dockerscout/nvim-config/init.lua
+-- Lazy.nvim + Treesitter + Telescope + dockerscout theme
 -- ==========================================================================
 
 -- Leader key (before plugins)
@@ -242,7 +242,7 @@ require("lazy").setup({
 
 }, {
   -- lazy.nvim config
-  install = { colorscheme = { "usulnet" } },
+  install = { colorscheme = { "dockerscout" } },
   checker = { enabled = false }, -- no auto-update in editor sessions
   performance = {
     rtp = {
@@ -255,12 +255,12 @@ require("lazy").setup({
 })
 
 -- ==========================================================================
--- usulnet Colorscheme
+-- dockerscout Colorscheme
 -- Matches the platform's dark theme: bg #0d1117, accent #ff6b35
 -- ==========================================================================
-local function setup_usulnet_theme()
+local function setup_dockerscout_theme()
   vim.cmd("hi clear")
-  vim.g.colors_name = "usulnet"
+  vim.g.colors_name = "dockerscout"
 
   local hl = function(group, opts) vim.api.nvim_set_hl(0, group, opts) end
 
@@ -274,7 +274,7 @@ local function setup_usulnet_theme()
   local fg_dark  = "#484f58"
   local border   = "#30363d"
 
-  local accent   = "#ff6b35"   -- usulnet primary
+  local accent   = "#ff6b35"   -- dockerscout primary
   local red      = "#f85149"
   local green    = "#3fb950"
   local yellow   = "#d29922"
@@ -451,7 +451,7 @@ local function setup_usulnet_theme()
   hl("LazyH1",           { fg = bg, bg = accent, bold = true })
 end
 
-setup_usulnet_theme()
+setup_dockerscout_theme()
 
 -- ==========================================================================
 -- Keymaps
@@ -500,7 +500,7 @@ map("n", "]d", vim.diagnostic.goto_next, { desc = "Next diagnostic" })
 -- Autocmds
 -- ==========================================================================
 
-local augroup = vim.api.nvim_create_augroup("usulnet", { clear = true })
+local augroup = vim.api.nvim_create_augroup("dockerscout", { clear = true })
 
 -- Highlight on yank
 vim.api.nvim_create_autocmd("TextYankPost", {

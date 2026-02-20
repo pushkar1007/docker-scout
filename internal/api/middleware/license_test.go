@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Copyright (c) 2024-2026 usulnet contributors
-// https://github.com/fr4nsys/usulnet
+// Copyright (c) 2024-2026 dockerscout contributors
+// https://github.com/fr4nsys/dockerscout
 
 package middleware
 
@@ -12,8 +12,8 @@ import (
 	"testing"
 	"time"
 
-	apierrors "github.com/fr4nsys/usulnet/internal/api/errors"
-	"github.com/fr4nsys/usulnet/internal/license"
+	apierrors "github.com/fr4nsys/dockerscout/internal/api/errors"
+	"github.com/fr4nsys/dockerscout/internal/license"
 )
 
 // ============================================================================
@@ -538,7 +538,7 @@ func TestRequireLimit_UpgradeMessage_CE(t *testing.T) {
 	}
 
 	// CE should suggest upgrading to Business
-	if upgrade != "Upgrade to usulnet Business for more users" {
+	if upgrade != "Upgrade to dockerscout Business for more users" {
 		t.Errorf("CE upgrade message = %q", upgrade)
 	}
 }
@@ -572,7 +572,7 @@ func TestRequireLimit_UpgradeMessage_Business(t *testing.T) {
 	}
 
 	// Business should suggest upgrading to Enterprise
-	if upgrade != "Upgrade to usulnet Enterprise for unlimited teams" {
+	if upgrade != "Upgrade to dockerscout Enterprise for unlimited teams" {
 		t.Errorf("Business upgrade message = %q", upgrade)
 	}
 }

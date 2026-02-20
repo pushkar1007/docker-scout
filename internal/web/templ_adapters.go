@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Copyright (c) 2024-2026 usulnet contributors
-// https://github.com/fr4nsys/usulnet
+// Copyright (c) 2024-2026 dockerscout contributors
+// https://github.com/fr4nsys/dockerscout
 
 package web
 
@@ -8,14 +8,14 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/fr4nsys/usulnet/internal/web/templates/layouts"
-	"github.com/fr4nsys/usulnet/internal/web/templates/pages"
-	"github.com/fr4nsys/usulnet/internal/web/templates/pages/containers"
-	"github.com/fr4nsys/usulnet/internal/web/templates/pages/images"
-	"github.com/fr4nsys/usulnet/internal/web/templates/pages/networks"
-	securitytmpl "github.com/fr4nsys/usulnet/internal/web/templates/pages/security"
-	updatestmpl "github.com/fr4nsys/usulnet/internal/web/templates/pages/updates"
-	"github.com/fr4nsys/usulnet/internal/web/templates/pages/volumes"
+	"github.com/fr4nsys/dockerscout/internal/web/templates/layouts"
+	"github.com/fr4nsys/dockerscout/internal/web/templates/pages"
+	"github.com/fr4nsys/dockerscout/internal/web/templates/pages/containers"
+	"github.com/fr4nsys/dockerscout/internal/web/templates/pages/images"
+	"github.com/fr4nsys/dockerscout/internal/web/templates/pages/networks"
+	securitytmpl "github.com/fr4nsys/dockerscout/internal/web/templates/pages/security"
+	updatestmpl "github.com/fr4nsys/dockerscout/internal/web/templates/pages/updates"
+	"github.com/fr4nsys/dockerscout/internal/web/templates/pages/volumes"
 )
 
 // ============================================================================
@@ -473,11 +473,11 @@ func ToTemplContainerSettingsData(p *PageData, c *ContainerView, networks []stri
 
 		// Labels for WebUI and Icon
 		if c.Labels != nil {
-			info.IconURL = c.Labels["usulnet.icon"]
-			info.WebUIProtocol = c.Labels["usulnet.webui.protocol"]
-			info.WebUIHost = c.Labels["usulnet.webui.host"]
-			info.WebUIPort = c.Labels["usulnet.webui.port"]
-			info.WebUIPath = c.Labels["usulnet.webui.path"]
+			info.IconURL = c.Labels["dockerscout.icon"]
+			info.WebUIProtocol = c.Labels["dockerscout.webui.protocol"]
+			info.WebUIHost = c.Labels["dockerscout.webui.host"]
+			info.WebUIPort = c.Labels["dockerscout.webui.port"]
+			info.WebUIPath = c.Labels["dockerscout.webui.path"]
 		}
 
 		// Fill from Docker inspect details if available (always more accurate than ContainerView)

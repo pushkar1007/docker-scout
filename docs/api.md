@@ -1,6 +1,6 @@
 # API Documentation
 
-> **usulnet** - Docker Management Platform
+> **dockerscout** - Docker Management Platform
 > REST API Reference (v1)
 
 ---
@@ -42,7 +42,7 @@
 
 ## Overview
 
-The usulnet API is a RESTful HTTP API served under `/api/v1`. All endpoints return JSON responses. The API uses JWT tokens for authentication and supports API key authentication for programmatic access.
+The dockerscout API is a RESTful HTTP API served under `/api/v1`. All endpoints return JSON responses. The API uses JWT tokens for authentication and supports API key authentication for programmatic access.
 
 **Key characteristics:**
 - JSON request/response format
@@ -128,7 +128,7 @@ API keys can be used as an alternative to JWT tokens for programmatic access. Cr
 
 ```bash
 curl http://localhost:8080/api/v1/containers \
-  -H "Authorization: Bearer usulnet_apikey_..."
+  -H "Authorization: Bearer dockerscout_apikey_..."
 ```
 
 ### Roles and Permissions

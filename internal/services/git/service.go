@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Copyright (c) 2024-2026 usulnet contributors
-// https://github.com/fr4nsys/usulnet
+// Copyright (c) 2024-2026 dockerscout contributors
+// https://github.com/fr4nsys/dockerscout
 
 package git
 
@@ -13,13 +13,13 @@ import (
 
 	"github.com/google/uuid"
 
-	gitprovider "github.com/fr4nsys/usulnet/internal/integrations/git"
-	"github.com/fr4nsys/usulnet/internal/models"
-	"github.com/fr4nsys/usulnet/internal/license"
-	"github.com/fr4nsys/usulnet/internal/pkg/crypto"
-	"github.com/fr4nsys/usulnet/internal/pkg/errors"
-	"github.com/fr4nsys/usulnet/internal/pkg/logger"
-	"github.com/fr4nsys/usulnet/internal/repository/postgres"
+	gitprovider "github.com/fr4nsys/dockerscout/internal/integrations/git"
+	"github.com/fr4nsys/dockerscout/internal/models"
+	"github.com/fr4nsys/dockerscout/internal/license"
+	"github.com/fr4nsys/dockerscout/internal/pkg/crypto"
+	"github.com/fr4nsys/dockerscout/internal/pkg/errors"
+	"github.com/fr4nsys/dockerscout/internal/pkg/logger"
+	"github.com/fr4nsys/dockerscout/internal/repository/postgres"
 )
 
 // Service provides unified Git integration for Gitea, GitHub, and GitLab.

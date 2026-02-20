@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Copyright (c) 2024-2026 usulnet contributors
-// https://github.com/fr4nsys/usulnet
+// Copyright (c) 2024-2026 dockerscout contributors
+// https://github.com/fr4nsys/dockerscout
 
 package web
 
@@ -12,7 +12,7 @@ import (
 
 	dockerClient "github.com/docker/docker/client"
 
-	"github.com/fr4nsys/usulnet/internal/docker"
+	"github.com/fr4nsys/dockerscout/internal/docker"
 )
 
 // jsonDecoder creates a JSON decoder from any io.Reader.

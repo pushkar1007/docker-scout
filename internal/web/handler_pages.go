@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Copyright (c) 2024-2026 usulnet contributors
-// https://github.com/fr4nsys/usulnet
+// Copyright (c) 2024-2026 dockerscout contributors
+// https://github.com/fr4nsys/dockerscout
 
 package web
 
@@ -17,20 +17,20 @@ import (
 	"github.com/go-chi/chi/v5"
 	"github.com/google/uuid"
 
-	"github.com/fr4nsys/usulnet/internal/models"
-	"github.com/fr4nsys/usulnet/internal/web/templates/components"
-	"github.com/fr4nsys/usulnet/internal/web/templates/layouts"
-	"github.com/fr4nsys/usulnet/internal/web/templates/pages"
-	"github.com/fr4nsys/usulnet/internal/web/templates/pages/backups"
-	"github.com/fr4nsys/usulnet/internal/web/templates/pages/config"
-	"github.com/fr4nsys/usulnet/internal/web/templates/pages/containers"
-	"github.com/fr4nsys/usulnet/internal/web/templates/pages/hosts"
-	"github.com/fr4nsys/usulnet/internal/web/templates/pages/networks"
-	"github.com/fr4nsys/usulnet/internal/web/templates/pages/proxy"
-	"github.com/fr4nsys/usulnet/internal/web/templates/pages/stacks"
-	"github.com/fr4nsys/usulnet/internal/web/templates/pages/users"
-	"github.com/fr4nsys/usulnet/internal/web/templates/pages/volumes"
-	"github.com/fr4nsys/usulnet/internal/web/templates/types"
+	"github.com/fr4nsys/dockerscout/internal/models"
+	"github.com/fr4nsys/dockerscout/internal/web/templates/components"
+	"github.com/fr4nsys/dockerscout/internal/web/templates/layouts"
+	"github.com/fr4nsys/dockerscout/internal/web/templates/pages"
+	"github.com/fr4nsys/dockerscout/internal/web/templates/pages/backups"
+	"github.com/fr4nsys/dockerscout/internal/web/templates/pages/config"
+	"github.com/fr4nsys/dockerscout/internal/web/templates/pages/containers"
+	"github.com/fr4nsys/dockerscout/internal/web/templates/pages/hosts"
+	"github.com/fr4nsys/dockerscout/internal/web/templates/pages/networks"
+	"github.com/fr4nsys/dockerscout/internal/web/templates/pages/proxy"
+	"github.com/fr4nsys/dockerscout/internal/web/templates/pages/stacks"
+	"github.com/fr4nsys/dockerscout/internal/web/templates/pages/users"
+	"github.com/fr4nsys/dockerscout/internal/web/templates/pages/volumes"
+	"github.com/fr4nsys/dockerscout/internal/web/templates/types"
 )
 
 // ============================================================================
@@ -923,7 +923,7 @@ func (h *Handler) SettingsTempl(w http.ResponseWriter, r *http.Request) {
 
 	// Load settings from config service variables (scope=global)
 	cfg := pages.SettingsConfig{
-		SiteName:         "usulnet",
+		SiteName:         "dockerscout",
 		BackupPath:       "/app/backups",
 		BackupRetention:  30,
 		ScanInterval:     6,

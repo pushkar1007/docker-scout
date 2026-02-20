@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Copyright (c) 2024-2026 usulnet contributors
-// https://github.com/fr4nsys/usulnet
+// Copyright (c) 2024-2026 dockerscout contributors
+// https://github.com/fr4nsys/dockerscout
 
 package metrics
 
@@ -11,14 +11,14 @@ import (
 	"sync"
 	"time"
 
-	"github.com/fr4nsys/usulnet/internal/pkg/logger"
+	"github.com/fr4nsys/dockerscout/internal/pkg/logger"
 )
 
 // ============================================================================
 // Business Metrics Collector
 // ============================================================================
 
-// BusinessMetrics tracks domain-specific metrics for the usulnet platform.
+// BusinessMetrics tracks domain-specific metrics for the dockerscout platform.
 // These complement the infrastructure-level host/container metrics with
 // business-relevant counters, gauges and histograms.
 type BusinessMetrics struct {
@@ -171,15 +171,15 @@ func (bm *BusinessMetrics) FormatPrometheus() string {
 	// --- Gauges ---
 
 	// Agents connected
-	writeSimpleGauge(&b, "usulnet_agents_connected_total",
+	writeSimpleGauge(&b, "dockerscout_agents_connected_total",
 		"Number of currently connected agents", float64(bm.AgentsConnected))
 
 	// Containers by state
 	if len(bm.ContainersByState) > 0 {
-		b.WriteString("# HELP usulnet_containers_by_state Total containers by state\n")
-		b.WriteString("# TYPE usulnet_containers_by_state gauge\n")
+		b.WriteString("# HELP dockerscout_containers_by_state Total containers by state\n")
+		b.WriteString("# TYPE dockerscout_containers_by_state gauge\n")
 		for state, count := range bm.ContainersByState {
-			fmt.Fprintf(&b, "usulnet_containers_by_state{state=\"%s\"} %d\n",
+			fmt.Fprintf(&b, "dockerscout_containers_by_state{state=\"%s\"} %d\n",
 				sanitizeLabel(state), count)
 		}
 		b.WriteByte('\n')
@@ -187,11 +187,11 @@ func (bm *BusinessMetrics) FormatPrometheus() string {
 
 	// Containers by host and state
 	if len(bm.ContainersByHost) > 0 {
-		b.WriteString("# HELP usulnet_containers_by_host Containers per host by state\n")
-		b.WriteString("# TYPE usulnet_containers_by_host gauge\n")
+		b.WriteString("# HELP dockerscout_containers_by_host Containers per host by state\n")
+		b.WriteString("# TYPE dockerscout_containers_by_host gauge\n")
 		for hostID, states := range bm.ContainersByHost {
 			for state, count := range states {
-				fmt.Fprintf(&b, "usulnet_containers_by_host{host=\"%s\",state=\"%s\"} %d\n",
+				fmt.Fprintf(&b, "dockerscout_containers_by_host{host=\"%s\",state=\"%s\"} %d\n",
 					sanitizeLabel(hostID), sanitizeLabel(state), count)
 			}
 		}
@@ -200,30 +200,30 @@ func (bm *BusinessMetrics) FormatPrometheus() string {
 
 	// Vulnerabilities by severity
 	if len(bm.ImagesWithVulns) > 0 {
-		b.WriteString("# HELP usulnet_vulnerabilities_total Known vulnerabilities by severity\n")
-		b.WriteString("# TYPE usulnet_vulnerabilities_total gauge\n")
+		b.WriteString("# HELP dockerscout_vulnerabilities_total Known vulnerabilities by severity\n")
+		b.WriteString("# TYPE dockerscout_vulnerabilities_total gauge\n")
 		for severity, count := range bm.ImagesWithVulns {
-			fmt.Fprintf(&b, "usulnet_vulnerabilities_total{severity=\"%s\"} %d\n",
+			fmt.Fprintf(&b, "dockerscout_vulnerabilities_total{severity=\"%s\"} %d\n",
 				sanitizeLabel(severity), count)
 		}
 		b.WriteByte('\n')
 	}
 
 	// License info
-	writeSimpleGauge(&b, "usulnet_license_days_remaining",
+	writeSimpleGauge(&b, "dockerscout_license_days_remaining",
 		"Days until license expiration (-1 if no license)", float64(bm.LicenseDaysLeft))
-	b.WriteString("# HELP usulnet_license_info License type information\n")
-	b.WriteString("# TYPE usulnet_license_info gauge\n")
-	fmt.Fprintf(&b, "usulnet_license_info{type=\"%s\"} 1\n\n", sanitizeLabel(bm.LicenseType))
+	b.WriteString("# HELP dockerscout_license_info License type information\n")
+	b.WriteString("# TYPE dockerscout_license_info gauge\n")
+	fmt.Fprintf(&b, "dockerscout_license_info{type=\"%s\"} 1\n\n", sanitizeLabel(bm.LicenseType))
 
 	// --- Counters ---
 
 	// Backups total
 	if len(bm.BackupsTotal) > 0 {
-		b.WriteString("# HELP usulnet_backups_total Total backups by status\n")
-		b.WriteString("# TYPE usulnet_backups_total counter\n")
+		b.WriteString("# HELP dockerscout_backups_total Total backups by status\n")
+		b.WriteString("# TYPE dockerscout_backups_total counter\n")
 		for status, count := range bm.BackupsTotal {
-			fmt.Fprintf(&b, "usulnet_backups_total{status=\"%s\"} %d\n",
+			fmt.Fprintf(&b, "dockerscout_backups_total{status=\"%s\"} %d\n",
 				sanitizeLabel(status), count)
 		}
 		b.WriteByte('\n')
@@ -231,10 +231,10 @@ func (bm *BusinessMetrics) FormatPrometheus() string {
 
 	// Security scans total
 	if len(bm.SecurityScansTotal) > 0 {
-		b.WriteString("# HELP usulnet_security_scans_total Total security scans by status\n")
-		b.WriteString("# TYPE usulnet_security_scans_total counter\n")
+		b.WriteString("# HELP dockerscout_security_scans_total Total security scans by status\n")
+		b.WriteString("# TYPE dockerscout_security_scans_total counter\n")
 		for status, count := range bm.SecurityScansTotal {
-			fmt.Fprintf(&b, "usulnet_security_scans_total{status=\"%s\"} %d\n",
+			fmt.Fprintf(&b, "dockerscout_security_scans_total{status=\"%s\"} %d\n",
 				sanitizeLabel(status), count)
 		}
 		b.WriteByte('\n')
@@ -242,8 +242,8 @@ func (bm *BusinessMetrics) FormatPrometheus() string {
 
 	// API requests total
 	if len(bm.APIRequestsTotal) > 0 {
-		b.WriteString("# HELP usulnet_api_requests_total Total API requests by method and status\n")
-		b.WriteString("# TYPE usulnet_api_requests_total counter\n")
+		b.WriteString("# HELP dockerscout_api_requests_total Total API requests by method and status\n")
+		b.WriteString("# TYPE dockerscout_api_requests_total counter\n")
 		for key, count := range bm.APIRequestsTotal {
 			parts := strings.SplitN(key, ":", 2)
 			method := parts[0]
@@ -251,7 +251,7 @@ func (bm *BusinessMetrics) FormatPrometheus() string {
 			if len(parts) > 1 {
 				status = parts[1]
 			}
-			fmt.Fprintf(&b, "usulnet_api_requests_total{method=\"%s\",status=\"%s\"} %d\n",
+			fmt.Fprintf(&b, "dockerscout_api_requests_total{method=\"%s\",status=\"%s\"} %d\n",
 				sanitizeLabel(method), sanitizeLabel(status), count)
 		}
 		b.WriteByte('\n')
@@ -259,10 +259,10 @@ func (bm *BusinessMetrics) FormatPrometheus() string {
 
 	// Auth attempts total
 	if len(bm.AuthAttemptsTotal) > 0 {
-		b.WriteString("# HELP usulnet_auth_attempts_total Total authentication attempts by result\n")
-		b.WriteString("# TYPE usulnet_auth_attempts_total counter\n")
+		b.WriteString("# HELP dockerscout_auth_attempts_total Total authentication attempts by result\n")
+		b.WriteString("# TYPE dockerscout_auth_attempts_total counter\n")
 		for result, count := range bm.AuthAttemptsTotal {
-			fmt.Fprintf(&b, "usulnet_auth_attempts_total{result=\"%s\"} %d\n",
+			fmt.Fprintf(&b, "dockerscout_auth_attempts_total{result=\"%s\"} %d\n",
 				sanitizeLabel(result), count)
 		}
 		b.WriteByte('\n')
@@ -272,12 +272,12 @@ func (bm *BusinessMetrics) FormatPrometheus() string {
 
 	// Docker operation durations
 	if len(bm.DockerOpDurations) > 0 {
-		b.WriteString("# HELP usulnet_docker_operation_duration_seconds Duration of Docker operations\n")
-		b.WriteString("# TYPE usulnet_docker_operation_duration_seconds summary\n")
+		b.WriteString("# HELP dockerscout_docker_operation_duration_seconds Duration of Docker operations\n")
+		b.WriteString("# TYPE dockerscout_docker_operation_duration_seconds summary\n")
 		for op, t := range bm.DockerOpDurations {
-			fmt.Fprintf(&b, "usulnet_docker_operation_duration_seconds_count{operation=\"%s\"} %d\n",
+			fmt.Fprintf(&b, "dockerscout_docker_operation_duration_seconds_count{operation=\"%s\"} %d\n",
 				sanitizeLabel(op), t.count)
-			fmt.Fprintf(&b, "usulnet_docker_operation_duration_seconds_sum{operation=\"%s\"} %.6f\n",
+			fmt.Fprintf(&b, "dockerscout_docker_operation_duration_seconds_sum{operation=\"%s\"} %.6f\n",
 				sanitizeLabel(op), t.sum)
 		}
 		b.WriteByte('\n')
@@ -285,12 +285,12 @@ func (bm *BusinessMetrics) FormatPrometheus() string {
 
 	// API latencies
 	if len(bm.APILatencies) > 0 {
-		b.WriteString("# HELP usulnet_api_request_duration_seconds Duration of API requests\n")
-		b.WriteString("# TYPE usulnet_api_request_duration_seconds summary\n")
+		b.WriteString("# HELP dockerscout_api_request_duration_seconds Duration of API requests\n")
+		b.WriteString("# TYPE dockerscout_api_request_duration_seconds summary\n")
 		for route, t := range bm.APILatencies {
-			fmt.Fprintf(&b, "usulnet_api_request_duration_seconds_count{route=\"%s\"} %d\n",
+			fmt.Fprintf(&b, "dockerscout_api_request_duration_seconds_count{route=\"%s\"} %d\n",
 				sanitizeLabel(route), t.count)
-			fmt.Fprintf(&b, "usulnet_api_request_duration_seconds_sum{route=\"%s\"} %.6f\n",
+			fmt.Fprintf(&b, "dockerscout_api_request_duration_seconds_sum{route=\"%s\"} %.6f\n",
 				sanitizeLabel(route), t.sum)
 		}
 		b.WriteByte('\n')

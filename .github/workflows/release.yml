@@ -52,17 +52,17 @@ jobs:
             echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
           fi
 
-      - name: Build and push usulnet
+      - name: Build and push dockerscout
         uses: docker/build-push-action@v6
         with:
           context: .
           platforms: linux/amd64,linux/arm64
           push: true
           tags: |
-            ghcr.io/fr4nsys/usulnet:${{ steps.version.outputs.VERSION }}
-            ghcr.io/fr4nsys/usulnet:latest
-            usulnet/usulnet:${{ steps.version.outputs.VERSION }}
-            usulnet/usulnet:latest
+            ghcr.io/fr4nsys/dockerscout:${{ steps.version.outputs.VERSION }}
+            ghcr.io/fr4nsys/dockerscout:latest
+            dockerscout/dockerscout:${{ steps.version.outputs.VERSION }}
+            dockerscout/dockerscout:latest
           build-args: |
             VERSION=${{ steps.version.outputs.VERSION }}
             COMMIT=${{ github.sha }}
@@ -70,7 +70,7 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
-      - name: Build and push usulnet-agent
+      - name: Build and push dockerscout-agent
         uses: docker/build-push-action@v6
         with:
           context: .
@@ -78,10 +78,10 @@ jobs:
           platforms: linux/amd64,linux/arm64
           push: true
           tags: |
-            ghcr.io/fr4nsys/usulnet-agent:${{ steps.version.outputs.VERSION }}
-            ghcr.io/fr4nsys/usulnet-agent:latest
-            usulnet/usulnet-agent:${{ steps.version.outputs.VERSION }}
-            usulnet/usulnet-agent:latest
+            ghcr.io/fr4nsys/dockerscout-agent:${{ steps.version.outputs.VERSION }}
+            ghcr.io/fr4nsys/dockerscout-agent:latest
+            dockerscout/dockerscout-agent:${{ steps.version.outputs.VERSION }}
+            dockerscout/dockerscout-agent:latest
           build-args: |
             VERSION=${{ steps.version.outputs.VERSION }}
             COMMIT=${{ github.sha }}

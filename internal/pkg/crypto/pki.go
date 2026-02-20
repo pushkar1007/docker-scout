@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Copyright (c) 2024-2026 usulnet contributors
-// https://github.com/fr4nsys/usulnet
+// Copyright (c) 2024-2026 dockerscout contributors
+// https://github.com/fr4nsys/dockerscout
 
 package crypto
 
@@ -56,9 +56,9 @@ type CABundle struct {
 
 // CertOptions configures certificate generation.
 type CertOptions struct {
-	// CommonName is the CN field (e.g., "usulnet-agent-<id>")
+	// CommonName is the CN field (e.g., "dockerscout-agent-<id>")
 	CommonName string
-	// Organization defaults to "usulnet"
+	// Organization defaults to "dockerscout"
 	Organization string
 	// DNSNames are Subject Alternative Names (DNS)
 	DNSNames []string
@@ -89,8 +89,8 @@ func GenerateCA() (*CABundle, error) {
 	template := &x509.Certificate{
 		SerialNumber: serialNumber,
 		Subject: pkix.Name{
-			CommonName:   "usulnet Internal CA",
-			Organization: []string{"usulnet"},
+			CommonName:   "dockerscout Internal CA",
+			Organization: []string{"dockerscout"},
 		},
 		NotBefore:             now.Add(-5 * time.Minute), // Clock skew tolerance
 		NotAfter:              now.AddDate(CAValidityYears, 0, 0),
@@ -195,7 +195,7 @@ func (ca *CertificateAuthority) IssueCertificate(opts CertOptions) (*CertPair, e
 
 	org := opts.Organization
 	if org == "" {
-		org = "usulnet"
+		org = "dockerscout"
 	}
 
 	validityDays := opts.ValidityDays
@@ -278,7 +278,7 @@ func (ca *CertificateAuthority) IssueNATSServerCert(hosts ...string) (*CertPair,
 	}
 
 	return ca.IssueCertificate(CertOptions{
-		CommonName:   "usulnet-nats",
+		CommonName:   "dockerscout-nats",
 		DNSNames:     dnsNames,
 		IPAddresses:  ips,
 		IsServer:     true,
@@ -301,7 +301,7 @@ func (ca *CertificateAuthority) IssueAgentCert(agentID string, hosts ...string) 
 	}
 
 	return ca.IssueCertificate(CertOptions{
-		CommonName:  fmt.Sprintf("usulnet-agent-%s", agentID),
+		CommonName:  fmt.Sprintf("dockerscout-agent-%s", agentID),
 		DNSNames:    dnsNames,
 		IPAddresses: ips,
 		IsClient:    true,
@@ -323,7 +323,7 @@ func (ca *CertificateAuthority) IssueHTTPSCert(hosts ...string) (*CertPair, erro
 	}
 
 	return ca.IssueCertificate(CertOptions{
-		CommonName:   "usulnet-https",
+		CommonName:   "dockerscout-https",
 		DNSNames:     dnsNames,
 		IPAddresses:  ips,
 		IsServer:     true,

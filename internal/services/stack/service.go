@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Copyright (c) 2024-2026 usulnet contributors
-// https://github.com/fr4nsys/usulnet
+// Copyright (c) 2024-2026 dockerscout contributors
+// https://github.com/fr4nsys/dockerscout
 
 // Package stack provides Docker Compose stack management services.
 package stack
@@ -18,13 +18,13 @@ import (
 	"github.com/google/uuid"
 	"gopkg.in/yaml.v3"
 
-	"github.com/fr4nsys/usulnet/internal/docker"
-	"github.com/fr4nsys/usulnet/internal/models"
-	apperrors "github.com/fr4nsys/usulnet/internal/pkg/errors"
-	"github.com/fr4nsys/usulnet/internal/pkg/logger"
-	"github.com/fr4nsys/usulnet/internal/repository/postgres"
-	containerservice "github.com/fr4nsys/usulnet/internal/services/container"
-	hostservice "github.com/fr4nsys/usulnet/internal/services/host"
+	"github.com/fr4nsys/dockerscout/internal/docker"
+	"github.com/fr4nsys/dockerscout/internal/models"
+	apperrors "github.com/fr4nsys/dockerscout/internal/pkg/errors"
+	"github.com/fr4nsys/dockerscout/internal/pkg/logger"
+	"github.com/fr4nsys/dockerscout/internal/repository/postgres"
+	containerservice "github.com/fr4nsys/dockerscout/internal/services/container"
+	hostservice "github.com/fr4nsys/dockerscout/internal/services/host"
 )
 
 // ServiceConfig contains stack service configuration.
@@ -861,8 +861,8 @@ type DiscoveredStack struct {
 	Services      []DiscoveredService
 	WorkingDir    string
 	ConfigFiles   string
-	IsManaged     bool // true if managed by usulnet
-	ManagedStackID *uuid.UUID // if managed, the usulnet stack ID
+	IsManaged     bool // true if managed by dockerscout
+	ManagedStackID *uuid.UUID // if managed, the dockerscout stack ID
 }
 
 // DiscoveredService represents a service discovered from a container
@@ -875,7 +875,7 @@ type DiscoveredService struct {
 }
 
 // DiscoverComposeProjects discovers Docker Compose projects from running containers
-// This allows usulnet to show stacks created externally via docker compose CLI
+// This allows dockerscout to show stacks created externally via docker compose CLI
 func (s *Service) DiscoverComposeProjects(ctx context.Context, hostID uuid.UUID) ([]*DiscoveredStack, error) {
 	client, err := s.hostService.GetClient(ctx, hostID)
 	if err != nil {
@@ -958,7 +958,7 @@ func (s *Service) DiscoverComposeProjects(ctx context.Context, hostID uuid.UUID)
 		}
 	}
 
-	// Check which projects are managed by usulnet
+	// Check which projects are managed by dockerscout
 	if s.repo != nil {
 		managedStacks, _, err := s.repo.List(ctx, postgres.StackListOptions{})
 		if err == nil {
@@ -1462,7 +1462,7 @@ func (s *Service) DryRunContent(ctx context.Context, composeContent string, envC
 	}
 
 	// Create temp directory for validation
-	tmpDir, err := os.MkdirTemp("", "usulnet-dryrun-")
+	tmpDir, err := os.MkdirTemp("", "dockerscout-dryrun-")
 	if err != nil {
 		result.Warnings = append(result.Warnings, "Could not perform full validation")
 		return result, nil

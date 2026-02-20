@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Copyright (c) 2024-2026 usulnet contributors
-// https://github.com/fr4nsys/usulnet
+// Copyright (c) 2024-2026 dockerscout contributors
+// https://github.com/fr4nsys/dockerscout
 
 package api
 
@@ -11,8 +11,8 @@ import (
 	"github.com/go-chi/chi/v5"
 	chimiddleware "github.com/go-chi/chi/v5/middleware"
 
-	"github.com/fr4nsys/usulnet/internal/api/handlers"
-	"github.com/fr4nsys/usulnet/internal/api/middleware"
+	"github.com/fr4nsys/dockerscout/internal/api/handlers"
+	"github.com/fr4nsys/dockerscout/internal/api/middleware"
 )
 
 // RouterConfig contains configuration for setting up routes.

@@ -1,6 +1,6 @@
-# usulnet Licensing & Editions
+# dockerscout Licensing & Editions
 
-This document defines the three usulnet editions, their feature sets, resource
+This document defines the three dockerscout editions, their feature sets, resource
 limits, and how the license system works at a technical level.
 
 ---

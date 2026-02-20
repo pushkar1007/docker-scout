@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Copyright (c) 2024-2026 usulnet contributors
-// https://github.com/fr4nsys/usulnet
+// Copyright (c) 2024-2026 dockerscout contributors
+// https://github.com/fr4nsys/dockerscout
 
 package gateway
 
@@ -14,9 +14,9 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/fr4nsys/usulnet/internal/gateway/protocol"
-	"github.com/fr4nsys/usulnet/internal/models"
-	"github.com/fr4nsys/usulnet/internal/pkg/logger"
+	"github.com/fr4nsys/dockerscout/internal/gateway/protocol"
+	"github.com/fr4nsys/dockerscout/internal/models"
+	"github.com/fr4nsys/dockerscout/internal/pkg/logger"
 )
 
 // ============================================================================
@@ -412,7 +412,7 @@ func TestCommand_JSONDispatchFlow(t *testing.T) {
 		HostID:   uuid.New().String(),
 		Priority: protocol.PriorityNormal,
 		Timeout:  30 * time.Second,
-		ReplyTo:  "usulnet.reply." + uuid.New().String(),
+		ReplyTo:  "dockerscout.reply." + uuid.New().String(),
 		Params: protocol.CommandParams{
 			ContainerID: "abc123",
 			StopTimeout: intPtr(10),

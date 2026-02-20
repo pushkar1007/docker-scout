@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Copyright (c) 2024-2026 usulnet contributors
-// https://github.com/fr4nsys/usulnet
+// Copyright (c) 2024-2026 dockerscout contributors
+// https://github.com/fr4nsys/dockerscout
 
 package web
 
@@ -10,7 +10,7 @@ import (
 
 	"github.com/google/uuid"
 
-	authsvc "github.com/fr4nsys/usulnet/internal/services/auth"
+	authsvc "github.com/fr4nsys/dockerscout/internal/services/auth"
 )
 
 type authAdapter struct {

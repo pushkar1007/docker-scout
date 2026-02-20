@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Copyright (c) 2024-2026 usulnet contributors
-// https://github.com/fr4nsys/usulnet
+// Copyright (c) 2024-2026 dockerscout contributors
+// https://github.com/fr4nsys/dockerscout
 
 package channels
 
@@ -129,9 +129,9 @@ func (g *GotifyChannel) Send(ctx context.Context, msg RenderedMessage) error {
 // Test sends a test notification.
 func (g *GotifyChannel) Test(ctx context.Context) error {
 	return g.Send(ctx, RenderedMessage{
-		Title:     "USULNET Test Notification",
-		Body:      "This is a test notification from USULNET to verify Gotify integration.",
-		BodyPlain: "This is a test notification from USULNET to verify Gotify integration.",
+		Title:     "DOCKERSCOUT Test Notification",
+		Body:      "This is a test notification from DOCKERSCOUT to verify Gotify integration.",
+		BodyPlain: "This is a test notification from DOCKERSCOUT to verify Gotify integration.",
 		Priority:  PriorityNormal,
 		Timestamp: time.Now(),
 		Type:      TypeTestMessage,

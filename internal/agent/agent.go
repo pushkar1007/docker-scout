@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Copyright (c) 2024-2026 usulnet contributors
-// https://github.com/fr4nsys/usulnet
+// Copyright (c) 2024-2026 dockerscout contributors
+// https://github.com/fr4nsys/dockerscout
 
-// Package agent provides the usulnet agent that runs on remote Docker hosts.
+// Package agent provides the dockerscout agent that runs on remote Docker hosts.
 // It connects to the central gateway via NATS, receives commands, and reports
 // events and inventory.
 package agent
@@ -23,9 +23,9 @@ import (
 	"github.com/google/uuid"
 	"github.com/nats-io/nats.go"
 
-	"github.com/fr4nsys/usulnet/internal/docker"
-	"github.com/fr4nsys/usulnet/internal/gateway/protocol"
-	"github.com/fr4nsys/usulnet/internal/pkg/logger"
+	"github.com/fr4nsys/dockerscout/internal/docker"
+	"github.com/fr4nsys/dockerscout/internal/gateway/protocol"
+	"github.com/fr4nsys/dockerscout/internal/pkg/logger"
 )
 
 // Config holds the agent configuration.
@@ -67,11 +67,11 @@ func DefaultConfig() Config {
 		Hostname:   hostname,
 		Labels:     make(map[string]string),
 		LogLevel:   "info",
-		DataDir:    "/var/lib/usulnet-agent",
+		DataDir:    "/var/lib/dockerscout-agent",
 	}
 }
 
-// Agent is the usulnet agent that runs on Docker hosts.
+// Agent is the dockerscout agent that runs on Docker hosts.
 type Agent struct {
 	config   Config
 	id       string
@@ -207,7 +207,7 @@ func (a *Agent) connectDocker() error {
 // connectNATS establishes connection to NATS server.
 func (a *Agent) connectNATS() error {
 	opts := []nats.Option{
-		nats.Name("usulnet-agent-" + a.id),
+		nats.Name("dockerscout-agent-" + a.id),
 		nats.Token(a.config.Token),
 		nats.MaxReconnects(-1), // Infinite reconnects
 		nats.ReconnectWait(5 * time.Second),
@@ -341,7 +341,7 @@ func (a *Agent) deregister() {
 	}
 
 	data, _ := json.Marshal(req)
-	subject := fmt.Sprintf("usulnet.agent.deregister.%s", a.id)
+	subject := fmt.Sprintf("dockerscout.agent.deregister.%s", a.id)
 	
 	// Best effort - don't wait for response
 	a.nats.Publish(subject, data)
@@ -458,7 +458,7 @@ func (a *Agent) sendHeartbeat() {
 		return
 	}
 
-	subject := fmt.Sprintf("usulnet.agent.heartbeat.%s", a.id)
+	subject := fmt.Sprintf("dockerscout.agent.heartbeat.%s", a.id)
 	if err := a.nats.Publish(subject, data); err != nil {
 		a.log.Warn("Failed to send heartbeat", "error", err)
 		a.setLastError(err)
@@ -499,7 +499,7 @@ func (a *Agent) sendInventory() {
 		return
 	}
 
-	subject := fmt.Sprintf("usulnet.agent.inventory.%s", a.id)
+	subject := fmt.Sprintf("dockerscout.agent.inventory.%s", a.id)
 	if err := a.nats.Publish(subject, data); err != nil {
 		a.log.Warn("Failed to send inventory", "error", err)
 	} else {

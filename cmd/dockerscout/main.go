@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Copyright (c) 2024-2026 usulnet contributors
-// https://github.com/fr4nsys/usulnet
+// Copyright (c) 2024-2026 dockerscout contributors
+// https://github.com/fr4nsys/dockerscout
 
 package main
 
@@ -9,7 +9,7 @@ import (
 	"os"
 
 	"github.com/spf13/cobra"
-	"github.com/fr4nsys/usulnet/internal/app"
+	"github.com/fr4nsys/dockerscout/internal/app"
 )
 
 var (
@@ -18,15 +18,15 @@ var (
 )
 
 var rootCmd = &cobra.Command{
-	Use:   "usulnet",
+	Use:   "dockerscout",
 	Short: "Docker Management Platform",
-	Long:  `usulnet is a self-hosted Docker management platform with security scoring, centralized config, and NPM integration.`,
+	Long:  `dockerscout is a self-hosted Docker management platform with security scoring, centralized config, and NPM integration.`,
 }
 
 var serveCmd = &cobra.Command{
 	Use:   "serve",
 	Short: "Start the server",
-	Long:  `Start the usulnet server in the specified mode (standalone, master, or agent).`,
+	Long:  `Start the dockerscout server in the specified mode (standalone, master, or agent).`,
 	RunE: func(cmd *cobra.Command, args []string) error {
 		return app.Run(cfgFile, mode)
 	},
@@ -120,13 +120,13 @@ var adminResetPasswordCmd = &cobra.Command{
 doesn't exist, it will be created. Also unlocks the account
 if it was locked due to failed login attempts.
 
-If no password is provided, defaults to 'usulnet'.
+If no password is provided, defaults to 'dockerscout'.
 
 Usage from docker:
-  docker exec usulnet-app /app/usulnet admin reset-password MyNewPass123`,
+  docker exec dockerscout-app /app/dockerscout admin reset-password MyNewPass123`,
 	Args: cobra.MaximumNArgs(1),
 	RunE: func(cmd *cobra.Command, args []string) error {
-		password := "usulnet"
+		password := "dockerscout"
 		if len(args) > 0 {
 			password = args[0]
 		}
@@ -139,7 +139,7 @@ Usage from docker:
 
 func init() {
 	// Global flags
-	rootCmd.PersistentFlags().StringVarP(&cfgFile, "config", "c", "", "config file path (default: /etc/usulnet/config.yaml or ./config.yaml)")
+	rootCmd.PersistentFlags().StringVarP(&cfgFile, "config", "c", "", "config file path (default: /etc/dockerscout/config.yaml or ./config.yaml)")
 
 	// Serve flags
 	serveCmd.Flags().StringVarP(&mode, "mode", "m", "standalone", "operation mode: standalone|master|agent")

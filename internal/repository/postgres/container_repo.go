@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Copyright (c) 2024-2026 usulnet contributors
-// https://github.com/fr4nsys/usulnet
+// Copyright (c) 2024-2026 dockerscout contributors
+// https://github.com/fr4nsys/dockerscout
 
 // Package postgres provides PostgreSQL repository implementations.
 package postgres
@@ -16,8 +16,8 @@ import (
 	"github.com/google/uuid"
 	"github.com/jackc/pgx/v5"
 
-	apperrors "github.com/fr4nsys/usulnet/internal/pkg/errors"
-	"github.com/fr4nsys/usulnet/internal/models"
+	apperrors "github.com/fr4nsys/dockerscout/internal/pkg/errors"
+	"github.com/fr4nsys/dockerscout/internal/models"
 )
 
 // ContainerRepository handles container database operations.
@@ -403,7 +403,7 @@ type ContainerListOptions struct {
 	Limit  int    // Max items to return when using cursor pagination
 
 	// Scoping fields (opt-in model)
-	// Containers are scoped via stack inheritance + Docker label usulnet.team.group.
+	// Containers are scoped via stack inheritance + Docker label dockerscout.team.group.
 	ScopeEnabled           bool
 	AllowedStackIDs        []uuid.UUID // stack IDs the user has access to
 	AssignedStackIDs       []uuid.UUID // stack IDs claimed by ANY team
@@ -486,7 +486,7 @@ func (r *ContainerRepository) List(ctx context.Context, opts ContainerListOption
 			// Part 2: Container has an allowed group label
 			if len(opts.AllowedContainerGroups) > 0 {
 				scopeParts = append(scopeParts, fmt.Sprintf(
-					"labels->>'usulnet.team.group' = ANY($%d)",
+					"labels->>'dockerscout.team.group' = ANY($%d)",
 					argNum,
 				))
 				args = append(args, opts.AllowedContainerGroups)
@@ -507,7 +507,7 @@ func (r *ContainerRepository) List(ctx context.Context, opts ContainerListOption
 
 			if hasAssignedGroups {
 				unassignedParts = append(unassignedParts, fmt.Sprintf(
-					"(labels->>'usulnet.team.group' IS NULL OR labels->>'usulnet.team.group' = '' OR NOT (labels->>'usulnet.team.group' = ANY($%d)))",
+					"(labels->>'dockerscout.team.group' IS NULL OR labels->>'dockerscout.team.group' = '' OR NOT (labels->>'dockerscout.team.group' = ANY($%d)))",
 					argNum,
 				))
 				args = append(args, opts.AssignedContainerGroups)

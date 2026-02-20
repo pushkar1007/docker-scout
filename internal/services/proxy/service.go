@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Copyright (c) 2024-2026 usulnet contributors
-// https://github.com/fr4nsys/usulnet
+// Copyright (c) 2024-2026 dockerscout contributors
+// https://github.com/fr4nsys/dockerscout
 
 // Package proxy provides the reverse proxy management service.
 // It stores configuration in PostgreSQL (source of truth) and pushes
@@ -15,9 +15,9 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/fr4nsys/usulnet/internal/models"
-	"github.com/fr4nsys/usulnet/internal/pkg/logger"
-	"github.com/fr4nsys/usulnet/internal/services/proxy/caddy"
+	"github.com/fr4nsys/dockerscout/internal/models"
+	"github.com/fr4nsys/dockerscout/internal/pkg/logger"
+	"github.com/fr4nsys/dockerscout/internal/services/proxy/caddy"
 )
 
 // Config holds service configuration.
@@ -30,7 +30,7 @@ type Config struct {
 	ListenHTTP string
 	// ListenHTTPS is the Caddy listen address for HTTPS (default ":443").
 	ListenHTTPS string
-	// DefaultHostID is the usulnet host ID used when not multi-host.
+	// DefaultHostID is the dockerscout host ID used when not multi-host.
 	DefaultHostID uuid.UUID
 }
 

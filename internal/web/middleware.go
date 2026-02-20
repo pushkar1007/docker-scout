@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Copyright (c) 2024-2026 usulnet contributors
-// https://github.com/fr4nsys/usulnet
+// Copyright (c) 2024-2026 dockerscout contributors
+// https://github.com/fr4nsys/dockerscout
 
 package web
 
@@ -13,7 +13,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/fr4nsys/usulnet/internal/models"
+	"github.com/fr4nsys/dockerscout/internal/models"
 )
 
 // ContextKey is a custom type for context keys to avoid collisions.
@@ -97,7 +97,7 @@ func NewMiddleware(
 	config MiddlewareConfig,
 ) *Middleware {
 	if config.SessionName == "" {
-		config.SessionName = "usulnet_session"
+		config.SessionName = "dockerscout_session"
 	}
 	if config.LoginPath == "" {
 		config.LoginPath = "/login"
@@ -200,7 +200,7 @@ func (m *Middleware) ThemeMiddleware(next http.Handler) http.Handler {
 
 		// Try to get theme from cookie
 		theme := "dark" // default
-		if cookie, err := r.Cookie("usulnet_theme"); err == nil {
+		if cookie, err := r.Cookie("dockerscout_theme"); err == nil {
 			if cookie.Value == "light" || cookie.Value == "dark" {
 				theme = cookie.Value
 			}

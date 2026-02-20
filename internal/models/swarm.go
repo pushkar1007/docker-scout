@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Copyright (c) 2024-2026 usulnet contributors
-// https://github.com/fr4nsys/usulnet
+// Copyright (c) 2024-2026 dockerscout contributors
+// https://github.com/fr4nsys/dockerscout
 
 package models
 
@@ -68,7 +68,7 @@ type SwarmNode struct {
 	Architecture string `json:"architecture"`
 }
 
-// SwarmService represents a Docker Swarm service tracked by usulnet
+// SwarmService represents a Docker Swarm service tracked by dockerscout
 type SwarmService struct {
 	ID                uuid.UUID          `json:"id" db:"id"`
 	DockerServiceID   string             `json:"docker_service_id" db:"docker_service_id"`

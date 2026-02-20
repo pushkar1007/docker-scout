@@ -2,11 +2,11 @@
 set -e
 
 # =============================================================================
-# usulnet Docker Entrypoint
-# Auto-detects Docker socket GID and drops privileges to usulnet user
+# dockerscout Docker Entrypoint
+# Auto-detects Docker socket GID and drops privileges to dockerscout user
 # =============================================================================
 
-USULNET_USER="usulnet"
+DOCKERSCOUT_USER="dockerscout"
 
 # ---------------------------------------------------------------------------
 # Auto-detect Docker socket path (unless DOCKER_SOCKET is already set)
@@ -54,7 +54,7 @@ fi
 
 export DOCKER_SOCKET
 
-# If running as root, configure Docker socket access and drop to usulnet
+# If running as root, configure Docker socket access and drop to dockerscout
 if [ "$(id -u)" = "0" ]; then
     # Auto-detect Docker socket GID and grant access
     if [ -S "$DOCKER_SOCKET" ]; then
@@ -69,21 +69,21 @@ if [ "$(id -u)" = "0" ]; then
             EXISTING_GROUP="docker"
         fi
 
-        # Add usulnet user to that group
-        addgroup "$USULNET_USER" "$EXISTING_GROUP" 2>/dev/null || true
+        # Add dockerscout user to that group
+        addgroup "$DOCKERSCOUT_USER" "$EXISTING_GROUP" 2>/dev/null || true
 
-        echo "Docker socket GID=$SOCK_GID, added $USULNET_USER to group $EXISTING_GROUP"
+        echo "Docker socket GID=$SOCK_GID, added $DOCKERSCOUT_USER to group $EXISTING_GROUP"
     else
         echo "WARNING: Docker socket not found at $DOCKER_SOCKET"
         echo "  Searched: /var/run/docker.sock, \$XDG_RUNTIME_DIR/docker.sock, /run/user/<UID>/docker.sock, docker context"
-        echo "  Set DOCKER_SOCKET or USULNET_DOCKER_SOCKET to specify the path manually."
+        echo "  Set DOCKER_SOCKET or DOCKERSCOUT_DOCKER_SOCKET to specify the path manually."
     fi
 
-    # Ensure data directories are owned by usulnet
-    chown -R "$USULNET_USER:$USULNET_USER" /app/data 2>/dev/null || true
+    # Ensure data directories are owned by dockerscout
+    chown -R "$DOCKERSCOUT_USER:$DOCKERSCOUT_USER" /app/data 2>/dev/null || true
 
     # Drop privileges and exec the command
-    exec su-exec "$USULNET_USER" "$@"
+    exec su-exec "$DOCKERSCOUT_USER" "$@"
 fi
 
 # Already running as non-root, just exec

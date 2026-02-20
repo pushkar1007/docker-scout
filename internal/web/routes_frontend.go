@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Copyright (c) 2024-2026 usulnet contributors
-// https://github.com/fr4nsys/usulnet
+// Copyright (c) 2024-2026 dockerscout contributors
+// https://github.com/fr4nsys/dockerscout
 
 package web
 
@@ -15,7 +15,7 @@ import (
 
 	"github.com/go-chi/chi/v5"
 
-	"github.com/fr4nsys/usulnet/internal/license"
+	"github.com/fr4nsys/dockerscout/internal/license"
 )
 
 func init() {
@@ -466,7 +466,7 @@ func RegisterFrontendRoutes(r chi.Router, h *Handler, m *Middleware) {
 			r.Get("/picker", h.TerminalPickerTempl)
 		})
 
-		// Nodes (usulnet Docker Nodes) - renamed from Hosts
+		// Nodes (dockerscout Docker Nodes) - renamed from Hosts
 		r.Route("/nodes", func(r chi.Router) {
 			// View - require host:view
 			r.Group(func(r chi.Router) {
@@ -692,7 +692,7 @@ func RegisterFrontendRoutes(r chi.Router, h *Handler, m *Middleware) {
 			// r.Route("/ssh", func(r chi.Router) {
 			// 	r.Use(h.requireServiceMiddleware(
 			// 		func() bool { return h.sshService != nil },
-			// 		"SSH Connections", "Enable SSH by configuring an encryption key (USULNET_ENCRYPTION_KEY)",
+			// 		"SSH Connections", "Enable SSH by configuring an encryption key (DOCKERSCOUT_ENCRYPTION_KEY)",
 			// 	))
 			// 	r.Get("/", h.SSHConnectionsTempl)
 			// 	r.Get("/new", h.SSHConnectionNewTempl)

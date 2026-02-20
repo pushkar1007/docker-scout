@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Copyright (c) 2024-2026 usulnet contributors
-// https://github.com/fr4nsys/usulnet
+// Copyright (c) 2024-2026 dockerscout contributors
+// https://github.com/fr4nsys/dockerscout
 
 package handlers_test
 
@@ -11,7 +11,7 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/fr4nsys/usulnet/internal/api/handlers"
+	"github.com/fr4nsys/dockerscout/internal/api/handlers"
 )
 
 func TestSystemHandler_Health(t *testing.T) {

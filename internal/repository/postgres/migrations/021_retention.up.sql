@@ -92,7 +92,7 @@ $$ LANGUAGE plpgsql;
 -- Migration advisory lock helpers
 -- ============================================================================
 
--- usulnet migration lock ID: 0x7573756C = 'usul' in hex = 1970500972
+-- dockerscout migration lock ID: 0x7573756C = 'usul' in hex = 1970500972
 CREATE OR REPLACE FUNCTION acquire_migration_lock()
 RETURNS BOOLEAN AS $$
 BEGIN

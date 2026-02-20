@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Copyright (c) 2024-2026 usulnet contributors
-// https://github.com/fr4nsys/usulnet
+// Copyright (c) 2024-2026 dockerscout contributors
+// https://github.com/fr4nsys/dockerscout
 
 package totp
 
@@ -211,8 +211,8 @@ func TestConstants(t *testing.T) {
 	if DefaultSecretSize != 20 {
 		t.Errorf("DefaultSecretSize = %d, want 20", DefaultSecretSize)
 	}
-	if DefaultIssuer != "usulnet" {
-		t.Errorf("DefaultIssuer = %q, want 'usulnet'", DefaultIssuer)
+	if DefaultIssuer != "dockerscout" {
+		t.Errorf("DefaultIssuer = %q, want 'dockerscout'", DefaultIssuer)
 	}
 	if DefaultSkew != 1 {
 		t.Errorf("DefaultSkew = %d, want 1", DefaultSkew)

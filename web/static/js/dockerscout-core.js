@@ -1,14 +1,14 @@
-// usulnet core JavaScript
+// dockerscout core JavaScript
 // Provides: theme toggle, toast notifications, utility functions, HTMX lifecycle
 
-window.usulnet = {
+window.dockerscout = {
 	toggleTheme: function() {
 		var html = document.documentElement;
 		var isDark = html.classList.contains('dark');
 		var newTheme = isDark ? 'light' : 'dark';
 		html.classList.remove('dark', 'light');
 		html.classList.add(newTheme);
-		localStorage.setItem('usulnet-theme', newTheme);
+		localStorage.setItem('dockerscout-theme', newTheme);
 		var icon = document.getElementById('theme-toggle-icon');
 		if (icon) {
 			icon.className = 'fas ' + (newTheme === 'dark' ? 'fa-moon' : 'fa-sun');
@@ -73,7 +73,7 @@ document.addEventListener('htmx:configRequest', function(event) {
 				try {
 					var data = JSON.parse(trigger);
 					if (data.showToast) {
-						usulnet.toast(data.showToast.message, data.showToast.type);
+						dockerscout.toast(data.showToast.message, data.showToast.type);
 					}
 				} catch (e) {}
 			}
@@ -94,14 +94,14 @@ document.addEventListener('htmx:configRequest', function(event) {
 			case 502: case 503: message = 'Service temporarily unavailable'; break;
 			case 0: message = 'Network error - check your connection'; break;
 		}
-		usulnet.toast(message, 'error', 6000);
+		dockerscout.toast(message, 'error', 6000);
 	});
 
 	document.body.addEventListener('htmx:timeout', function() {
-		usulnet.toast('Request timed out', 'warning', 6000);
+		dockerscout.toast('Request timed out', 'warning', 6000);
 	});
 
 	document.body.addEventListener('htmx:sendError', function() {
-		usulnet.toast('Connection error - check your network', 'error', 6000);
+		dockerscout.toast('Connection error - check your network', 'error', 6000);
 	});
 })();

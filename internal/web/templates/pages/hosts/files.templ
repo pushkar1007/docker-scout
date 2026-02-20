@@ -2,7 +2,7 @@ package hosts
 
 import (
 	"fmt"
-	"github.com/fr4nsys/usulnet/internal/web/templates/layouts"
+	"github.com/fr4nsys/dockerscout/internal/web/templates/layouts"
 )
 
 type HostFilesData struct {
@@ -50,7 +50,7 @@ templ HostFiles(data HostFilesData) {
 					<div class="text-yellow-200">
 						<p class="font-medium">Host PID namespace not available</p>
 						<p class="text-sm mt-1">
-							Add <code class="bg-dark-700 px-1 rounded">pid: "host"</code> to usulnet's docker-compose configuration to enable host filesystem browsing.
+							Add <code class="bg-dark-700 px-1 rounded">pid: "host"</code> to dockerscout's docker-compose configuration to enable host filesystem browsing.
 						</p>
 					</div>
 				</div>
@@ -397,8 +397,8 @@ templ hostFileBrowser(data HostFilesData) {
 					if (this.monacoLoaded) return;
 					this.monacoLoaded = true;
 					require(['vs/editor/editor.main'], () => {
-						// Define usulnet theme
-						monaco.editor.defineTheme('usulnet-dark', {
+						// Define dockerscout theme
+						monaco.editor.defineTheme('dockerscout-dark', {
 							base: 'vs-dark',
 							inherit: true,
 							rules: [
@@ -499,7 +499,7 @@ templ hostFileBrowser(data HostFilesData) {
 						this.monacoEditor = monaco.editor.create(container, {
 							value: this.fileContent?.content || '',
 							language: lang,
-							theme: 'usulnet-dark',
+							theme: 'dockerscout-dark',
 							readOnly: true,
 							fontSize: 13,
 							fontFamily: "'IBM Plex Mono', 'JetBrains Mono', 'Fira Code', monospace",

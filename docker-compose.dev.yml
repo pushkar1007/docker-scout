@@ -2,11 +2,11 @@ services:
   # ==========================================================================
   # Application
   # ==========================================================================
-  usulnet:
+  dockerscout:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: usulnet-app
+    container_name: dockerscout-app
     restart: unless-stopped
     ports:
       - "8080:8080"
@@ -17,22 +17,22 @@ services:
       # Config file
       - ./config.yaml:/app/config/config.yaml:ro
       # Data persistence
-      - usulnet_data:/app/data
+      - dockerscout_data:/app/data
       # Trivy vulnerability database cache
-      - trivy_cache:/var/lib/usulnet/trivy
+      - trivy_cache:/var/lib/dockerscout/trivy
     # Host terminal: share host PID namespace (required for nsenter)
     pid: "host"
     cap_add:
       - SYS_PTRACE   # Required to attach to PID 1
       - SYS_ADMIN     # Required to enter host namespaces
     environment:
-      - USULNET_MODE=standalone
-      - USULNET_DATABASE_URL=postgres://usulnet:usulnet_dev@postgres:5432/usulnet?sslmode=disable
-      - USULNET_REDIS_URL=redis://redis:6379
-      - USULNET_NATS_URL=nats://nats:4222
+      - DOCKERSCOUT_MODE=standalone
+      - DOCKERSCOUT_DATABASE_URL=postgres://dockerscout:dockerscout_dev@postgres:5432/dockerscout?sslmode=disable
+      - DOCKERSCOUT_REDIS_URL=redis://redis:6379
+      - DOCKERSCOUT_NATS_URL=nats://nats:4222
       # Host Terminal
       - HOST_TERMINAL_ENABLED=true
-      - HOST_TERMINAL_USER=nobody_usulnet
+      - HOST_TERMINAL_USER=nobody_dockerscout
       - HOST_TERMINAL_SHELL=/bin/bash
       # RDP Web Access (guacd service included)
       - GUACD_ENABLED=${GUACD_ENABLED:-true}
@@ -52,16 +52,16 @@ services:
       retries: 3
       start_period: 10s
     networks:
-      - usulnet-network
+      - dockerscout-network
 
   # ==========================================================================
-  # usulnet Agent (optional, enable with --profile agent)
+  # dockerscout Agent (optional, enable with --profile agent)
   # ==========================================================================
-  usulnet-agent:
+  dockerscout-agent:
     build:
       context: .
       dockerfile: Dockerfile.agent
-    container_name: usulnet-agent
+    container_name: dockerscout-agent
     restart: unless-stopped
     profiles:
       - agent
@@ -70,23 +70,23 @@ services:
       - ./config.agent.yaml:/app/config/agent.yaml:ro
       - agent_data:/app/data
     environment:
-      - USULNET_GATEWAY_URL=nats://nats:4222
-      - USULNET_AGENT_TOKEN=${AGENT_TOKEN:-change-me}
+      - DOCKERSCOUT_GATEWAY_URL=nats://nats:4222
+      - DOCKERSCOUT_AGENT_TOKEN=${AGENT_TOKEN:-change-me}
     depends_on:
       nats:
         condition: service_started
     networks:
-      - usulnet-network
+      - dockerscout-network
 
   # ==========================================================================
   # Apache Guacamole Daemon — RDP Web Gateway
   # ==========================================================================
   guacd:
     image: guacamole/guacd:1.5.5
-    container_name: usulnet-guacd
+    container_name: dockerscout-guacd
     restart: unless-stopped
     networks:
-      - usulnet-network
+      - dockerscout-network
 
   # ==========================================================================
   # Core Infrastructure
@@ -94,27 +94,27 @@ services:
 
   postgres:
     image: postgres:16-alpine
-    container_name: usulnet-postgres
+    container_name: dockerscout-postgres
     restart: unless-stopped
     environment:
-      POSTGRES_USER: usulnet
-      POSTGRES_PASSWORD: usulnet_dev
-      POSTGRES_DB: usulnet
+      POSTGRES_USER: dockerscout
+      POSTGRES_PASSWORD: dockerscout_dev
+      POSTGRES_DB: dockerscout
     ports:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U usulnet"]
+      test: ["CMD-SHELL", "pg_isready -U dockerscout"]
       interval: 10s
       timeout: 5s
       retries: 5
     networks:
-      - usulnet-network
+      - dockerscout-network
 
   redis:
     image: redis:8-alpine
-    container_name: usulnet-redis
+    container_name: dockerscout-redis
     restart: unless-stopped
     ports:
       - "6379:6379"
@@ -126,11 +126,11 @@ services:
       timeout: 5s
       retries: 5
     networks:
-      - usulnet-network
+      - dockerscout-network
 
   nats:
     image: nats:2.12-alpine
-    container_name: usulnet-nats
+    container_name: dockerscout-nats
     restart: unless-stopped
     ports:
       - "4222:4222"
@@ -144,16 +144,16 @@ services:
       timeout: 5s
       retries: 5
     networks:
-      - usulnet-network
+      - dockerscout-network
 
 volumes:
   postgres_data:
   redis_data:
   nats_data:
-  usulnet_data:
+  dockerscout_data:
   trivy_cache:
   agent_data:
 
 networks:
-  usulnet-network:
+  dockerscout-network:
     driver: bridge

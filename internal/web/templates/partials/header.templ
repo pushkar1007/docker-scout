@@ -3,7 +3,7 @@ package partials
 import (
 	"fmt"
 
-	"github.com/fr4nsys/usulnet/internal/web/templates/types"
+	"github.com/fr4nsys/dockerscout/internal/web/templates/types"
 )
 
 templ Header(user *types.UserData, notificationsCount int, hosts []types.HostSelectorItem, activeHostID string, activeHostName string) {
@@ -91,7 +91,7 @@ templ Header(user *types.UserData, notificationsCount int, hosts []types.HostSel
 			<div class="flex items-center gap-4 ml-4">
 				<!-- Theme Toggle -->
 				<button
-					onclick="usulnet.toggleTheme()"
+					onclick="dockerscout.toggleTheme()"
 					class="p-2 text-gray-400 hover:text-white transition-colors"
 					title="Toggle theme"
 				>
@@ -99,7 +99,7 @@ templ Header(user *types.UserData, notificationsCount int, hosts []types.HostSel
 				</button>
 				<script>
 					(function() {
-						var theme = localStorage.getItem('usulnet-theme') || 'dark';
+						var theme = localStorage.getItem('dockerscout-theme') || 'dark';
 						var icon = document.getElementById('theme-toggle-icon');
 						if (icon) icon.className = 'fas ' + (theme === 'dark' ? 'fa-moon' : 'fa-sun');
 					})();

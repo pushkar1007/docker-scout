@@ -10,8 +10,8 @@ import templruntime "github.com/a-h/templ/runtime"
 
 import (
 	"fmt"
-	"github.com/fr4nsys/usulnet/internal/web/templates/components"
-	"github.com/fr4nsys/usulnet/internal/web/templates/layouts"
+	"github.com/fr4nsys/dockerscout/internal/web/templates/components"
+	"github.com/fr4nsys/dockerscout/internal/web/templates/layouts"
 )
 
 type StacksData struct {
@@ -28,7 +28,7 @@ type StackItem struct {
 	CreatedAt      string
 	UpdatedAt      string
 	ContainerNames []string
-	IsExternal     bool // true if discovered from Docker, not managed by usulnet
+	IsExternal     bool // true if discovered from Docker, not managed by dockerscout
 }
 
 func stackStatusLabel(status string) string {
@@ -193,7 +193,7 @@ func List(data StacksData) templ.Component {
 						return templ_7745c5c3_Err
 					}
 					if stack.IsExternal {
-						templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 14, "<span class=\"inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium bg-blue-500/20 text-blue-400 border border-blue-500/30\" title=\"Discovered from Docker, not managed by usulnet\"><i class=\"fas fa-external-link-alt mr-1 text-[8px]\"></i>External</span>")
+						templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 14, "<span class=\"inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium bg-blue-500/20 text-blue-400 border border-blue-500/30\" title=\"Discovered from Docker, not managed by dockerscout\"><i class=\"fas fa-external-link-alt mr-1 text-[8px]\"></i>External</span>")
 						if templ_7745c5c3_Err != nil {
 							return templ_7745c5c3_Err
 						}

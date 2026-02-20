@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Copyright (c) 2024-2026 usulnet contributors
-// https://github.com/fr4nsys/usulnet
+// Copyright (c) 2024-2026 dockerscout contributors
+// https://github.com/fr4nsys/dockerscout
 
 package backup
 
@@ -18,10 +18,10 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/fr4nsys/usulnet/internal/models"
-	"github.com/fr4nsys/usulnet/internal/pkg/crypto"
-	"github.com/fr4nsys/usulnet/internal/pkg/errors"
-	"github.com/fr4nsys/usulnet/internal/pkg/logger"
+	"github.com/fr4nsys/dockerscout/internal/models"
+	"github.com/fr4nsys/dockerscout/internal/pkg/crypto"
+	"github.com/fr4nsys/dockerscout/internal/pkg/errors"
+	"github.com/fr4nsys/dockerscout/internal/pkg/logger"
 )
 
 // Creator handles backup creation operations.
@@ -229,7 +229,7 @@ func (c *Creator) createVolumeBackup(ctx context.Context, backup *models.Backup,
 			"path", volumePath,
 		)
 
-		tmpDir, mkErr := os.MkdirTemp("", "usulnet-vol-backup-*")
+		tmpDir, mkErr := os.MkdirTemp("", "dockerscout-vol-backup-*")
 		if mkErr != nil {
 			return nil, errors.Wrap(mkErr, errors.CodeBackupFailed, "failed to create temp directory")
 		}

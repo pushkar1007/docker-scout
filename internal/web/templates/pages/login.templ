@@ -1,6 +1,6 @@
 package pages
 
-import "github.com/fr4nsys/usulnet/internal/web/templates/layouts"
+import "github.com/fr4nsys/dockerscout/internal/web/templates/layouts"
 
 type LoginData struct {
 	Error       string
@@ -22,7 +22,7 @@ templ Login(data LoginData) {
 					<div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-primary-500 to-primary-600 mb-4 shadow-lg shadow-primary-500/25">
 						<span class="text-black font-bold text-2xl font-display">U</span>
 					</div>
-					<h1 class="text-2xl font-bold font-display text-white">usulnet</h1>
+					<h1 class="text-2xl font-bold font-display text-white">dockerscout</h1>
 					<p class="text-sm text-gray-400 mt-1">Docker Management Platform</p>
 				</div>
 
@@ -155,10 +155,10 @@ templ Login(data LoginData) {
 				<!-- Footer -->
 				<div class="mt-8 text-center space-y-1">
 					<p class="text-sm text-gray-500">
-						usulnet { data.Version } · Community Edition
+						dockerscout { data.Version } · Community Edition
 					</p>
 					<p class="text-xs text-gray-400">
-						<a href="https://github.com/fr4nsys/usulnet" target="_blank" rel="noopener" class="hover:text-primary-400 transition-colors">
+						<a href="https://github.com/fr4nsys/dockerscout" target="_blank" rel="noopener" class="hover:text-primary-400 transition-colors">
 							<i class="fab fa-github mr-1"></i>GitHub
 						</a>
 						<span class="mx-1">·</span>

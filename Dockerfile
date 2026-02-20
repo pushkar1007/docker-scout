@@ -1,5 +1,5 @@
 # =============================================================================
-# usulnet Docker Management Platform
+# dockerscout Docker Management Platform
 # Optimized multi-stage production build
 # =============================================================================
 
@@ -41,11 +41,11 @@ ARG BUILD_TIME=unknown
 RUN CGO_ENABLED=0 GOOS=${TARGETOS} GOARCH=${TARGETARCH} go build \
     -trimpath \
     -ldflags="-w -s \
-        -X github.com/fr4nsys/usulnet/internal/app.Version=${VERSION} \
-        -X github.com/fr4nsys/usulnet/internal/app.Commit=${COMMIT} \
-        -X github.com/fr4nsys/usulnet/internal/app.BuildTime=${BUILD_TIME}" \
-    -o usulnet \
-    ./cmd/usulnet
+        -X github.com/fr4nsys/dockerscout/internal/app.Version=${VERSION} \
+        -X github.com/fr4nsys/dockerscout/internal/app.Commit=${COMMIT} \
+        -X github.com/fr4nsys/dockerscout/internal/app.BuildTime=${BUILD_TIME}" \
+    -o dockerscout \
+    ./cmd/dockerscout
 
 # =============================================================================
 # Stage 2: Compile Tailwind CSS (standalone binary, no Node.js/npm)
@@ -86,11 +86,11 @@ FROM alpine:3.21
 ARG TARGETARCH
 
 # OCI image metadata labels
-LABEL org.opencontainers.image.title="usulnet" \
+LABEL org.opencontainers.image.title="dockerscout" \
       org.opencontainers.image.description="Docker Management Platform" \
-      org.opencontainers.image.url="https://github.com/fr4nsys/usulnet" \
-      org.opencontainers.image.source="https://github.com/fr4nsys/usulnet" \
-      org.opencontainers.image.vendor="usulnet" \
+      org.opencontainers.image.url="https://github.com/fr4nsys/dockerscout" \
+      org.opencontainers.image.source="https://github.com/fr4nsys/dockerscout" \
+      org.opencontainers.image.vendor="dockerscout" \
       org.opencontainers.image.licenses="AGPL-3.0"
 
 # All runtime packages in a single layer (includes nvim editor deps)
@@ -120,52 +120,52 @@ ENV LANG=en_US.UTF-8
 ENV MUSL_LOCPATH=/usr/share/i18n/locales/musl
 
 # Create non-root user
-RUN addgroup -g 1000 usulnet && \
-    adduser -u 1000 -G usulnet -s /bin/sh -D usulnet
+RUN addgroup -g 1000 dockerscout && \
+    adduser -u 1000 -G dockerscout -s /bin/sh -D dockerscout
 
 # Create required directories with proper ownership in a single layer
-RUN mkdir -p /app/data /app/config /app/web/static/css /var/lib/usulnet/trivy && \
-    chown -R usulnet:usulnet /app /var/lib/usulnet
+RUN mkdir -p /app/data /app/config /app/web/static/css /var/lib/dockerscout/trivy && \
+    chown -R dockerscout:dockerscout /app /var/lib/dockerscout
 
 WORKDIR /app
 
 # Copy binary (Templ templates compiled into it)
-COPY --from=builder --chown=usulnet:usulnet /build/usulnet /app/usulnet
+COPY --from=builder --chown=dockerscout:dockerscout /build/dockerscout /app/dockerscout
 
 # Copy compiled CSS
-COPY --from=frontend --chown=usulnet:usulnet /frontend/css/style.css /app/web/static/css/style.css
+COPY --from=frontend --chown=dockerscout:dockerscout /frontend/css/style.css /app/web/static/css/style.css
 
 # Copy favicon if exists
-COPY --from=builder --chown=usulnet:usulnet /build/web/static/favicon.ico /app/web/static/favicon.ico
+COPY --from=builder --chown=dockerscout:dockerscout /build/web/static/favicon.ico /app/web/static/favicon.ico
 
 # Copy JS assets (guacamole-common-js, etc.)
-COPY --from=builder --chown=usulnet:usulnet /build/web/static/js/ /app/web/static/js/
+COPY --from=builder --chown=dockerscout:dockerscout /build/web/static/js/ /app/web/static/js/
 
 # Copy self-hosted vendor assets (HTMX, Alpine.js, Font Awesome, fonts)
-COPY --from=builder --chown=usulnet:usulnet /build/web/static/vendor/ /app/web/static/vendor/
+COPY --from=builder --chown=dockerscout:dockerscout /build/web/static/vendor/ /app/web/static/vendor/
 
 # --- Neovim editor support (Phase 7) ---
-COPY --chown=usulnet:usulnet nvim/ /opt/usulnet/nvim-config/
+COPY --chown=dockerscout:dockerscout nvim/ /opt/dockerscout/nvim-config/
 
 # Pre-install lazy.nvim + plugins so first session is instant.
 # Runs as root during build, data copied to shared location.
 RUN set -e && \
     mkdir -p /tmp/nvim-setup/.config/nvim && \
-    cp -a /opt/usulnet/nvim-config/. /tmp/nvim-setup/.config/nvim/ && \
+    cp -a /opt/dockerscout/nvim-config/. /tmp/nvim-setup/.config/nvim/ && \
     HOME=/tmp/nvim-setup \
       XDG_CONFIG_HOME=/tmp/nvim-setup/.config \
       XDG_DATA_HOME=/tmp/nvim-setup/.local/share \
       XDG_STATE_HOME=/tmp/nvim-setup/.local/state \
       XDG_CACHE_HOME=/tmp/nvim-setup/.cache \
       nvim --headless "+Lazy! install" +qa 2>&1 && \
-    mkdir -p /opt/usulnet/nvim-data && \
-    cp -a /tmp/nvim-setup/.local/share/nvim/. /opt/usulnet/nvim-data/ && \
+    mkdir -p /opt/dockerscout/nvim-data && \
+    cp -a /tmp/nvim-setup/.local/share/nvim/. /opt/dockerscout/nvim-data/ && \
     rm -rf /tmp/nvim-setup
 
-# Fix ownership: /app for the binary, /opt/usulnet for nvim config+plugins
-RUN chown -R usulnet:usulnet /app /opt/usulnet
+# Fix ownership: /app for the binary, /opt/dockerscout for nvim config+plugins
+RUN chown -R dockerscout:dockerscout /app /opt/dockerscout
 
-# Entrypoint auto-detects Docker socket GID and drops to usulnet
+# Entrypoint auto-detects Docker socket GID and drops to dockerscout
 COPY docker-entrypoint.sh /app/docker-entrypoint.sh
 RUN chmod +x /app/docker-entrypoint.sh
 
@@ -175,4 +175,4 @@ HEALTHCHECK --interval=30s --timeout=10s --start-period=15s --retries=3 \
     CMD curl -sf http://localhost:8080/health || exit 1
 
 ENTRYPOINT ["/app/docker-entrypoint.sh"]
-CMD ["/app/usulnet", "serve", "--config", "/app/config/config.yaml"]
+CMD ["/app/dockerscout", "serve", "--config", "/app/config/config.yaml"]

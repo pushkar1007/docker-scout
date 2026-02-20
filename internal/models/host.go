@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Copyright (c) 2024-2026 usulnet contributors
-// https://github.com/fr4nsys/usulnet
+// Copyright (c) 2024-2026 dockerscout contributors
+// https://github.com/fr4nsys/dockerscout
 
 package models
 
@@ -62,7 +62,7 @@ const (
 	EndpointLocal  HostEndpointType = "local"  // Local Docker socket
 	EndpointSocket HostEndpointType = "socket" // Remote socket via SSH
 	EndpointTCP    HostEndpointType = "tcp"    // TCP with TLS
-	EndpointAgent  HostEndpointType = "agent"  // Via usulnet agent
+	EndpointAgent  HostEndpointType = "agent"  // Via dockerscout agent
 )
 
 // HostStatus represents the current status of a host

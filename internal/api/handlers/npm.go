@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Copyright (c) 2024-2026 usulnet contributors
-// https://github.com/fr4nsys/usulnet
+// Copyright (c) 2024-2026 dockerscout contributors
+// https://github.com/fr4nsys/dockerscout
 
 // Package handlers provides HTTP handlers for the API.
 package handlers
@@ -10,9 +10,9 @@ import (
 
 	"github.com/go-chi/chi/v5"
 
-	"github.com/fr4nsys/usulnet/internal/integrations/npm"
-	"github.com/fr4nsys/usulnet/internal/models"
-	"github.com/fr4nsys/usulnet/internal/pkg/logger"
+	"github.com/fr4nsys/dockerscout/internal/integrations/npm"
+	"github.com/fr4nsys/dockerscout/internal/models"
+	"github.com/fr4nsys/dockerscout/internal/pkg/logger"
 )
 
 // NPMHandler handles NPM (Nginx Proxy Manager) API endpoints.

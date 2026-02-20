@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Copyright (c) 2024-2026 usulnet contributors
-// https://github.com/fr4nsys/usulnet
+// Copyright (c) 2024-2026 dockerscout contributors
+// https://github.com/fr4nsys/dockerscout
 
 // Package analyzer provides individual security analyzers for container inspection.
 // Each analyzer focuses on a specific security aspect and returns issues found.
@@ -9,8 +9,8 @@ package analyzer
 import (
 	"context"
 
-	"github.com/fr4nsys/usulnet/internal/models"
-	"github.com/fr4nsys/usulnet/internal/services/security"
+	"github.com/fr4nsys/dockerscout/internal/models"
+	"github.com/fr4nsys/dockerscout/internal/services/security"
 )
 
 // HealthcheckAnalyzer checks if containers have proper healthcheck configuration

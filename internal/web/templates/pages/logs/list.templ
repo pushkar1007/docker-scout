@@ -1,7 +1,7 @@
 package logs
 
 import (
-	"github.com/fr4nsys/usulnet/internal/web/templates/layouts"
+	"github.com/fr4nsys/dockerscout/internal/web/templates/layouts"
 	"fmt"
 )
 
@@ -410,7 +410,7 @@ templ LogsList(data LogsPageData) {
 						const url = URL.createObjectURL(blob);
 						const a = document.createElement('a');
 						a.href = url;
-						a.download = `usulnet-logs-${new Date().toISOString().slice(0,19)}.log`;
+						a.download = `dockerscout-logs-${new Date().toISOString().slice(0,19)}.log`;
 						a.click();
 						URL.revokeObjectURL(url);
 					},

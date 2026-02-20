@@ -54,7 +54,7 @@ func Error(data ErrorData) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, " | usulnet</title><link rel=\"stylesheet\" href=\"/static/vendor/fonts/fonts.css\"><link rel=\"stylesheet\" href=\"/static/vendor/fontawesome/css/all.min.css\"><link rel=\"stylesheet\" href=\"/static/css/style.css\"></head><body class=\"bg-dark-900 min-h-screen flex items-center justify-center font-body text-gray-300\"><div class=\"text-center px-4\"><!-- Error Code --><div class=\"mb-8\"><span class=\"text-8xl font-bold font-display text-gradient\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, " | dockerscout</title><link rel=\"stylesheet\" href=\"/static/vendor/fonts/fonts.css\"><link rel=\"stylesheet\" href=\"/static/vendor/fontawesome/css/all.min.css\"><link rel=\"stylesheet\" href=\"/static/css/style.css\"></head><body class=\"bg-dark-900 min-h-screen flex items-center justify-center font-body text-gray-300\"><div class=\"text-center px-4\"><!-- Error Code --><div class=\"mb-8\"><span class=\"text-8xl font-bold font-display text-gradient\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -110,12 +110,12 @@ func Error(data ErrorData) templ.Component {
 			}
 		}
 		if data.Code == http.StatusInternalServerError {
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 8, "<div class=\"mt-12 text-sm text-gray-500\"><p>Something went wrong on our end.</p><p class=\"mt-2\">Please try again later or  <a href=\"https://github.com/fr4nsys/usulnet/issues\" class=\"text-primary-400 hover:text-primary-300\" target=\"_blank\">report this issue</a>.</p></div>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 8, "<div class=\"mt-12 text-sm text-gray-500\"><p>Something went wrong on our end.</p><p class=\"mt-2\">Please try again later or  <a href=\"https://github.com/fr4nsys/dockerscout/issues\" class=\"text-primary-400 hover:text-primary-300\" target=\"_blank\">report this issue</a>.</p></div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 9, "<!-- Version --><div class=\"mt-16 text-xs text-gray-400\">usulnet ")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 9, "<!-- Version --><div class=\"mt-16 text-xs text-gray-400\">dockerscout ")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

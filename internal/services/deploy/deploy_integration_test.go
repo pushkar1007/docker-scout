@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Copyright (c) 2024-2026 usulnet contributors
-// https://github.com/fr4nsys/usulnet
+// Copyright (c) 2024-2026 dockerscout contributors
+// https://github.com/fr4nsys/dockerscout
 
 package deploy
 
@@ -13,8 +13,8 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/fr4nsys/usulnet/internal/pkg/crypto"
-	"github.com/fr4nsys/usulnet/internal/pkg/logger"
+	"github.com/fr4nsys/dockerscout/internal/pkg/crypto"
+	"github.com/fr4nsys/dockerscout/internal/pkg/logger"
 )
 
 // ============================================================================
@@ -294,7 +294,7 @@ func TestDeployWithPKI_ComposeWithTLS(t *testing.T) {
 	svc := &Service{}
 
 	req := DeployRequest{
-		AgentImage: "usulnet-agent:v1.2.0",
+		AgentImage: "dockerscout-agent:v1.2.0",
 		GatewayURL: "nats://master.internal:4222",
 		AgentToken: "secure-token",
 	}
@@ -310,12 +310,12 @@ func TestDeployWithPKI_ComposeWithTLS(t *testing.T) {
 	}
 
 	// Should have correct image
-	if !strings.Contains(compose, "usulnet-agent:v1.2.0") {
+	if !strings.Contains(compose, "dockerscout-agent:v1.2.0") {
 		t.Error("compose should use specified image")
 	}
 
 	// Should pass env vars
-	if !strings.Contains(compose, "USULNET_GATEWAY_URL=nats://master.internal:4222") {
+	if !strings.Contains(compose, "DOCKERSCOUT_GATEWAY_URL=nats://master.internal:4222") {
 		t.Error("compose should pass gateway URL")
 	}
 }

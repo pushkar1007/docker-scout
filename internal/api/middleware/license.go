@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Copyright (c) 2024-2026 usulnet contributors
-// https://github.com/fr4nsys/usulnet
+// Copyright (c) 2024-2026 dockerscout contributors
+// https://github.com/fr4nsys/dockerscout
 
 package middleware
 
@@ -8,8 +8,8 @@ import (
 	"context"
 	"net/http"
 
-	apierrors "github.com/fr4nsys/usulnet/internal/api/errors"
-	"github.com/fr4nsys/usulnet/internal/license"
+	apierrors "github.com/fr4nsys/dockerscout/internal/api/errors"
+	"github.com/fr4nsys/dockerscout/internal/license"
 )
 
 // LicenseProvider is the interface that the license.Provider satisfies.
@@ -134,10 +134,10 @@ func RequireLimit(provider LicenseProvider, resourceName string, currentCountFn 
 			current := currentCountFn(r)
 			if current >= limit {
 				requestID := GetRequestID(r.Context())
-				upgradeMsg := "Upgrade to usulnet Business for more " + resourceName
+				upgradeMsg := "Upgrade to dockerscout Business for more " + resourceName
 				info, _ := provider.GetLicense(r.Context())
 				if info != nil && info.Edition == license.Business {
-					upgradeMsg = "Upgrade to usulnet Enterprise for unlimited " + resourceName
+					upgradeMsg = "Upgrade to dockerscout Enterprise for unlimited " + resourceName
 				}
 				err := apierrors.NewErrorWithDetails(
 					http.StatusPaymentRequired,

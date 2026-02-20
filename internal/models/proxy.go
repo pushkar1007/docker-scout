@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Copyright (c) 2024-2026 usulnet contributors
-// https://github.com/fr4nsys/usulnet
+// Copyright (c) 2024-2026 dockerscout contributors
+// https://github.com/fr4nsys/dockerscout
 
 package models
 
@@ -43,7 +43,7 @@ const (
 // ProxyHost represents a reverse proxy host configuration.
 type ProxyHost struct {
 	ID        uuid.UUID       `json:"id" db:"id"`
-	HostID    uuid.UUID       `json:"host_id" db:"host_id"` // usulnet host (multi-host support)
+	HostID    uuid.UUID       `json:"host_id" db:"host_id"` // dockerscout host (multi-host support)
 	Name      string          `json:"name" db:"name"`       // Human-friendly label
 	Domains   []string        `json:"domains" db:"domains"` // e.g. ["example.com", "www.example.com"]
 	Enabled   bool            `json:"enabled" db:"enabled"`
@@ -192,10 +192,10 @@ type UpdateProxyHostInput struct {
 
 // Docker labels for Caddy auto-proxy discovery.
 const (
-	LabelCaddyDomain    = "usulnet.proxy.domain"
-	LabelCaddyPort      = "usulnet.proxy.port"
-	LabelCaddySSL       = "usulnet.proxy.ssl"
-	LabelCaddyWebsocket = "usulnet.proxy.websocket"
+	LabelCaddyDomain    = "dockerscout.proxy.domain"
+	LabelCaddyPort      = "dockerscout.proxy.port"
+	LabelCaddySSL       = "dockerscout.proxy.ssl"
+	LabelCaddyWebsocket = "dockerscout.proxy.websocket"
 )
 
 // Supported DNS providers for Caddy DNS challenge.

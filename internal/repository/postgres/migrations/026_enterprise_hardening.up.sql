@@ -245,7 +245,7 @@ CREATE TABLE IF NOT EXISTS runtime_security_events (
     rule_name VARCHAR(255),
     description TEXT NOT NULL DEFAULT '',
     details JSONB, -- event-specific details (process info, file path, network dest, etc.)
-    source VARCHAR(64) NOT NULL DEFAULT 'usulnet', -- 'usulnet', 'falco', 'seccomp', 'apparmor'
+    source VARCHAR(64) NOT NULL DEFAULT 'dockerscout', -- 'dockerscout', 'falco', 'seccomp', 'apparmor'
     action_taken VARCHAR(32) NOT NULL DEFAULT 'alert', -- 'alert', 'block', 'kill', 'quarantine'
     acknowledged BOOLEAN NOT NULL DEFAULT false,
     acknowledged_by UUID REFERENCES users(id),

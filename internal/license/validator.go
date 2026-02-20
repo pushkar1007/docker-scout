@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Copyright (c) 2024-2026 usulnet contributors
-// https://github.com/fr4nsys/usulnet
+// Copyright (c) 2024-2026 dockerscout contributors
+// https://github.com/fr4nsys/dockerscout
 
 package license
 
@@ -18,7 +18,7 @@ import (
 //go:embed keys/public.pem
 var publicKeyPEM []byte
 
-// Claims are the JWT payload fields inside a usulnet license key.
+// Claims are the JWT payload fields inside a dockerscout license key.
 type Claims struct {
 	LicenseID string    `json:"lid"`
 	EmailHash string    `json:"eml"`

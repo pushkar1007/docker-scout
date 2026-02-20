@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Copyright (c) 2024-2026 usulnet contributors
-// https://github.com/fr4nsys/usulnet
+// Copyright (c) 2024-2026 dockerscout contributors
+// https://github.com/fr4nsys/dockerscout
 
 package web
 
@@ -10,7 +10,7 @@ import (
 	"github.com/go-chi/chi/v5"
 	"github.com/google/uuid"
 
-	"github.com/fr4nsys/usulnet/internal/web/templates/pages/hosts"
+	"github.com/fr4nsys/dockerscout/internal/web/templates/pages/hosts"
 )
 
 // HostCreateFormTempl renders the "Add Node" form page.
@@ -254,7 +254,7 @@ func (h *Handler) SwitchHost(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Save to session
-	session, err := h.sessionStore.Get(r, "usulnet_session")
+	session, err := h.sessionStore.Get(r, "dockerscout_session")
 	if err != nil || session == nil {
 		http.Redirect(w, r, "/", http.StatusSeeOther)
 		return

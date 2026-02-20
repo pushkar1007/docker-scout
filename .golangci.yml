@@ -1,5 +1,5 @@
 # =============================================================================
-# usulnet - golangci-lint configuration
+# dockerscout - golangci-lint configuration
 # =============================================================================
 # Run: golangci-lint run ./...
 # Docs: https://golangci-lint.run/usage/configuration/
@@ -105,7 +105,7 @@ linters-settings:
         disabled: true   # Conflicts with existing naming conventions
 
   goimports:
-    local-prefixes: github.com/fr4nsys/usulnet
+    local-prefixes: github.com/fr4nsys/dockerscout
 
   misspell:
     locale: US

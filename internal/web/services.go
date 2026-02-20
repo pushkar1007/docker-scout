@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Copyright (c) 2024-2026 usulnet contributors
-// https://github.com/fr4nsys/usulnet
+// Copyright (c) 2024-2026 dockerscout contributors
+// https://github.com/fr4nsys/dockerscout
 
-// Package web provides the web UI layer for USULNET.
+// Package web provides the web UI layer for DOCKERSCOUT.
 package web
 
 import (
@@ -11,29 +11,29 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/fr4nsys/usulnet/internal/docker"
-	giteapkg "github.com/fr4nsys/usulnet/internal/integrations/gitea"
-	"github.com/fr4nsys/usulnet/internal/integrations/npm"
-	"github.com/fr4nsys/usulnet/internal/pkg/crypto"
-	"github.com/fr4nsys/usulnet/internal/repository/postgres"
-	"github.com/fr4nsys/usulnet/internal/scheduler"
-	authsvc "github.com/fr4nsys/usulnet/internal/services/auth"
-	backupsvc "github.com/fr4nsys/usulnet/internal/services/backup"
-	configsvc "github.com/fr4nsys/usulnet/internal/services/config"
-	containersvc "github.com/fr4nsys/usulnet/internal/services/container"
-	gitsvc "github.com/fr4nsys/usulnet/internal/services/git"
-	hostsvc "github.com/fr4nsys/usulnet/internal/services/host"
-	imagesvc "github.com/fr4nsys/usulnet/internal/services/image"
-	"github.com/fr4nsys/usulnet/internal/services/monitoring"
-	networksvc "github.com/fr4nsys/usulnet/internal/services/network"
-	proxysvc "github.com/fr4nsys/usulnet/internal/services/proxy"
-	securitysvc "github.com/fr4nsys/usulnet/internal/services/security"
-	sshsvc "github.com/fr4nsys/usulnet/internal/services/ssh"
-	stacksvc "github.com/fr4nsys/usulnet/internal/services/stack"
-	storagesvc "github.com/fr4nsys/usulnet/internal/services/storage"
-	teamsvc "github.com/fr4nsys/usulnet/internal/services/team"
-	updatesvc "github.com/fr4nsys/usulnet/internal/services/update"
-	volumesvc "github.com/fr4nsys/usulnet/internal/services/volume"
+	"github.com/fr4nsys/dockerscout/internal/docker"
+	giteapkg "github.com/fr4nsys/dockerscout/internal/integrations/gitea"
+	"github.com/fr4nsys/dockerscout/internal/integrations/npm"
+	"github.com/fr4nsys/dockerscout/internal/pkg/crypto"
+	"github.com/fr4nsys/dockerscout/internal/repository/postgres"
+	"github.com/fr4nsys/dockerscout/internal/scheduler"
+	authsvc "github.com/fr4nsys/dockerscout/internal/services/auth"
+	backupsvc "github.com/fr4nsys/dockerscout/internal/services/backup"
+	configsvc "github.com/fr4nsys/dockerscout/internal/services/config"
+	containersvc "github.com/fr4nsys/dockerscout/internal/services/container"
+	gitsvc "github.com/fr4nsys/dockerscout/internal/services/git"
+	hostsvc "github.com/fr4nsys/dockerscout/internal/services/host"
+	imagesvc "github.com/fr4nsys/dockerscout/internal/services/image"
+	"github.com/fr4nsys/dockerscout/internal/services/monitoring"
+	networksvc "github.com/fr4nsys/dockerscout/internal/services/network"
+	proxysvc "github.com/fr4nsys/dockerscout/internal/services/proxy"
+	securitysvc "github.com/fr4nsys/dockerscout/internal/services/security"
+	sshsvc "github.com/fr4nsys/dockerscout/internal/services/ssh"
+	stacksvc "github.com/fr4nsys/dockerscout/internal/services/stack"
+	storagesvc "github.com/fr4nsys/dockerscout/internal/services/storage"
+	teamsvc "github.com/fr4nsys/dockerscout/internal/services/team"
+	updatesvc "github.com/fr4nsys/dockerscout/internal/services/update"
+	volumesvc "github.com/fr4nsys/dockerscout/internal/services/volume"
 )
 
 // ErrServiceNotConfigured is returned when an operation is attempted on a service that is not configured.

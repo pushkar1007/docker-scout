@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Copyright (c) 2024-2026 usulnet contributors
-// https://github.com/fr4nsys/usulnet
+// Copyright (c) 2024-2026 dockerscout contributors
+// https://github.com/fr4nsys/dockerscout
 
 // Package channels provides notification channel implementations.
 // Department L: Notifications
@@ -154,9 +154,9 @@ func (t *TelegramChannel) Send(ctx context.Context, msg RenderedMessage) error {
 // Test sends a test notification to verify configuration.
 func (t *TelegramChannel) Test(ctx context.Context) error {
 	testMsg := RenderedMessage{
-		Title:     "USULNET Test Notification",
-		Body:      "This is a test notification from USULNET to verify Telegram integration.",
-		BodyPlain: "This is a test notification from USULNET to verify Telegram integration.",
+		Title:     "DOCKERSCOUT Test Notification",
+		Body:      "This is a test notification from DOCKERSCOUT to verify Telegram integration.",
+		BodyPlain: "This is a test notification from DOCKERSCOUT to verify Telegram integration.",
 		Priority:  PriorityNormal,
 		Timestamp: time.Now(),
 		Type:      TypeTestMessage,

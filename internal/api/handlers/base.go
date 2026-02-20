@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Copyright (c) 2024-2026 usulnet contributors
-// https://github.com/fr4nsys/usulnet
+// Copyright (c) 2024-2026 dockerscout contributors
+// https://github.com/fr4nsys/dockerscout
 
 // Package handlers provides HTTP handlers for the API.
 package handlers
@@ -15,9 +15,9 @@ import (
 	"github.com/go-chi/chi/v5"
 	"github.com/google/uuid"
 
-	apierrors "github.com/fr4nsys/usulnet/internal/api/errors"
-	"github.com/fr4nsys/usulnet/internal/api/middleware"
-	"github.com/fr4nsys/usulnet/internal/pkg/logger"
+	apierrors "github.com/fr4nsys/dockerscout/internal/api/errors"
+	"github.com/fr4nsys/dockerscout/internal/api/middleware"
+	"github.com/fr4nsys/dockerscout/internal/pkg/logger"
 )
 
 // BaseHandler provides common functionality for all handlers.

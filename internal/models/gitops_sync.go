@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Copyright (c) 2024-2026 usulnet contributors
-// https://github.com/fr4nsys/usulnet
+// Copyright (c) 2024-2026 dockerscout contributors
+// https://github.com/fr4nsys/dockerscout
 
 package models
 
@@ -44,7 +44,7 @@ const (
 	ConflictResolutionDismissed ConflictResolution = "dismissed"
 )
 
-// GitSyncConfig represents a bidirectional sync configuration between usulnet UI and a Git repository.
+// GitSyncConfig represents a bidirectional sync configuration between dockerscout UI and a Git repository.
 type GitSyncConfig struct {
 	ID                    uuid.UUID        `db:"id" json:"id"`
 	ConnectionID          uuid.UUID        `db:"connection_id" json:"connection_id"`

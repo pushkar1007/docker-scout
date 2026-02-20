@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Copyright (c) 2024-2026 usulnet contributors
-// https://github.com/fr4nsys/usulnet
+// Copyright (c) 2024-2026 dockerscout contributors
+// https://github.com/fr4nsys/dockerscout
 
 package gitea
 
@@ -17,11 +17,11 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/fr4nsys/usulnet/internal/models"
-	"github.com/fr4nsys/usulnet/internal/pkg/crypto"
-	"github.com/fr4nsys/usulnet/internal/pkg/errors"
-	"github.com/fr4nsys/usulnet/internal/pkg/logger"
-	"github.com/fr4nsys/usulnet/internal/repository/postgres"
+	"github.com/fr4nsys/dockerscout/internal/models"
+	"github.com/fr4nsys/dockerscout/internal/pkg/crypto"
+	"github.com/fr4nsys/dockerscout/internal/pkg/errors"
+	"github.com/fr4nsys/dockerscout/internal/pkg/logger"
+	"github.com/fr4nsys/dockerscout/internal/repository/postgres"
 )
 
 // Service provides Gitea integration functionality.
@@ -321,8 +321,8 @@ func (s *Service) ListRepositories(ctx context.Context, connectionID uuid.UUID) 
 // Webhooks
 // ============================================================================
 
-// RegisterWebhook creates a webhook on a Gitea repository pointing back to usulnet.
-// callbackURL is the full public URL for the webhook receiver (e.g. https://usulnet.example.com/webhooks/gitea).
+// RegisterWebhook creates a webhook on a Gitea repository pointing back to dockerscout.
+// callbackURL is the full public URL for the webhook receiver (e.g. https://dockerscout.example.com/webhooks/gitea).
 func (s *Service) RegisterWebhook(ctx context.Context, connID, repoID uuid.UUID, callbackURL string) error {
 	conn, err := s.connRepo.GetByID(ctx, connID)
 	if err != nil {

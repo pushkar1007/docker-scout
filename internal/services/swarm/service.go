@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Copyright (c) 2024-2026 usulnet contributors
-// https://github.com/fr4nsys/usulnet
+// Copyright (c) 2024-2026 dockerscout contributors
+// https://github.com/fr4nsys/dockerscout
 
-// Package swarm provides Swarm cluster management for usulnet.
+// Package swarm provides Swarm cluster management for dockerscout.
 // It wraps Docker SDK Swarm operations with business logic for
 // initializing clusters, joining nodes, and managing HA services.
 package swarm
@@ -14,10 +14,10 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/fr4nsys/usulnet/internal/docker"
-	"github.com/fr4nsys/usulnet/internal/models"
-	hostsvc "github.com/fr4nsys/usulnet/internal/services/host"
-	"github.com/fr4nsys/usulnet/internal/pkg/logger"
+	"github.com/fr4nsys/dockerscout/internal/docker"
+	"github.com/fr4nsys/dockerscout/internal/models"
+	hostsvc "github.com/fr4nsys/dockerscout/internal/services/host"
+	"github.com/fr4nsys/dockerscout/internal/pkg/logger"
 )
 
 // Service manages Docker Swarm operations through the host service.
@@ -382,8 +382,8 @@ func (s *Service) ConvertContainerToService(ctx context.Context, hostID uuid.UUI
 		Env:      env,
 		Ports:    ports,
 		Labels: map[string]string{
-			"usulnet.source":       "container-conversion",
-			"usulnet.container_id": input.ContainerID,
+			"dockerscout.source":       "container-conversion",
+			"dockerscout.container_id": input.ContainerID,
 		},
 	}
 

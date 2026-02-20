@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Copyright (c) 2024-2026 usulnet contributors
-// https://github.com/fr4nsys/usulnet
+// Copyright (c) 2024-2026 dockerscout contributors
+// https://github.com/fr4nsys/dockerscout
 
 // Package volume provides Docker volume management services.
 package volume
@@ -17,10 +17,10 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/fr4nsys/usulnet/internal/docker"
-	"github.com/fr4nsys/usulnet/internal/models"
-	"github.com/fr4nsys/usulnet/internal/pkg/logger"
-	hostservice "github.com/fr4nsys/usulnet/internal/services/host"
+	"github.com/fr4nsys/dockerscout/internal/docker"
+	"github.com/fr4nsys/dockerscout/internal/models"
+	"github.com/fr4nsys/dockerscout/internal/pkg/logger"
+	hostservice "github.com/fr4nsys/dockerscout/internal/services/host"
 )
 
 // Service provides Docker volume management operations.
@@ -588,7 +588,7 @@ func (s *Service) WriteVolumeFile(ctx context.Context, hostID uuid.UUID, volumeN
 	escapedContent := strings.ReplaceAll(content, "'", "'\"'\"'")
 
 	_, err = s.execInContainer(ctx, client, containerID, []string{
-		"sh", "-c", fmt.Sprintf("cat > '/data%s' << 'USULNET_EOF'\n%s\nUSULNET_EOF", path, escapedContent),
+		"sh", "-c", fmt.Sprintf("cat > '/data%s' << 'DOCKERSCOUT_EOF'\n%s\nDOCKERSCOUT_EOF", path, escapedContent),
 	})
 	if err != nil {
 		return fmt.Errorf("write file: %w", err)
@@ -702,13 +702,13 @@ func (s *Service) DownloadVolumeFile(ctx context.Context, hostID uuid.UUID, volu
 func (s *Service) createBrowserContainer(ctx context.Context, client docker.ClientAPI, volumeName string) (string, error) {
 	// Create container with volume mounted
 	containerID, err := client.ContainerCreate(ctx, docker.ContainerCreateOptions{
-		Name:  fmt.Sprintf("usulnet-volume-browser-%d", time.Now().UnixNano()),
+		Name:  fmt.Sprintf("dockerscout-volume-browser-%d", time.Now().UnixNano()),
 		Image: browserImage,
 		Cmd:   []string{"sleep", "300"}, // Keep alive for 5 minutes
 		Binds: []string{volumeName + ":/data:rw"},
 		Labels: map[string]string{
-			"usulnet.temporary": "true",
-			"usulnet.purpose":   "volume-browser",
+			"dockerscout.temporary": "true",
+			"dockerscout.purpose":   "volume-browser",
 		},
 	})
 	if err != nil {
@@ -719,13 +719,13 @@ func (s *Service) createBrowserContainer(ctx context.Context, client docker.Clie
 			}
 			// Retry create
 			containerID, err = client.ContainerCreate(ctx, docker.ContainerCreateOptions{
-				Name:  fmt.Sprintf("usulnet-volume-browser-%d", time.Now().UnixNano()),
+				Name:  fmt.Sprintf("dockerscout-volume-browser-%d", time.Now().UnixNano()),
 				Image: browserImage,
 				Cmd:   []string{"sleep", "300"},
 				Binds: []string{volumeName + ":/data:rw"},
 				Labels: map[string]string{
-					"usulnet.temporary": "true",
-					"usulnet.purpose":   "volume-browser",
+					"dockerscout.temporary": "true",
+					"dockerscout.purpose":   "volume-browser",
 				},
 			})
 			if err != nil {

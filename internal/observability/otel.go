@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Copyright (c) 2024-2026 usulnet contributors
-// https://github.com/fr4nsys/usulnet
+// Copyright (c) 2024-2026 dockerscout contributors
+// https://github.com/fr4nsys/dockerscout
 
 // Package observability provides OpenTelemetry tracing and metrics middleware
-// for the usulnet HTTP server. It integrates with chi/v5 to automatically
+// for the dockerscout HTTP server. It integrates with chi/v5 to automatically
 // instrument routes with distributed tracing spans and HTTP server metrics.
 //
 // When disabled (Config.Enabled = false), all middleware functions return
@@ -43,7 +43,7 @@ type Config struct {
 	Enabled bool
 
 	// ServiceName is the logical name of the service reported in traces
-	// and metrics (e.g. "usulnet").
+	// and metrics (e.g. "dockerscout").
 	ServiceName string
 
 	// ServiceVersion is the version string reported in the service resource.
@@ -67,7 +67,7 @@ type Config struct {
 func DefaultConfig() Config {
 	return Config{
 		Enabled:        false,
-		ServiceName:    "usulnet",
+		ServiceName:    "dockerscout",
 		ServiceVersion: "0.0.0",
 		Endpoint:       "localhost:4318",
 		Insecure:       true,

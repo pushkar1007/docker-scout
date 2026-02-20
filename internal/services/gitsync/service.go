@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Copyright (c) 2024-2026 usulnet contributors
-// https://github.com/fr4nsys/usulnet
+// Copyright (c) 2024-2026 dockerscout contributors
+// https://github.com/fr4nsys/dockerscout
 
 package gitsync
 
@@ -14,9 +14,9 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/fr4nsys/usulnet/internal/models"
-	"github.com/fr4nsys/usulnet/internal/pkg/errors"
-	"github.com/fr4nsys/usulnet/internal/pkg/logger"
+	"github.com/fr4nsys/dockerscout/internal/models"
+	"github.com/fr4nsys/dockerscout/internal/pkg/errors"
+	"github.com/fr4nsys/dockerscout/internal/pkg/logger"
 )
 
 // ============================================================================
@@ -187,7 +187,7 @@ func (s *Service) CreateSyncConfig(ctx context.Context, input CreateSyncInput) (
 		input.FilePattern = "docker-compose.yml"
 	}
 	if input.CommitMessageTemplate == "" {
-		input.CommitMessageTemplate = "chore: sync {{.Resource}} via usulnet at {{.Timestamp}}"
+		input.CommitMessageTemplate = "chore: sync {{.Resource}} via dockerscout at {{.Timestamp}}"
 	}
 	if input.ConflictStrategy == "" {
 		input.ConflictStrategy = models.ConflictStrategyManual

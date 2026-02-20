@@ -2,7 +2,7 @@ package containers
 
 import (
 	"fmt"
-	"github.com/fr4nsys/usulnet/internal/web/templates/layouts"
+	"github.com/fr4nsys/dockerscout/internal/web/templates/layouts"
 )
 
 type ContainerFilesData struct {
@@ -495,8 +495,8 @@ templ containerBrowser(data ContainerFilesData) {
 					if (this.monacoLoaded) return;
 					this.monacoLoaded = true;
 					require(['vs/editor/editor.main'], () => {
-						// Define usulnet theme
-						monaco.editor.defineTheme('usulnet-dark', {
+						// Define dockerscout theme
+						monaco.editor.defineTheme('dockerscout-dark', {
 							base: 'vs-dark',
 							inherit: true,
 							rules: [
@@ -601,7 +601,7 @@ templ containerBrowser(data ContainerFilesData) {
 						this.monacoEditor = monaco.editor.create(container, {
 							value: this.editedContent,
 							language: lang,
-							theme: 'usulnet-dark',
+							theme: 'dockerscout-dark',
 							readOnly: !editable && !this.editingFile,
 							fontSize: 13,
 							fontFamily: "'IBM Plex Mono', 'JetBrains Mono', 'Fira Code', monospace",

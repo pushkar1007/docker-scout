@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Copyright (c) 2024-2026 usulnet contributors
-// https://github.com/fr4nsys/usulnet
+// Copyright (c) 2024-2026 dockerscout contributors
+// https://github.com/fr4nsys/dockerscout
 
 package web
 
@@ -15,8 +15,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/fr4nsys/usulnet/internal/models"
-	logspages "github.com/fr4nsys/usulnet/internal/web/templates/pages/logs"
+	"github.com/fr4nsys/dockerscout/internal/models"
+	logspages "github.com/fr4nsys/dockerscout/internal/web/templates/pages/logs"
 	"github.com/go-chi/chi/v5"
 	"github.com/google/uuid"
 )
@@ -30,7 +30,7 @@ type CustomLogUploadRepository interface {
 }
 
 // logUploadDir is the base directory for stored log uploads.
-const logUploadDir = "/tmp/usulnet/log-uploads"
+const logUploadDir = "/tmp/dockerscout/log-uploads"
 
 // ============================================================================
 // Log Management Handlers

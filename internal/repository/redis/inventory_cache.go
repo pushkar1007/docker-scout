@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Copyright (c) 2024-2026 usulnet contributors
-// https://github.com/fr4nsys/usulnet
+// Copyright (c) 2024-2026 dockerscout contributors
+// https://github.com/fr4nsys/dockerscout
 
 package redis
 
@@ -12,7 +12,7 @@ import (
 
 const (
 	// Cache key prefixes for inventory data
-	inventoryPrefix       = "usulnet:inventory:"
+	inventoryPrefix       = "dockerscout:inventory:"
 	inventorySummaryKey   = inventoryPrefix + "summary"
 	inventoryContainerKey = inventoryPrefix + "containers:"
 	inventoryHostKey      = inventoryPrefix + "host:"

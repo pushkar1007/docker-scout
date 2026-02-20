@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Copyright (c) 2024-2026 usulnet contributors
-// https://github.com/fr4nsys/usulnet
+// Copyright (c) 2024-2026 dockerscout contributors
+// https://github.com/fr4nsys/dockerscout
 
 // Package handlers provides HTTP handlers for the API.
 package handlers
@@ -13,10 +13,10 @@ import (
 	"github.com/go-chi/chi/v5"
 	"github.com/google/uuid"
 
-	apierrors "github.com/fr4nsys/usulnet/internal/api/errors"
-	"github.com/fr4nsys/usulnet/internal/api/middleware"
-	"github.com/fr4nsys/usulnet/internal/pkg/logger"
-	"github.com/fr4nsys/usulnet/internal/services/auth"
+	apierrors "github.com/fr4nsys/dockerscout/internal/api/errors"
+	"github.com/fr4nsys/dockerscout/internal/api/middleware"
+	"github.com/fr4nsys/dockerscout/internal/pkg/logger"
+	"github.com/fr4nsys/dockerscout/internal/services/auth"
 )
 
 // AuthHandler handles authentication endpoints.
@@ -37,6 +37,7 @@ func NewAuthHandler(authService *auth.Service, log *logger.Logger) *AuthHandler 
 func (h *AuthHandler) Routes() chi.Router {
 	r := chi.NewRouter()
 
+	r.Post("/signup", h.Signup)
 	r.Post("/login", h.Login)
 	r.Post("/refresh", h.RefreshToken)
 	r.Post("/logout", h.Logout)
@@ -62,6 +63,13 @@ func (h *AuthHandler) Routes() chi.Router {
 // LoginRequest represents a login request.
 type LoginRequest struct {
 	Username string `json:"username"`
+	Password string `json:"password"`
+}
+
+// SignupRequest represents a signup request.
+type SignupRequest struct {
+	Username string `json:"username"`
+	Email    string `json:"email,omitempty"`
 	Password string `json:"password"`
 }
 
@@ -144,6 +152,51 @@ func (h *AuthHandler) Login(w http.ResponseWriter, r *http.Request) {
 	}
 
 	h.OK(w, resp)
+}
+
+// Signup handles user self-registration.
+// POST /api/v1/auth/signup
+func (h *AuthHandler) Signup(w http.ResponseWriter, r *http.Request) {
+	var req SignupRequest
+	if err := h.ParseJSON(r, &req); err != nil {
+		h.HandleError(w, err)
+		return
+	}
+
+	req.Username = strings.TrimSpace(req.Username)
+	req.Email = strings.TrimSpace(req.Email)
+
+	if req.Username == "" {
+		h.BadRequest(w, "username is required")
+		return
+	}
+	if req.Password == "" {
+		h.BadRequest(w, "password is required")
+		return
+	}
+
+	input := auth.SignupInput{
+		Username:  req.Username,
+		Email:     req.Email,
+		Password:  req.Password,
+		UserAgent: r.UserAgent(),
+		IPAddress: getClientIP(r),
+	}
+
+	result, err := h.authService.Signup(r.Context(), input)
+	if err != nil {
+		h.HandleError(w, err)
+		return
+	}
+
+	resp := LoginResponse{
+		AccessToken:  result.AccessToken,
+		RefreshToken: result.RefreshToken,
+		ExpiresAt:    result.ExpiresAt.Format(time.RFC3339),
+		User:         toUserResponse(result.User),
+	}
+
+	h.Created(w, resp)
 }
 
 // RefreshToken handles token refresh.
